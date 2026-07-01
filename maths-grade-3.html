@@ -112,14 +112,14 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     <div class="topbar">
       <div class="topbar-bc">
         <a href="maths.html">Maths</a><span>›</span>
-        <span class="cur">Grade 3</span>
+        <span class="cur" id="bc-grade-label">Grade 3</span>
       </div>
       <button class="tb-btn">Book a free class</button>
     </div>
     <div class="grade-wrap">
       <div class="grade-switcher">
-        <button class="gs-pill" data-grade="K" onclick="location.href='maths.html'">K</button>
-        <button class="gs-pill" data-grade="1" onclick="void(0)">Grade 1</button>
+        <button class="gs-pill" data-grade="K" onclick="loadGrade('K')">K</button>
+        <button class="gs-pill" data-grade="1" onclick="loadGrade(1)">Grade 1</button>
         <button class="gs-pill" data-grade="2" onclick="loadGrade(2)">Grade 2</button>
         <button class="gs-pill active" data-grade="3" onclick="loadGrade(3)">Grade 3</button>
         <button class="gs-pill" data-grade="4" onclick="loadGrade(4)">Grade 4</button>
@@ -156,6 +156,29 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 
 <script>
 const csvGradeData = {
+  'K': [
+    {name:"Counting and Cardinality", emoji:"🔢", lessons:["Count to 10", "Count to 20", "Count to 100 by Ones", "Count to 100 by Tens", "Count Forward from Any Number", "Write Numbers 0 to 20", "Count Objects Up to 20", "Compare Groups: More, Less, Equal", "One More, One Less", "Understand Zero"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Understand Addition as Putting Together", "Add Within 5", "Add Within 10", "Understand Subtraction as Taking Apart", "Subtract Within 5", "Subtract Within 10", "Make 10", "Solve Addition Word Problems", "Solve Subtraction Word Problems"]},
+    {name:"Number Sense", emoji:"🧮", lessons:["Identify and Write Numbers 1–5", "Identify and Write Numbers 6–10", "Compare Numbers 1–10", "Order Numbers 1–10", "Identify Numbers 11–19", "Understand Teen Numbers as Ten and Some Ones"]},
+    {name:"Measurement and Data", emoji:"📏", lessons:["Compare Lengths: Longer and Shorter", "Compare Weights: Heavier and Lighter", "Sort and Classify Objects by Shape", "Sort and Classify Objects by Color", "Count and Graph Objects"]},
+    {name:"Geometry", emoji:"🔺", lessons:["Identify 2D Shapes: Circle, Square, Triangle, Rectangle", "Identify 3D Shapes: Cube, Sphere, Cylinder, Cone", "Describe Positions: Above, Below, Beside, In Front", "Build and Draw 2D Shapes", "Compose Simple Shapes"]},
+  ],
+  1: [
+    {name:"Number System", emoji:"🔢", lessons:["Count to 120 Starting from Any Number", "Read and Write Numbers to 120", "Understand Place Value: Tens and Ones", "Write Two-Digit Numbers in Expanded Form", "Compare Two-Digit Numbers", "Order Numbers to 120", "Ten More, Ten Less", "Odd and Even Numbers"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Add Within 20 Using Strategies", "Subtract Within 20 Using Strategies", "Apply Properties of Addition", "Add Three Numbers", "Relate Addition and Subtraction", "Add Two-Digit Numbers Using Models", "Subtract Two-Digit Numbers Using Models", "Add Within 100 Without Regrouping", "Estimate Sums", "Solve One-Step Word Problems on Addition", "Solve One-Step Word Problems on Subtraction", "Solve Two-Step Word Problems"]},
+    {name:"Measurement", emoji:"📏", lessons:["Measure Length Using Non-Standard Units", "Compare and Order Lengths", "Tell Time to the Hour", "Tell Time to the Half Hour", "Identify Coins: Penny, Nickel, Dime", "Find Value of Coin Collections"]},
+    {name:"Data and Graphs", emoji:"📊", lessons:["Organize Data in Tally Charts", "Read and Create Picture Graphs", "Read and Create Bar Graphs", "Answer Questions Using Graphs"]},
+    {name:"Geometry", emoji:"🔺", lessons:["Identify and Describe 2D Shapes", "Identify and Describe 3D Shapes", "Combine 2D Shapes to Make New Shapes", "Partition Shapes into Halves and Fourths", "Identify Equal and Unequal Parts"]},
+  ],
+  2: [
+    {name:"Number System", emoji:"🔢", lessons:["Read and Write 3-Digit Numbers", "Identify Hundreds, Tens, and Ones", "Write 3-Digit Numbers in Expanded Form", "Compare 3-Digit Numbers", "Order 3-Digit Numbers", "Count by 5s, 10s, and 100s", "Round Numbers to Nearest 10 and 100", "Even and Odd Numbers", "Skip Count to Find Patterns"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Add 2-Digit Numbers with Regrouping", "Subtract 2-Digit Numbers with Regrouping", "Add 3-Digit Numbers Without Regrouping", "Add 3-Digit Numbers with Regrouping", "Subtract 3-Digit Numbers Without Regrouping", "Subtract 3-Digit Numbers with Regrouping", "Use Mental Strategies for Addition", "Use Mental Strategies for Subtraction", "Estimate Sums and Differences", "Solve One-Step Word Problems", "Solve Two-Step Word Problems"]},
+    {name:"Multiplication Introduction", emoji:"✖️", lessons:["Understand Equal Groups", "Write Repeated Addition as Multiplication", "Build Arrays", "Use Skip Counting to Multiply", "Understand Multiplication as Comparison"]},
+    {name:"Fractions", emoji:"🍕", lessons:["Understand Halves", "Understand Thirds and Fourths", "Identify Fractions of a Whole", "Identify Fractions of a Set", "Compare Fractions Using Models"]},
+    {name:"Measurement", emoji:"📏", lessons:["Measure Length in Centimeters", "Measure Length in Meters", "Estimate Lengths", "Solve Problems Involving Lengths", "Tell Time to the Nearest 5 Minutes", "Count Coins and Bills Up to $1", "Solve Word Problems on Money"]},
+    {name:"Data and Graphs", emoji:"📊", lessons:["Read and Create Picture Graphs with Scale", "Read and Create Bar Graphs", "Generate Measurement Data", "Analyze Line Plots"]},
+    {name:"Geometry", emoji:"🔺", lessons:["Identify and Describe Polygons", "Identify Quadrilaterals", "Partition Rectangles into Rows and Columns", "Find Equal Shares", "Partition Shapes into Halves, Thirds, and Fourths"]},
+  ],
   3: [
     {name:"Number System", emoji:"\ud83d\udd22", lessons:["Read and Write 4-Digit Numbers", "Write 4-digit numbers in Order", "Identify Places, Place Values, and Face Values in 4-Digit Numbers", "Write 4-digit numbers in their expanded form and standard form", "Compare 4-Digit Numbers", "Order 4-Digit Numbers", "Round numbers up to 4 digits to the nearest 10 using a number line", "Round numbers up to 4-digits to the nearest 10 using place value", "Round numbers up to 4 digits to the nearest 100", "Skip Counting numbers up to 4 digits by 10, 100, and 1000"]},
     {name:"Addition and Subtraction", emoji:"\u2795", lessons:["Add numbers upto 4 digits without grouping", "Add numbers upto 4-digits with regrouping", "Subtract numbers upto 4 digits without grouping", "Subtract numbers upto 4-digits with regrouping", "Use the relationship between addition and subtraction", "Understand Properties of addition and subtraction", "Use Mental strategies to add numbers up to 4 digits", "Use Mental strategies to subtract numbers up to 4 digits", "Estimate Sum of Numbers up to 4 digits", "Estimate Difference of Numbers up to 4 digits", "Solve 1-step word problems on addition", "Solve 1-step word problems on subtraction", "Solve 2-step word problems addition and subtraction"]},
@@ -184,7 +207,7 @@ const csvGradeData = {
 };
 
 // Metadata per grade (label)
-const gradeLabels = {2:'USCC · Grade 2',3:'USCC · Grade 3',4:'USCC · Grade 4',5:'USCC · Grade 5',6:'USCC · Grade 6'};
+const gradeLabels = {'K':'USCC · Kindergarten',1:'USCC · Grade 1',2:'USCC · Grade 2',3:'USCC · Grade 3',4:'USCC · Grade 4',5:'USCC · Grade 5',6:'USCC · Grade 6'};
 
 // Build gradeData from CSV
 const gradeData = {};
@@ -202,6 +225,7 @@ function loadGrade(g){
   const gd=gradeData[g];
   if(!gd)return;
   document.querySelector('.grade-section-title').textContent=gd.label;
+  document.getElementById('bc-grade-label').textContent = g==='K' ? 'Kindergarten' : 'Grade '+g;
   document.querySelectorAll('.gs-pill').forEach(p=>{
     p.classList.toggle('active',p.dataset.grade==g);
   });
@@ -242,7 +266,9 @@ function loadGrade(g){
 
 
 
-loadGrade(3);
+const _initGradeParam = new URLSearchParams(location.search).get('grade');
+const _initGrade = _initGradeParam === 'K' ? 'K' : (parseInt(_initGradeParam) || 3);
+loadGrade(_initGrade);
 </script>
 </body>
 </html>
