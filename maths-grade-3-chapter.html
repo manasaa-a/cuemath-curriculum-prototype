@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/grade-3/number-system/
+  Chapter page — lesson list with START modal
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number System · Grade 3 — Cuemath</title>
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F0E8}
+
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label,.ln-item:hover .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0;background:#F5F0E8}
+.topbar{background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.08);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#97948E;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#97948E;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:7px 16px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer}
+.tb-btn:hover{background:#CE7E12}
+
+.chapter-wrap{flex:1;display:flex;flex-direction:column;min-height:0}
+
+/* Chapter header */
+.ch-header{background:linear-gradient(135deg,#F4AB52 0%,#E89040 100%);padding:20px 24px 0;display:flex;flex-direction:column;gap:0;flex-shrink:0}
+.ch-header-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ch-back{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:14px;text-decoration:none;color:#1C1917}
+.ch-artwork{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.ch-info{flex:1}
+.ch-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:rgba(0,0,0,.4);margin-bottom:3px}
+.ch-name{font-family:'Athletics';font-size:22px;font-weight:700;color:#1C1917;line-height:1.2;margin-bottom:6px}
+.ch-stats{display:flex;align-items:center;gap:16px;font-size:12px;color:rgba(0,0,0,.6)}
+.ch-stat{display:flex;align-items:center;gap:5px}
+.ch-stat-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,.25);flex-shrink:0}
+.ch-stat-dot.done{background:#1C1917}
+/* Progress bar */
+.ch-progress-bar-wrap{background:rgba(0,0,0,.12);height:6px;width:100%;overflow:hidden}
+.ch-progress-bar-fill{height:100%;background:rgba(0,0,0,.35);transition:width .4s ease;width:0%}
+
+/* Lesson list */
+.lesson-scroll{flex:1;overflow-y:auto;background:#EDF7F2;border-top:none}
+.lesson-row{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid rgba(0,0,0,.07);position:relative}
+.lesson-row:last-child{border-bottom:none}
+.lesson-row:hover{background:rgba(255,255,255,.5)}
+
+/* Number circles — sage green */
+.lr-num-wrap{width:36px;height:36px;border-radius:50%;background:#C2E0CE;border:1.5px solid #A0CEBB;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#2D6B4F;flex-shrink:0;position:relative}
+/* Done: dark filled circle */
+.lr-num-wrap.done{background:#2D6B4F;border-color:#2D6B4F}
+.lr-num-wrap.done .lr-num{display:none}
+.lr-num-wrap.done::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:700}
+/* Resume: outlined amber */
+.lr-num-wrap.resume-circle{background:#fff;border:2px solid #F4AB52}
+.lr-num-wrap.resume-circle .lr-num{color:#CE7E12}
+/* Locked */
+.lr-num-wrap.locked{background:#E5DDD4;border-color:#D5CFC9;opacity:.6}
+.lr-num-wrap.locked .lr-num{display:none}
+.lr-num-wrap.locked::after{content:'🔒';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+
+/* Lesson info */
+.lr-info{flex:1;min-width:0}
+.lr-eyebrow{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#2D6B4F;margin-bottom:3px;display:block}
+.lr-name{font-size:13px;font-weight:500;color:#1C1917;line-height:1.35}
+.lr-name.muted{color:#B0C4BB}
+.lr-mastery{font-size:11px;color:#F4AB52;display:flex;align-items:center;gap:4px;margin-top:3px}
+.lr-mastery-dot{width:7px;height:7px;border-radius:50%;background:#F4AB52;flex-shrink:0}
+.lr-read{font-size:11px;color:#7A9E8E;text-decoration:none;margin-top:3px;display:inline-block}
+.lr-read:hover{color:#2D6B4F}
+
+/* Buttons */
+.lr-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.lr-btn{flex-shrink:0;border:1.5px solid #1C1917;padding:7px 16px;font-family:'UntitledSans';font-size:11px;font-weight:600;cursor:pointer;background:none;color:#1C1917;letter-spacing:.05em;white-space:nowrap;min-width:72px;text-align:center}
+.lr-btn:hover{background:#1C1917;color:#fff}
+.lr-btn.review{border-color:#A0CEBB;color:#2D6B4F;background:none}
+.lr-btn.review:hover{background:#2D6B4F;color:#fff;border-color:#2D6B4F}
+.lr-btn.resume{background:#1C1917;color:#fff;border-color:#1C1917}
+.lr-btn.resume:hover{background:#333}
+.lr-btn.start-dim{border-color:#C6C0B8;color:#B0B0B0;cursor:default}
+.lr-btn.start-dim:hover{background:none;color:#B0B0B0}
+.lr-btn.signin{background:#F4AB52;color:#1C1917;border-color:#F4AB52;font-size:10px;padding:6px 10px;min-width:auto}
+.lr-btn.signin:hover{background:#E89040;border-color:#E89040}
+
+/* 3-dot menu */
+.lr-menu{background:none;border:none;cursor:pointer;color:#B0C4BB;padding:4px 6px;font-size:18px;flex-shrink:0;position:relative;line-height:1}
+.lr-menu:hover{color:#2D6B4F}
+.lr-dropdown{position:absolute;right:0;top:100%;background:#fff;border:1px solid rgba(0,0,0,.1);box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:20;min-width:140px;display:none}
+.lr-dropdown.open{display:block}
+.lr-dd-item{padding:10px 16px;font-size:13px;cursor:pointer;color:#1C1917}
+.lr-dd-item:hover{background:#EDF7F2}
+.locked-row{opacity:.7}
+.locked-row:hover{background:transparent}
+
+/* RIGHT PANEL */
+.rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+
+/* LESSON MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;width:400px;max-width:90vw;padding:28px 28px 24px;position:relative}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1}
+.modal-close:hover{color:#1C1917}
+.modal-lesson-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#97948E;margin-bottom:8px}
+.modal-title{font-family:'Athletics';font-size:20px;font-weight:700;color:#1C1917;line-height:1.25;margin-bottom:14px}
+.modal-tags{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.modal-tag{display:flex;align-items:center;gap:5px;padding:5px 11px;border:1px solid rgba(0,0,0,.12);font-size:12px;font-weight:500;color:#1C1917;background:#FAFAF8}
+.modal-skills-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#97948E;margin-bottom:10px}
+.modal-skill{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid #F5F0E8;font-size:13px;color:#1C1917;line-height:1.35}
+.modal-skill:last-of-type{border-bottom:none}
+.modal-skill-arrow{color:#F4AB52;font-size:14px;flex-shrink:0;margin-top:0}
+.modal-continue{display:block;width:100%;margin-top:20px;background:#1C1917;color:#fff;border:none;padding:14px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.06em}
+.modal-continue:hover{background:#333}
+
+/* SIGN-IN MODAL */
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.auth-overlay.open{display:flex}
+.auth-box{background:#fff;width:420px;max-width:92vw;padding:32px 32px 28px;position:relative}
+.auth-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#97948E}
+.auth-close:hover{color:#1C1917}
+.auth-logo{font-family:'Athletics';font-size:16px;font-weight:700;letter-spacing:.06em;color:#1C1917;margin-bottom:20px}
+.auth-logo span{color:#F4AB52}
+.auth-tabs{display:flex;border-bottom:2px solid #F5F0E8;margin-bottom:24px}
+.auth-tab{flex:1;background:none;border:none;padding:10px 0;font-family:'UntitledSans';font-size:13px;font-weight:500;color:#97948E;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.auth-tab.active{color:#1C1917;border-bottom-color:#F4AB52;font-weight:600}
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+.auth-field{margin-bottom:14px}
+.auth-label{font-size:11px;font-weight:600;color:#97948E;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px}
+.auth-input{width:100%;border:1.5px solid #E5DDD4;padding:10px 12px;font-family:'UntitledSans';font-size:14px;color:#1C1917;outline:none;background:#fff}
+.auth-input:focus{border-color:#F4AB52}
+.auth-btn{width:100%;background:#F4AB52;color:#1C1917;border:none;padding:13px;font-family:'UntitledSans';font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;letter-spacing:.04em}
+.auth-btn:hover{background:#CE7E12}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#C6C0B8;font-size:12px}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#F5F0E8}
+.auth-google{width:100%;background:#fff;border:1.5px solid #E5DDD4;padding:11px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:#1C1917}
+.auth-google:hover{border-color:#1C1917;background:#FAFAF8}
+.auth-google svg{width:18px;height:18px;flex-shrink:0}
+.auth-forgot{font-size:12px;color:#97948E;text-align:right;display:block;margin-top:6px;cursor:pointer}
+.auth-forgot:hover{color:#1C1917}
+.auth-success{text-align:center;padding:20px 0}
+.auth-success-icon{font-size:44px;margin-bottom:12px}
+.auth-success h3{font-family:'Athletics';font-size:20px;font-weight:700;color:#1C1917;margin-bottom:6px}
+.auth-success p{font-size:13px;color:#97948E;line-height:1.5}
+
+@media(max-width:768px){.shell{grid-template-columns:64px 1fr}.rightpanel{display:none}}
+@media(max-width:480px){.shell{grid-template-columns:1fr}.leftnav{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a><span>›</span>
+        <a href="maths-grade-3.html" id="bc-grade">Grade 3</a><span>›</span>
+        <span class="cur" id="bc-chapter">Number System</span>
+      </div>
+      <button class="tb-btn">Book a free class</button>
+    </div>
+    <div class="chapter-wrap">
+      <div class="ch-header">
+        <div class="ch-header-top">
+          <a class="ch-back" id="ch-back" href="maths-grade-3.html">←</a>
+          <div class="ch-artwork" id="ch-artwork">🔢</div>
+          <div class="ch-info">
+            <div class="ch-label" id="ch-label">CHAPTER 1</div>
+            <div class="ch-name" id="ch-name">Number System</div>
+            <div class="ch-stats">
+              <div class="ch-stat">
+                <div class="ch-stat-dot done"></div>
+                <span id="ch-learnt">0 / 10 lessons complete</span>
+              </div>
+              <div class="ch-stat">
+                <div class="ch-stat-dot"></div>
+                <span id="ch-mastery">0% mastered</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ch-progress-bar-wrap">
+          <div class="ch-progress-bar-fill" id="ch-progress-fill"></div>
+        </div>
+      </div>
+      <div class="lesson-scroll" id="lesson-list"></div>
+    </div>
+  </div>
+
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Learn faster with a personal tutor</div>
+        <div class="rp-cta-sub">Live sessions, personalised to your grade. Same curriculum, expert-led.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN-IN MODAL -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div class="auth-logo">Cue<span>math</span></div>
+
+    <div id="auth-success" class="auth-success" style="display:none">
+      <div class="auth-success-icon">🎉</div>
+      <h3>You're in!</h3>
+      <p>All lessons are now unlocked.<br>Keep learning!</p>
+    </div>
+
+    <div id="auth-form-wrap">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign in</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Sign up free</button>
+      </div>
+
+      <div class="auth-panel active" id="auth-signin">
+        <div class="auth-field">
+          <label class="auth-label">Email</label>
+          <input class="auth-input" type="email" placeholder="you@email.com">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input class="auth-input" type="password" placeholder="••••••••">
+          <span class="auth-forgot">Forgot password?</span>
+        </div>
+        <button class="auth-btn" onclick="handleAuth()">Sign in</button>
+        <div class="auth-divider">or</div>
+        <button class="auth-google" onclick="handleAuth()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+      </div>
+
+      <div class="auth-panel" id="auth-signup">
+        <div class="auth-field">
+          <label class="auth-label">Full name</label>
+          <input class="auth-input" type="text" placeholder="Your name">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Email</label>
+          <input class="auth-input" type="email" placeholder="you@email.com">
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input class="auth-input" type="password" placeholder="Create a password">
+        </div>
+        <button class="auth-btn" onclick="handleAuth()">Create free account</button>
+        <div class="auth-divider">or</div>
+        <button class="auth-google" onclick="handleAuth()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-lesson-label" id="modal-label">LESSON 1</div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-tags">
+      <span class="modal-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Medium
+      </span>
+      <span class="modal-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        Learn
+      </span>
+    </div>
+    <div class="modal-skills-label">Skills covered</div>
+    <div id="modal-skills"></div>
+    <button class="modal-continue" id="modal-continue-btn" onclick="goToLesson()">CONTINUE</button>
+  </div>
+</div>
+
+<script>
+const csvGradeData = {
+  3: [
+    {name:"Number System", emoji:"🔢", lessons:["Read and Write 4-Digit Numbers", "Write 4-digit numbers in Order", "Identify Places, Place Values, and Face Values in 4-Digit Numbers", "Write 4-digit numbers in their expanded form and standard form", "Compare 4-Digit Numbers", "Order 4-Digit Numbers", "Round numbers up to 4 digits to the nearest 10 using a number line", "Round numbers up to 4-digits to the nearest 10 using place value", "Round numbers up to 4 digits to the nearest 100", "Skip Counting numbers up to 4 digits by 10, 100, and 1000"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Add numbers upto 4 digits without grouping", "Add numbers upto 4-digits with regrouping", "Subtract numbers upto 4 digits without grouping", "Subtract numbers upto 4-digits with regrouping", "Use the relationship between addition and subtraction", "Understand Properties of addition and subtraction", "Use Mental strategies to add numbers up to 4 digits", "Use Mental strategies to subtract numbers up to 4 digits", "Estimate Sum of Numbers up to 4 digits", "Estimate Difference of Numbers up to 4 digits", "Solve 1-step word problems on addition", "Solve 1-step word problems on subtraction", "Solve 2-step word problems addition and subtraction"]},
+    {name:"Fractions", emoji:"🍕", lessons:["Understand Unit Fractions", "Understand the Fractions of Whole", "Plot Fractions on Number Line", "Find the Fraction of a Collection", "Compare Like Fractions", "Compare Fractions with the Same Numerator", "Recognise Equivalent Fractions Visually"]},
+    {name:"Multiplication", emoji:"✖️", lessons:["Multiply Single-Digit Numbers Using Equal Groups and Arrays", "Multiply Single-Digit Numbers Using Number Lines", "Build multiplication tables of 2, 5, and 10", "Build multiplication tables of 3 and 4", "Understand the zero, identity, and commutative, properties of multiplication", "Understand the distributive property of multiplication", "Build multiplication tables of 6 and 8", "Build multiplication tables of 7 and 9", "Multiply single-digit numbers by multiples of 10 using the associative property", "Solve word problems on multiplication based on equal groups and arrays"]},
+    {name:"Geometry", emoji:"📐", lessons:["Understand the Properties of 2D Shapes", "Identify Different Types of Quadrilaterals", "Compare Types of Parallelograms"]},
+  ],
+  4: [
+    {name:"Number System", emoji:"🔢", lessons:["Read and Write 5-Digit Numbers", "Read and Write 6-Digit Numbers", "Identify the Place Values in 5 and 6-digit Numbers", "Write Numbers in Expanded Form and Standard Form", "Compare Numbers up to 6 Digits", "Order Numbers up to 6 Digits", "Round Multi Digit Numbers"]},
+    {name:"Factors and Multiples", emoji:"🔷", lessons:["Interpret Rules of Divisibility of 2, 5 and 10"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Add Multi-Digit Numbers Using Standard Algorithm", "Subtract Multi-Digit Numbers Using Standard Algorithm", "Add and Subtract Multi-Digit Numbers with Strategies", "Find Missing Addends Operators and Digits", "Estimate Sum of Multi-Digit Numbers by Rounding", "Estimate Difference of Multi-Digit Numbers by Rounding", "Solve One Step Word Problems on Addition", "Solve One Step Word Problems on Subtraction", "Solve Multi-Step Word Problems on Addition and Subtraction of multi-digit numbers"]},
+    {name:"Decimals", emoji:"🔢", lessons:["Express Tenths as Decimals", "Express Hundredths as Decimals", "Convert Decimals to Fractions", "Represent Decimals on a Number Line", "Understand Basic Comparison of Decimals", "Compare and Order Decimals", "Add Tenths and Hundredths", "Subtract Tenths and Hundredths", "Solve Contextual Problems on Addition and Subtraction of Decimals"]},
+  ],
+  5: [
+    {name:"Number System", emoji:"🔢", lessons:["Read and Write Numbers Upto 9-Digits", "Identify the place value in Numbers up to 9-digits", "Relate Place Value Positions", "Write the Standard and Expanded Form of Numbers Up To 9 Digits", "Use exponents to show powers of 10", "Expand Numbers in Powers of 10"]},
+    {name:"Number Operations", emoji:"🔣", lessons:["Understand Commutative Property and Properties of Zero and One", "Apply Associative and Distributive Properties", "Multiply by Multiples of 10", "Estimate the Products", "Multiply Multi-Digit Numbers by Single Digits", "Multiply Multi-Digit Numbers by Two and Three-digit Numbers", "Relate Multiplication and Division to find Quotients", "Divide 4-digit numbers by 2-digit numbers", "Estimate Quotients of Division", "Solve Word Problems Involving all 4 Operations"]},
+    {name:"Order of Operations", emoji:"📋", lessons:["Simplify Expressions with Nested Parentheses"]},
+  ],
+  6: [
+    {name:"Number and Operations", emoji:"🔢", lessons:["Use Standard Algorithm for Multidigit Division", "Understand the Meaning of Exponents", "Find Perfect Squares of Numbers upto 20"]},
+    {name:"Integers", emoji:"📉", lessons:["Understand Integers and Plot them on a Number Line", "Understand Opposites and Absolute Values of Integers", "Compare Integers", "Order Integers"]},
+    {name:"Rational Numbers", emoji:"🔀", lessons:["Understand Rational Numbers", "Plot Rational Numbers on a Number Line", "Understand Opposites and Absolute Values of Rational Numbers", "Compare Rational Numbers", "Order rational numbers"]},
+    {name:"Algebraic Equations", emoji:"🔣", lessons:["Write Equations in One Variable", "Solve Equations Using Addition and Subtraction", "Solving Equations Using Multiplication", "Solve Equations Using Division", "Interpret the Relationship between Dependent and Independent Variables Using Tables", "Graph the Relation Between Dependent and Independent Variables"]},
+    {name:"Algebraic Expressions", emoji:"🔣", lessons:["Understand Algebraic Expressions", "Write Algebraic Expressions", "Properties of Addition and Multiplication", "Simplify Expressions using Distributive Property", "Factor Algebraic Expressions"]},
+  ],
+};
+
+const params = new URLSearchParams(location.search);
+const grade = parseInt(params.get('grade')) || 3;
+const chIdx = (parseInt(params.get('ch')) || 1) - 1;
+
+const chapters = csvGradeData[grade] || csvGradeData[3];
+const ch = chapters[Math.min(chIdx, chapters.length - 1)];
+
+// Update page header
+document.getElementById('ch-label').textContent = 'CHAPTER ' + (chIdx + 1);
+document.getElementById('ch-name').textContent = ch.name;
+document.getElementById('ch-artwork').textContent = ch.emoji;
+document.getElementById('ch-learnt').textContent = '0 / ' + ch.lessons.length + ' Learnt';
+document.getElementById('bc-grade').textContent = 'Grade ' + grade;
+document.getElementById('bc-grade').href = 'maths-grade-3.html?grade=' + grade;
+document.getElementById('ch-back').href = 'maths-grade-3.html?grade=' + grade;
+document.getElementById('bc-chapter').textContent = ch.name;
+document.title = ch.name + ' · Grade ' + grade + ' — Cuemath';
+
+// Sequential progress — only the next lesson after last completed unlocks
+const FREE_LESSONS = 2; // first 2 lessons free without sign-in
+let completedLessons = new Array(ch.lessons.length).fill(false);
+completedLessons[0] = true; // demo: lesson 1 done
+let inProgressLesson = 1;   // demo: lesson 2 in progress (35%)
+
+function getNextUnlocked(){
+  const idx = completedLessons.findIndex(d => !d);
+  return idx === -1 ? ch.lessons.length : idx; // -1 means all done
+}
+
+function isChapterComplete(){
+  return completedLessons.every(d => d);
+}
+
+function getState(i){
+  if(completedLessons[i] || isChapterComplete()) return 'done';
+  const next = getNextUnlocked();
+  if(i < next) return 'done';
+  if(i === next){
+    if(!isSignedIn && i >= FREE_LESSONS) return 'locked';
+    return 'start';
+  }
+  // Beyond next — locked regardless of sign-in status
+  return 'locked';
+}
+
+function markComplete(i, e){
+  if(e) e.stopPropagation();
+  completedLessons[i] = true;
+  if(inProgressLesson === i) inProgressLesson = i + 1;
+  buildList();
+  updateHeaderProgress();
+}
+
+// MCE read links — map lesson index to existing explainer pages where available
+const readLinks = {
+  0: 'https://www.cuemath.com/numbers/number-systems/',
+  1: 'https://www.cuemath.com/numbers/number-systems/',
+  2: 'https://www.cuemath.com/numbers/place-value/',
+};
+
+let openDD = null;
+
+function buildList(){
+  const list = document.getElementById('lesson-list');
+  list.innerHTML = ch.lessons.map((name, i) => {
+    const num = i + 1;
+    const state = getState(i);
+    const isLocked = state === 'locked';
+
+    // Circle
+    let circleClass = 'lr-num-wrap';
+    if(state === 'done') circleClass += ' done';
+    else if(isLocked) circleClass += ' locked';
+
+    // Eyebrow label + sub info
+    const eyebrow = state === 'done' ? `<span class="lr-eyebrow">REVIEW</span>` : '';
+
+    let mastery = '';
+    if(state === 'done') mastery = `<div class="lr-mastery"><div class="lr-mastery-dot"></div>100% Mastered</div>`;
+    else if(state === 'start') mastery = `<div class="lr-mastery" style="opacity:.4"><div class="lr-mastery-dot" style="background:#B0AAA5"></div>0% Mastered</div>`;
+
+    const readUrl = readLinks[i];
+    const readLink = readUrl ? `<a class="lr-read" href="${readUrl}" target="_blank" rel="noopener">Read ↗</a>` : '';
+
+    // Action button
+    const safeN = name.replace(/'/g, "\\'");
+    let btnHtml = '';
+    if(state === 'done'){
+      btnHtml = `<button class="lr-btn review" onclick="goToReview(${num},event)">REVIEW</button>`;
+    } else if(state === 'start'){
+      btnHtml = `<button class="lr-btn" onclick="openModal(${num},'${safeN}',event)">START</button>`;
+    } else {
+      // locked — show sign-in prompt only if not signed in
+      btnHtml = isSignedIn ? '' : `<button class="lr-btn signin" onclick="openSignInPrompt()">Sign in free</button>`;
+    }
+
+    // 3-dot only on non-done, non-locked rows
+    const menuHtml = (state === 'start' || state === 'resume')
+      ? `<button class="lr-menu" onclick="toggleDD('dd${i}',event)">⋯<div class="lr-dropdown" id="dd${i}"><div class="lr-dd-item" onclick="markComplete(${i},event)">Mark as Complete</div></div></button>`
+      : '';
+
+    return `<div class="lesson-row${isLocked ? ' locked-row' : ''}">
+      <div class="${circleClass}"><span class="lr-num">${num}</span></div>
+      <div class="lr-info">
+        ${eyebrow}
+        <div class="lr-name${isLocked ? ' muted' : ''}">${name}</div>
+        ${mastery}${readLink}
+      </div>
+      <div class="lr-actions">${btnHtml}${menuHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+function goToReview(num, e){
+  if(e) e.stopPropagation();
+  location.href = 'maths-grade-3-lesson.html?grade=' + grade + '&ch=' + (chIdx + 1) + '&lesson=' + num + '&tab=practice';
+}
+
+let isSignedIn = false;
+
+function updateHeaderProgress(){
+  const total = ch.lessons.length;
+  const doneCount = ch.lessons.filter((_, i) => getState(i) === 'done').length;
+  const resumeCount = ch.lessons.filter((_, i) => getState(i) === 'resume').length;
+  // count resume as half progress
+  const pct = Math.round(((doneCount + resumeCount * 0.5) / total) * 100);
+  const masteryPct = doneCount > 0 ? Math.round((doneCount / total) * 100) : 0;
+
+  document.getElementById('ch-learnt').textContent = doneCount + ' / ' + total + ' lessons complete';
+  document.getElementById('ch-mastery').textContent = masteryPct + '% mastered';
+  document.getElementById('ch-progress-fill').style.width = pct + '%';
+}
+
+function openSignInPrompt(){
+  document.getElementById('auth-overlay').classList.add('open');
+}
+function closeAuth(){
+  document.getElementById('auth-overlay').classList.remove('open');
+}
+function switchAuthTab(tab){
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='signin')||(i===1&&tab==='signup')));
+  document.getElementById('auth-signin').classList.toggle('active', tab==='signin');
+  document.getElementById('auth-signup').classList.toggle('active', tab==='signup');
+}
+function handleAuth(){
+  // Show success state
+  document.getElementById('auth-form-wrap').style.display = 'none';
+  document.getElementById('auth-success').style.display = 'block';
+  isSignedIn = true;
+  // After 1.5s close modal and rebuild list with all lessons unlocked
+  setTimeout(() => {
+    closeAuth();
+    document.getElementById('auth-form-wrap').style.display = 'block';
+    document.getElementById('auth-success').style.display = 'none';
+    buildList();
+    updateHeaderProgress();
+  }, 1500);
+}
+document.getElementById('auth-overlay').addEventListener('click', function(e){
+  if(e.target === this) closeAuth();
+});
+
+function toggleDD(id, e){
+  e.stopPropagation();
+  if(openDD && openDD !== id){ document.getElementById(openDD)?.classList.remove('open'); }
+  const el = document.getElementById(id);
+  if(el){ el.classList.toggle('open'); openDD = el.classList.contains('open') ? id : null; }
+}
+document.addEventListener('click', () => {
+  if(openDD){ document.getElementById(openDD)?.classList.remove('open'); openDD = null; }
+});
+
+let currentLessonNum = 1;
+
+function openModal(num, name, e){
+  if(e) e.stopPropagation();
+  currentLessonNum = num;
+  document.getElementById('modal-label').textContent = 'LESSON ' + num;
+  document.getElementById('modal-title').textContent = name;
+  const startIdx = ch.lessons.indexOf(name);
+  const skills = ch.lessons.slice(Math.max(0, startIdx), Math.max(0, startIdx) + 5);
+  document.getElementById('modal-skills').innerHTML = skills.map(s =>
+    `<div class="modal-skill"><span class="modal-skill-arrow">›</span>${s}</div>`
+  ).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+document.getElementById('modal-overlay').addEventListener('click', function(e){
+  if(e.target === this) closeModal();
+});
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function goToLesson(){
+  location.href = 'maths-grade-3-lesson.html?grade=' + grade + '&ch=' + (chIdx + 1) + '&lesson=' + currentLessonNum;
+}
+
+buildList();
+updateHeaderProgress();
+</script>
+</body>
+</html>

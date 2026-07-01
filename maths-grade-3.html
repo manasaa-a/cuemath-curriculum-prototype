@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/3-grade/
+  App-feel grade page — chapter grid + lesson panel
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 Math — Cuemath</title>
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F0E8}
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label,.ln-item:hover .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0;background:#F5F0E8}
+.topbar{background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.08);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#97948E;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#97948E;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:7px 16px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer}
+.tb-btn:hover{background:#CE7E12}
+.grade-wrap{padding:20px 24px;flex:1}
+/* Grade switcher */
+.grade-switcher{display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.grade-switcher::-webkit-scrollbar{display:none}
+.gs-pill{padding:5px 14px;border:1px solid rgba(0,0,0,.12);background:none;font-family:'UntitledSans';font-size:12px;font-weight:500;color:#97948E;cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.gs-pill:hover{border-color:#1C1917;color:#1C1917}
+.gs-pill.active{background:#1C1917;color:#fff;border-color:#1C1917}
+/* Grade header */
+.grade-section-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.grade-section-title{font-family:'Athletics';font-size:17px;font-weight:700;color:#1C1917}
+.grade-section-pct{font-size:12px;color:#97948E;margin-left:auto}
+.mastery-track{height:3px;background:#E5DDD4;margin-bottom:20px}
+.mastery-fill{height:100%;background:#1C1917;width:0}
+/* Chapter grid */
+.chapter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+@media(max-width:900px){.chapter-grid{grid-template-columns:repeat(3,1fr)}}
+.ch-card{background:#fff;border:1px solid rgba(0,0,0,.07);cursor:pointer;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;transition:box-shadow .12s}
+.ch-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.ch-num{position:absolute;top:8px;left:10px;font-size:11px;font-weight:600;color:#97948E}
+.ch-name{font-size:11px;font-weight:500;color:#1C1917;text-align:center;line-height:1.35}
+/* Progress circle */
+.ch-prog-wrap{position:relative;width:72px;height:72px;flex-shrink:0}
+.ch-prog-wrap svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ch-prog-track{fill:none;stroke:#EFBCBC;stroke-width:3.5}
+.ch-prog-fill{fill:none;stroke:#D94F4F;stroke-width:3.5;stroke-linecap:butt;transition:stroke-dashoffset .4s ease}
+.ch-prog-fill.done{stroke:#EFBCBC}
+/* Inner circle */
+.ch-inner-circle{position:absolute;inset:9px;border-radius:50%;background:#F8DADA;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ch-inner-circle.not-started{background:#EDE5DF}
+/* When done: dim the emoji and show green check on top */
+.ch-inner-circle.done .ch-emoji{opacity:.3}
+.ch-done-check{display:none;position:absolute;inset:9px;border-radius:50%;align-items:center;justify-content:center}
+.ch-prog-wrap.is-done .ch-done-check{display:flex}
+.ch-done-badge{width:32px;height:32px;border-radius:50%;background:#3B9E6B;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #fff}
+.ch-done-badge svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+/* Crown badge */
+.ch-crown{position:absolute;top:2px;right:2px;font-size:14px;line-height:1;z-index:2}
+/* RIGHT PANEL */
+.rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+@media(max-width:768px){.shell{grid-template-columns:64px 1fr}.rightpanel{display:none}}
+@media(max-width:480px){.shell{grid-template-columns:1fr}.leftnav{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a><span>›</span>
+        <span class="cur">Grade 3</span>
+      </div>
+      <button class="tb-btn">Book a free class</button>
+    </div>
+    <div class="grade-wrap">
+      <div class="grade-switcher">
+        <button class="gs-pill" data-grade="K" onclick="location.href='maths.html'">K</button>
+        <button class="gs-pill" data-grade="1" onclick="void(0)">Grade 1</button>
+        <button class="gs-pill" data-grade="2" onclick="loadGrade(2)">Grade 2</button>
+        <button class="gs-pill active" data-grade="3" onclick="loadGrade(3)">Grade 3</button>
+        <button class="gs-pill" data-grade="4" onclick="loadGrade(4)">Grade 4</button>
+        <button class="gs-pill" data-grade="5" onclick="loadGrade(5)">Grade 5</button>
+        <button class="gs-pill" data-grade="6" onclick="loadGrade(6)">Grade 6</button>
+        <button class="gs-pill" data-grade="7" onclick="void(0)">Grade 7</button>
+        <button class="gs-pill" data-grade="8" onclick="void(0)">Grade 8</button>
+        <button class="gs-pill" data-grade="9" onclick="void(0)">Grade 9</button>
+        <button class="gs-pill" data-grade="10" onclick="void(0)">Grade 10</button>
+        <button class="gs-pill" data-grade="11" onclick="void(0)">Grade 11</button>
+        <button class="gs-pill" data-grade="12" onclick="void(0)">Grade 12</button>
+      </div>
+      <div class="grade-section-header">
+        <span style="font-size:18px">📓</span>
+        <span class="grade-section-title">USCC · Grade 3</span>
+        <span class="grade-section-pct">0% learnt</span>
+      </div>
+      <div class="mastery-track"><div class="mastery-fill"></div></div>
+      <div class="chapter-grid" id="chapter-grid"></div>
+    </div>
+  </div>
+
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Learn faster with a personal tutor</div>
+        <div class="rp-cta-sub">Live sessions, personalised to Grade 3. Same curriculum, expert-led.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const csvGradeData = {
+  3: [
+    {name:"Number System", emoji:"\ud83d\udd22", lessons:["Read and Write 4-Digit Numbers", "Write 4-digit numbers in Order", "Identify Places, Place Values, and Face Values in 4-Digit Numbers", "Write 4-digit numbers in their expanded form and standard form", "Compare 4-Digit Numbers", "Order 4-Digit Numbers", "Round numbers up to 4 digits to the nearest 10 using a number line", "Round numbers up to 4-digits to the nearest 10 using place value", "Round numbers up to 4 digits to the nearest 100", "Skip Counting numbers up to 4 digits by 10, 100, and 1000"]},
+    {name:"Addition and Subtraction", emoji:"\u2795", lessons:["Add numbers upto 4 digits without grouping", "Add numbers upto 4-digits with regrouping", "Subtract numbers upto 4 digits without grouping", "Subtract numbers upto 4-digits with regrouping", "Use the relationship between addition and subtraction", "Understand Properties of addition and subtraction", "Use Mental strategies to add numbers up to 4 digits", "Use Mental strategies to subtract numbers up to 4 digits", "Estimate Sum of Numbers up to 4 digits", "Estimate Difference of Numbers up to 4 digits", "Solve 1-step word problems on addition", "Solve 1-step word problems on subtraction", "Solve 2-step word problems addition and subtraction"]},
+    {name:"Fractions", emoji:"\ud83c\udf55", lessons:["Understand Unit Fractions", "Understand the Fractions of Whole", "Plot Fractions on Number Line", "Find the Fraction of a Collection", "Compare Like Fractions", "Compare Fractions with the Same Numerator", "Recognise Equivalent Fractions Visually"]},
+    {name:"Multiplication", emoji:"\u2716\ufe0f", lessons:["Multiply Single-Digit Numbers Using Equal Groups and Arrays", "Multiply Single-Digit Numbers Using Number Lines", "Build multiplication tables of 2, 5, and 10", "Build multiplication tables of 3 and 4", "Understand the zero, identity, and commutative, properties of multiplication", "Understand the distributive property of multiplication", "Build multiplication tables of 6 and 8", "Build multiplication tables of 7 and 9", "Multiply single-digit numbers by multiples of 10 using the associative property", "Solve word problems on multiplication based on equal groups and arrays"]},
+    {name:"Geometry", emoji:"\ud83d\udcd0", lessons:["Understand the Properties of 2D Shapes", "Identify Different Types of Quadrilaterals", "Compare Types of Parallelograms"]},
+  ],
+  4: [
+    {name:"Number System", emoji:"\ud83d\udd22", lessons:["Read and Write 5-Digit Numbers", "Read and Write 6-Digit Numbers", "Identify the Place Values in 5 and 6-digit Numbers", "Write Numbers in Expanded Form and Standard Form", "Compare Numbers up to 6 Digits", "Order Numbers up to 6 Digits", "Round Multi Digit Numbers"]},
+    {name:"Factors and Multiples", emoji:"\ud83d\udd37", lessons:["Interpret Rules of Divisibility of 2, 5 and 10"]},
+    {name:"Addition and Subtraction", emoji:"\u2795", lessons:["Add Multi-Digit Numbers Using Standard Algorithm", "Subtract-Multi-Digit-Numbers-Using-Standard-Algorithm.W01", "Add and Subtract Multi-Digit Numbers with Strategies", "Find Missing Addends Operators and Digits", "Estimate Sum of Multi-Digit Numbers by Rounding", "Estimate Difference of Multi-Digit Numbers by Rounding", "Solve One Step Word Problems on Addition", "Solve One Step Word Problems on Subtraction", "Solve Multi-Step Word Problems on Addition and Subtraction of multi-digit numbers"]},
+    {name:"Decimals", emoji:"\ud83d\udd22", lessons:["Express Tenths as Decimals", "Express Hundredths as Decimals", "Convert Decimals to Fractions", "Represent Decimals on a Number Line", "Understand Basic Comparison of Decimals", "Compare and Order Decimals", "Add Tenths and Hundredths", "Subtract Tenths and Hundredths", "Solve Contextual Problems on Addition and Subtraction of Decimals"]},
+  ],
+  5: [
+    {name:"Number System", emoji:"\ud83d\udd22", lessons:["Read and Write Numbers Upto 9-Digits", "Identify the place value in Numbers up to 9-digits", "Relate Place Value Positions", "Write the Standard and Expanded Form of Numbers Up To 9 Digits", "Use exponents to show powers of 10", "Expand Numbers in Powers of 10"]},
+    {name:"Number Operations", emoji:"\ud83d\udd22", lessons:["Understand Commutative Property and Properties of Zero and One", "Apply Associative and Distributive Properties", "Multiply by Multiples of 10", "Estimate the Products", "Multiply Multi-Digit Numbers by Single Digits", "Multiply Multi-Digt Numbers by Two and Three-digit Numbers", "Relate Multiplication and Division to find Quotients", "Divide 4-digit numbers by 2-digit numbers", "Estimate Quotients of Division", "Solve Word Problems Involving all 4 Operations"]},
+    {name:"Order of Operations", emoji:"\ud83d\udd23", lessons:["Simlify Expressions with Nested Parentheses"]},
+  ],
+  6: [
+    {name:"Number and Operations", emoji:"\ud83d\udd22", lessons:["Use Standard Algorithm for Multidigit Division", "Understand the Meaning of Exponents", "Find Perfect Squares of Numbers upto 20"]},
+    {name:"Integers", emoji:"\ud83d\udcc9", lessons:["Understand Integers and Plot them on a Number Line", "Understand Opposites and Absolute Values of Integers", "Compare Integers", "Order Integers"]},
+    {name:"Rational Numbers", emoji:"\ud83d\udd22", lessons:["Understand Rational Numbers", "Plot Rational Numbers on a Number Line", "Understand Opposites and Absolute Values of Rational Numbers", "Compare Rational Numbers", "Order rational numbers"]},
+    {name:"Algebraic Equations", emoji:"\ud83d\udd23", lessons:["Write Equations in One Variable", "Solve Equations Using Addition and Subtration", "Solving Equations Using Multiplication", "Solve Equations Using Division", "Interpret the Relationship between Dependent and Independent Variables Using Tables", "Graph the Relation Between Dependent and Independent Variables"]},
+    {name:"Algebraic Expressions", emoji:"\ud83d\udd23", lessons:["Understand Algebraic Expressions", "Write Algebraic Expressions", "Properties-of-Addition-and-Multiplication", "Simplify Expressions using Distributive Property", "Factor Algebraic Expressions"]},
+  ],
+};
+
+// Metadata per grade (label)
+const gradeLabels = {2:'USCC · Grade 2',3:'USCC · Grade 3',4:'USCC · Grade 4',5:'USCC · Grade 5',6:'USCC · Grade 6'};
+
+// Build gradeData from CSV
+const gradeData = {};
+for(const [g, chapters] of Object.entries(csvGradeData)){
+  gradeData[g] = {
+    label: gradeLabels[g] || 'USCC · Grade '+g,
+    chapters: chapters.map(ch => ({name:ch.name, emoji:ch.emoji||'📘', total:ch.lessons.length}))
+  };
+}
+
+let currentGrade=3;
+
+function loadGrade(g){
+  currentGrade=g;
+  const gd=gradeData[g];
+  if(!gd)return;
+  document.querySelector('.grade-section-title').textContent=gd.label;
+  document.querySelectorAll('.gs-pill').forEach(p=>{
+    p.classList.toggle('active',p.dataset.grade==g);
+  });
+  const grid=document.getElementById('chapter-grid');
+  // Demo progress: index → 0=not started, 0–1=partial, 1=complete, 'mastered'=complete+crown
+  const demoProgress = [1, 0.75, 0.4, 0.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const demoMastered = [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+  const R = 30, C = 2 * Math.PI * R;
+  grid.innerHTML=gd.chapters.map((ch,i)=>{
+    const pct = demoProgress[i] || 0;
+    const isDone = pct >= 1;
+    const isMastered = demoMastered[i] || false;
+    const offset = C - (pct * C);
+    const innerClass = isDone ? 'ch-inner-circle done' : (pct === 0 ? 'ch-inner-circle not-started' : 'ch-inner-circle');
+    return `
+    <div class="ch-card" id="ch-${i+1}" onclick="location.href='maths-grade-3-chapter.html?grade=${g}&ch=${i+1}'">
+      <span class="ch-num">${i+1}</span>
+      ${isMastered ? '<span class="ch-crown">👑</span>' : ''}
+      <div class="ch-prog-wrap${isDone?' is-done':''}">
+        <svg viewBox="0 0 72 72">
+          <circle class="ch-prog-track" cx="36" cy="36" r="${R}"/>
+          <circle class="${isDone?'ch-prog-fill done':'ch-prog-fill'}" cx="36" cy="36" r="${R}"
+            stroke-dasharray="${C}" stroke-dashoffset="${offset}"/>
+        </svg>
+        <div class="${innerClass}">
+          <span class="ch-emoji">${ch.emoji}</span>
+        </div>
+        ${isDone ? `<div class="ch-done-check">
+          <div class="ch-done-badge">
+            <svg viewBox="0 0 16 16"><polyline points="2,9 6,13 14,4"/></svg>
+          </div>
+        </div>` : ''}
+      </div>
+      <div class="ch-name">${ch.name}</div>
+    </div>`
+  }).join('');
+}
+
+
+
+loadGrade(3);
+</script>
+</body>
+</html>

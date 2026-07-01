@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuemath Content Pages — Revamp Scope & Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7;color:#1c1917;background:#FAF8F5;padding:40px 24px 80px}
+.doc{max-width:860px;margin:0 auto}
+.doc-header{border-bottom:3px solid #F4AB52;padding-bottom:24px;margin-bottom:40px}
+.doc-title{font-size:28px;font-weight:700;color:#1c1917;margin-bottom:6px}
+.doc-meta{font-size:13px;color:#78716c;display:flex;gap:20px;flex-wrap:wrap;margin-top:10px}
+.doc-meta span{display:flex;align-items:center;gap:6px}
+.doc-meta .dot{width:6px;height:6px;border-radius:50%;background:#F4AB52;flex-shrink:0}
+
+h2{font-size:20px;font-weight:700;color:#1c1917;margin:40px 0 12px;padding-bottom:8px;border-bottom:1px solid #E8E4DD}
+h3{font-size:16px;font-weight:600;color:#1c1917;margin:24px 0 8px}
+h4{font-size:14px;font-weight:600;color:#44403c;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.06em}
+p{color:#44403c;margin-bottom:10px}
+ul,ol{padding-left:20px;color:#44403c;margin-bottom:12px}
+li{margin-bottom:5px}
+strong{font-weight:600;color:#1c1917}
+
+/* Callout boxes */
+.callout{padding:16px 20px;border-left:4px solid #F4AB52;background:#FEF3C7;margin:20px 0;border-radius:0 6px 6px 0}
+.callout.blue{border-left-color:#5492F1;background:#EEF6FF}
+.callout.green{border-left-color:#16A34A;background:#DCFCE7}
+.callout.red{border-left-color:#DC2626;background:#FEE2E2}
+.callout p{margin-bottom:0;font-size:14px}
+.callout strong{display:block;margin-bottom:4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+
+/* URL structure */
+.url-tree{background:#1c1917;color:#FAF8F5;padding:20px 24px;font-family:'SF Mono',Monaco,monospace;font-size:13px;line-height:2;margin:16px 0}
+.url-tree .root{color:#F4AB52;font-weight:700}
+.url-tree .ph1{color:#6AC88A}
+.url-tree .ph2{color:#74ACFC}
+.url-tree .ph3{color:#D994F8}
+.url-tree .comment{color:#78716c;font-style:italic}
+
+/* Phase cards */
+.phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:20px 0}
+@media(max-width:700px){.phases{grid-template-columns:1fr}}
+.phase-card{border:1px solid #E8E4DD;background:#fff;padding:20px}
+.phase-num{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#78716c;margin-bottom:6px}
+.phase-title{font-size:16px;font-weight:700;color:#1c1917;margin-bottom:8px}
+.phase-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;margin-bottom:12px}
+.tag-launch{background:#DCFCE7;color:#16A34A}
+.tag-q2{background:#EEF6FF;color:#5492F1}
+.tag-q3{background:#FAEFFF;color:#A65EC4}
+.phase-items{font-size:13px;color:#44403c;padding-left:16px}
+.phase-items li{margin-bottom:4px}
+
+/* Comparison table */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:#F3F0EB;padding:10px 14px;text-align:left;font-weight:600;color:#1c1917;border-bottom:2px solid #E8E4DD}
+td{padding:10px 14px;border-bottom:1px solid #E8E4DD;vertical-align:top;color:#44403c}
+tr:last-child td{border-bottom:none}
+.check{color:#16A34A;font-weight:700}
+.cross{color:#DC2626}
+.partial{color:#F4AB52;font-weight:700}
+
+/* Status badge */
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:0}
+.badge-done{background:#DCFCE7;color:#16A34A}
+.badge-wip{background:#FEF3C7;color:#7E4800}
+.badge-todo{background:#E8E4DD;color:#78716c}
+
+/* Decision table */
+.decision{background:#fff;border:1px solid #E8E4DD;margin:20px 0}
+.decision-row{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid #E8E4DD}
+.decision-row:last-child{border-bottom:none}
+.decision-q{padding:14px 16px;font-weight:600;font-size:13px;background:#F3F0EB;color:#1c1917}
+.decision-a{padding:14px 16px;font-size:13px;color:#44403c}
+
+footer{margin-top:48px;padding-top:20px;border-top:1px solid #E8E4DD;font-size:12px;color:#78716c}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">
+    <div class="doc-title">Cuemath Content Pages — Revamp Scope & Roadmap</div>
+    <p style="color:#44403c;margin-top:8px;font-size:14px">URL structure, phase breakdown, and decisions needed for the curriculum pages revamp. Primary goal: US content growth, driving leads through free curriculum access.</p>
+    <div class="doc-meta">
+      <span><span class="dot"></span> Owner: Manasa (US Content Growth)</span>
+      <span><span class="dot"></span> Last updated: June 2026</span>
+      <span><span class="dot"></span> Status: Roadmap planning</span>
+    </div>
+  </div>
+
+  <!-- PURPOSE -->
+  <h2>Purpose</h2>
+  <p>Bring the complete Cuemath curriculum (currently only accessible in the Leap app) to the public website — free with login. The curriculum content is the lead magnet; 1:1 tutoring remains the paid product.</p>
+
+  <div class="callout">
+    <strong>Primary goal</strong>
+    Drive leads from parents discovering Cuemath through curriculum browsing — same way IXL and Khan Academy convert. 200 users/month visit cuemath.com/curriculum today with near-zero signups. IXL gets ~10k/month on their curriculum pages.
+  </div>
+
+  <h3>Content source</h3>
+  <p>All curriculum content (chapters, lessons, lesson objectives, worksheets, exercises) comes from <strong>Leap</strong> — the internal tool the curriculum team already maintains. The website renders what Leap already has. No new content pipeline needed.</p>
+
+  <div class="callout blue">
+    <strong>Key constraint</strong>
+    Phase 1 is content discovery only — no lesson player, no login required. The page must answer: "Does Cuemath cover what my child is learning in school?" If yes, the CTA converts.
+  </div>
+
+
+  <!-- URL STRUCTURE -->
+  <h2>URL Structure</h2>
+  <p>All pages are geo-specific in feel (board/standard filter) but serve the same underlying US curriculum for Phase 1. Separate URLs per geo come in Phase 2+.</p>
+
+  <div class="url-tree">
+<span class="root">cuemath.com/math/</span>  <span class="comment">← Meta page. Entry point for all crawlers. Board + grade selector.</span>
+│
+├── <span class="ph1">grade-k-math/</span>  <span class="comment">← Grade page (Phase 1)</span>
+├── <span class="ph1">grade-1-math/</span>
+├── <span class="ph1">grade-2-math/</span>
+├── <span class="ph1">grade-3-math/</span>  <span class="comment">← Prototype ready</span>
+├── <span class="ph1">grade-4-math/</span>
+├── <span class="ph1">grade-5-math/</span>
+├── <span class="ph1">grade-6-math/</span>
+├── <span class="ph1">grade-7-math/</span>
+├── <span class="ph1">grade-8-math/</span>
+│
+├── <span class="ph2">uscc-curriculum/</span>  <span class="comment">← Board parent page. Full K-12 chapter list. (Phase 2)</span>
+├── <span class="ph2">cbse-curriculum/</span>
+├── <span class="ph2">icse-curriculum/</span>
+│
+├── <span class="ph3">grade-3-math/multiplication/</span>  <span class="comment">← Chapter page (Phase 2)</span>
+├── <span class="ph3">grade-3-math/fractions/</span>
+│
+└── <span class="comment">grade-3-math/multiplication/arrays/  ← Lesson page (Phase 3 — app parity)</span>
+  </div>
+
+  <h3>URL decisions needed</h3>
+  <div class="decision">
+    <div class="decision-row">
+      <div class="decision-q">Should grade pages be geo-specific in URL?</div>
+      <div class="decision-a"><strong>Recommendation: No for Phase 1.</strong> Single URL per grade, geo auto-detected and shown as a dropdown filter. Separate URLs (e.g. /texas-grade-3-math/) are a Phase 2 SEO play once we have enough content volume.</div>
+    </div>
+    <div class="decision-row">
+      <div class="decision-q">cuemath.com/math/ or cuemath.com/curriculum/?</div>
+      <div class="decision-a"><strong>/math/ is the right URL.</strong> /curriculum/ is what exists today and has near-zero authority. /math/ is shorter, cleaner, and matches how IXL (ixl.com/maths) and Khan (khanacademy.org/math) structure it. Redirect /curriculum/ → /math/.</div>
+    </div>
+    <div class="decision-row">
+      <div class="decision-q">K-8 or K-12 for Phase 1?</div>
+      <div class="decision-a"><strong>K-8 for Phase 1</strong> (matching current Cuemath product). Grades 9-12 come in Phase 2 with test prep angle (SAT, board exams). Don't launch empty pages.</div>
+    </div>
+    <div class="decision-row">
+      <div class="decision-q">Login required to view curriculum?</div>
+      <div class="decision-a"><strong>No login for Phase 1 browsing.</strong> Login required to: save progress, download worksheets, access lesson player. This is the IXL and Khan model — content is discovery, login is retention.</div>
+    </div>
+  </div>
+
+
+  <!-- PHASES -->
+  <h2>Phase Breakdown</h2>
+
+  <div class="phases">
+    <div class="phase-card">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-title">Homepage + Grade Pages</div>
+      <span class="phase-tag tag-launch">Launch priority</span>
+      <ul class="phase-items">
+        <li>cuemath.com/math/ — homepage with grade + board selector</li>
+        <li>cuemath.com/math/grade-[n]-math/ — one per grade (K-8)</li>
+        <li>Chapter list from Leap (name + lesson count)</li>
+        <li>Lesson names listed per chapter</li>
+        <li>Lesson objectives from Leap ("By end of this lesson…")</li>
+        <li>Geo dropdown (auto-select, same content)</li>
+        <li>No login required to browse</li>
+        <li>SEO content + FAQ per grade page</li>
+        <li>CTA: "Book a free class" per chapter</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-title">Chapter Pages + Board Pages</div>
+      <span class="phase-tag tag-q2">Q3 2026</span>
+      <ul class="phase-items">
+        <li>cuemath.com/math/grade-3-math/multiplication/ — chapter page</li>
+        <li>Sample questions per lesson (hover preview)</li>
+        <li>Board parent pages (USCC, CBSE, ICSE)</li>
+        <li>Login + save progress</li>
+        <li>Worksheet download (gated — login)</li>
+        <li>Progress bar per chapter</li>
+        <li>Parent email summary</li>
+        <li>Geo-specific URLs for top states (Texas, California, Florida)</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-title">Lesson Pages (App Parity)</div>
+      <span class="phase-tag tag-q3">Q4 2026</span>
+      <ul class="phase-items">
+        <li>Lesson player — same feel as Leap/app</li>
+        <li>Lesson objectives screen (as-is from Leap)</li>
+        <li>Interactive exercises</li>
+        <li>Quiz at end of each lesson</li>
+        <li>Progress tracking + streaks</li>
+        <li>Skill gap report → tutor CTA</li>
+        <li>Grades 9-12 + test prep (SAT, AMC, Kangaroo)</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- COMPETITIVE SNAPSHOT -->
+  <h2>Competitive Snapshot</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>IXL</th>
+        <th>Khan Academy</th>
+        <th>Cuemath today</th>
+        <th>Cuemath Phase 1</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Free curriculum browsing</td>
+        <td class="check">✓</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Chapter + lesson structure visible</td>
+        <td class="partial">Partial (skills only)</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Lesson objectives shown</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="check">✓ (from Leap)</td>
+      </tr>
+      <tr>
+        <td>Board/standards filter</td>
+        <td class="check">✓</td>
+        <td class="partial">Partial</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Grade-specific SEO pages</td>
+        <td class="check">✓ (300+ skills indexed)</td>
+        <td class="check">✓</td>
+        <td class="cross">✗</td>
+        <td class="check">✓</td>
+      </tr>
+      <tr>
+        <td>Progress tracking</td>
+        <td class="check">✓ (SmartScore)</td>
+        <td class="check">✓ (mastery %)</td>
+        <td class="cross">✗ (app only)</td>
+        <td class="cross">✗ (Phase 2)</td>
+      </tr>
+      <tr>
+        <td>Live 1:1 tutoring</td>
+        <td class="cross">✗</td>
+        <td class="cross">✗</td>
+        <td class="check">✓ (paid)</td>
+        <td class="check">✓ (paid)</td>
+      </tr>
+      <tr>
+        <td>Lesson player (app-like)</td>
+        <td class="partial">Exercises only</td>
+        <td class="check">✓</td>
+        <td class="check">✓ (app only)</td>
+        <td class="cross">✗ (Phase 3)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>Cuemath's unique position</strong>
+    IXL = drill practice, no teaching. Khan = videos, no human. Cuemath = curriculum + live expert. The free tier must demonstrate the curriculum depth; the "Get help with this" CTA on every chapter is how free converts to paid.
+  </div>
+
+
+  <!-- PAGE SPECS -->
+  <h2>Page Specs — Phase 1</h2>
+
+  <h3>1. Homepage — cuemath.com/math/</h3>
+  <ul>
+    <li><strong>Hero:</strong> Headline + grade/board selector card. No booking form in hero. CTA is "Explore Grade X →" leading to grade page.</li>
+    <li><strong>Grade cards (K–8):</strong> Each shows grade name, age range, 3 topic areas, chapter count, lesson count. All data from Leap.</li>
+    <li><strong>Board filter:</strong> Common Core (US) / CBSE / ICSE / UK / Singapore. Auto-detects by geo. Updates grade card descriptions.</li>
+    <li><strong>Trust signals:</strong> Compact bar — standards aligned, student count, rating.</li>
+    <li><strong>Features strip:</strong> What makes Cuemath different from IXL/Khan (live tutoring angle).</li>
+    <li><strong>SEO content:</strong> What is K-8 math curriculum, FAQs, grade grid linking all grade pages.</li>
+  </ul>
+
+  <h3>2. Grade Page — cuemath.com/math/grade-3-math/</h3>
+  <ul>
+    <li><strong>Sidebar (sticky):</strong> Grade pills (switch grade), board/geo dropdown, chapter nav with lesson counts, booking CTA.</li>
+    <li><strong>Hero:</strong> "Grade 3 Math Curriculum · Common Core" eyebrow. Stats: X chapters, X lessons, standards, age range.</li>
+    <li><strong>Standards strip:</strong> CCSS domains covered (3.OA, 3.NF, 3.MD etc).</li>
+    <li><strong>Chapter cards (expandable):</strong> Chapter title → expands to lesson list. Each lesson shows: lesson name, skill count, "Key" / "New" tags.</li>
+    <li><strong>Lesson objectives:</strong> First lesson in each chapter shows objectives pulled from Leap ("By the end of this lesson, I will be able to: …"). This is the differentiator vs IXL.</li>
+    <li><strong>Per-chapter CTA:</strong> "Get help with [Chapter name] →" — contextual booking trigger.</li>
+    <li><strong>SEO section:</strong> What Grade 3 covers, Common Core alignment, FAQ (4–6 questions), grade grid.</li>
+  </ul>
+
+  <h3>Content from Leap — what gets surfaced in Phase 1</h3>
+  <table>
+    <thead><tr><th>Leap data</th><th>Where it appears</th><th>Phase</th></tr></thead>
+    <tbody>
+      <tr><td>Chapter names</td><td>Chapter cards on grade page, chapter nav in sidebar</td><td><span class="badge badge-done">Phase 1</span></td></tr>
+      <tr><td>Lesson names</td><td>Lesson list inside each chapter card</td><td><span class="badge badge-done">Phase 1</span></td></tr>
+      <tr><td>Lesson objectives ("By end of this lesson…")</td><td>First lesson of each chapter, expanded by default</td><td><span class="badge badge-done">Phase 1</span></td></tr>
+      <tr><td>Lesson count per chapter</td><td>Chapter card meta, sidebar nav badges</td><td><span class="badge badge-done">Phase 1</span></td></tr>
+      <tr><td>Worksheets</td><td>Download button (login-gated)</td><td><span class="badge badge-wip">Phase 2</span></td></tr>
+      <tr><td>Sample questions</td><td>Hover preview on lesson items</td><td><span class="badge badge-wip">Phase 2</span></td></tr>
+      <tr><td>Full lesson content (slides, exercises)</td><td>Lesson player page</td><td><span class="badge badge-todo">Phase 3</span></td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- OPEN QUESTIONS -->
+  <h2>Open Questions for Roadmap Meeting</h2>
+  <ol>
+    <li><strong>Leap API:</strong> Is there an existing API to pull chapter/lesson data from Leap, or does this need to be built? Who owns this on the engineering side?</li>
+    <li><strong>Content ownership:</strong> When curriculum team updates Leap, does the website update automatically, or is there a manual sync step?</li>
+    <li><strong>Login infrastructure:</strong> Does the website have a login system that Phase 2 progress-saving can hook into, or does this need to be built from scratch?</li>
+    <li><strong>Redirect:</strong> When does /curriculum/ redirect to /math/? Before Phase 1 launch or after?</li>
+    <li><strong>Boards in scope for Phase 1:</strong> Is Common Core (US) the only board for Phase 1, or do we launch CBSE/ICSE pages simultaneously?</li>
+    <li><strong>Grades in scope:</strong> K–8 only, or do we stub out 9–12 with "coming soon"?</li>
+  </ol>
+
+
+  <!-- PROTOTYPES -->
+  <h2>Prototypes (ready to review)</h2>
+  <table>
+    <thead><tr><th>Page</th><th>URL</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Curriculum Homepage</td>
+        <td><a href="curriculum-home.html">curriculum-home.html</a></td>
+        <td><span class="badge badge-wip">In progress</span></td>
+      </tr>
+      <tr>
+        <td>Grade 3 Page</td>
+        <td><a href="curriculum-grade-3.html">curriculum-grade-3.html</a></td>
+        <td><span class="badge badge-wip">In progress</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <footer>
+    Cuemath · US Content Growth · Manasa · Roadmap planning doc · June 2026
+  </footer>
+
+</div>
+</body>
+</html>

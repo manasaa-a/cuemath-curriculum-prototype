@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/grade-3/number-system/read-and-write-4-digit-numbers/
+  Lesson page — storybook learning sheet
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Read and Write 4-Digit Numbers · Grade 3 — Cuemath</title>
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15px;color:#1C1917;background:#F5F0E8}
+
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label,.ln-item:hover .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+
+/* MAIN */
+.main{display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fff}
+
+/* Top bar */
+.topbar{background:#fff;border-bottom:1px solid rgba(0,0,0,.08);padding:0 20px;height:46px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-bc{font-size:13px;color:#97948E;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#97948E;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:6px 14px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer}
+
+/* Page tabs: Learn / Practice / Resources */
+.page-tabs{background:#fff;border-bottom:2px solid #F5F0E8;padding:0 20px;display:flex;gap:0;flex-shrink:0}
+.page-tab{padding:13px 20px;background:none;border:none;font-family:'UntitledSans';font-size:13px;font-weight:500;color:#97948E;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.page-tab:hover{color:#1C1917}
+.page-tab.active{color:#1C1917;font-weight:600;border-bottom-color:#F4AB52}
+
+/* Tab panels */
+.tab-panel{display:none;flex:1;flex-direction:column;overflow:hidden;min-height:0}
+.tab-panel.active{display:flex}
+
+/* Slide nav bar */
+.slide-nav-bar{background:#fff;border-bottom:1px solid rgba(0,0,0,.07);padding:0 16px;height:44px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.snb-icon{width:32px;height:32px;border-radius:50%;background:#F5F0E8;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+.snb-icon svg{width:16px;height:16px;stroke:#97948E;fill:none;stroke-width:2}
+.slide-pills{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+.slide-pills::-webkit-scrollbar{display:none}
+.sp{width:28px;height:28px;border-radius:50%;border:none;background:#F5F0E8;font-size:12px;font-weight:500;color:#97948E;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sp.active{background:#F4AB52;color:#fff}
+.sp:hover:not(.active){background:#E5DDD4;color:#1C1917}
+.snb-divider{width:1px;height:24px;background:rgba(0,0,0,.1);flex-shrink:0}
+.snb-activity{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.snb-act-item{display:flex;align-items:center;gap:4px;font-size:12px;color:#97948E}
+.snb-act-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+.snb-act-count{font-weight:600;color:#1C1917}
+
+/* Slide viewer */
+.slide-viewer{flex:1;overflow:hidden;position:relative}
+.slides-wrap{height:100%;position:relative}
+
+/* Individual slides */
+.slide{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+
+/* Blue diamond background */
+.bg-blue{
+  background-color:#5BC3F0;
+  background-image:
+    linear-gradient(45deg,rgba(255,255,255,.18) 25%,transparent 25%),
+    linear-gradient(-45deg,rgba(255,255,255,.18) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,rgba(255,255,255,.18) 75%),
+    linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.18) 75%);
+  background-size:32px 32px;
+  background-position:0 0,0 16px,16px -16px,-16px 0px;
+  flex:1;display:flex;align-items:center;justify-content:center;padding:32px;
+}
+/* WE DO slide background */
+.bg-wedo{background:#D6EEF8;flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:28px 32px}
+/* YOUR TURN background */
+.bg-yourturn{background:#D8F0E0;flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:28px 32px}
+
+/* Intro card (on blue bg) */
+.intro-card{background:#fff;padding:36px 44px;max-width:560px;width:100%;text-align:left}
+.intro-heading{font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:700;color:#1C1917;margin-bottom:20px;text-align:center}
+.intro-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;font-size:15px;color:#1C1917;line-height:1.5}
+.intro-star{font-size:20px;flex-shrink:0;margin-top:-1px}
+
+/* Concept title card (on blue bg) */
+.concept-card{text-align:center;max-width:600px}
+.concept-title{font-family:Georgia,'Times New Roman',serif;font-size:36px;color:#1C1917;line-height:1.2;margin-bottom:16px}
+.concept-title strong{font-weight:700}
+.concept-sub{font-style:italic;font-size:15px;color:#1C1917;opacity:.75;line-height:1.6}
+
+/* Activity header (WE DO / YOUR TURN) */
+.activity-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.act-num{width:36px;height:36px;background:#5BC3F0;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.act-badge{padding:5px 12px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.act-badge.wedo{background:#5BC3F0;color:#fff}
+.act-badge.yourturn{background:#4EBF70;color:#fff}
+
+.activity-content{font-size:15px;color:#1C1917;line-height:1.7;flex:1;max-width:680px;margin:0 auto;width:100%}
+.activity-content p{margin-bottom:14px}
+
+/* Tables */
+.lesson-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.lesson-table th{background:#5BC3F0;color:#fff;padding:10px 14px;font-weight:600;text-align:left;border:1px solid rgba(0,0,0,.1)}
+.lesson-table.green th{background:#4EBF70}
+.lesson-table td{padding:12px 14px;border:1px solid rgba(0,0,0,.1);background:#fff;vertical-align:middle;min-height:60px}
+.lesson-table td.blank{background:#FAFAF8;color:#C6C0B8;font-style:italic}
+.lesson-table tr:nth-child(even) td{background:#F8FEFF}
+.lesson-table.green tr:nth-child(even) td{background:#F3FBF5}
+
+/* Place value visual */
+.pv-box{display:inline-block;background:#5BC3F0;color:#fff;font-family:'Athletics';font-size:28px;font-weight:700;padding:8px 14px;margin:4px;min-width:60px;text-align:center;vertical-align:top}
+.pv-label{font-size:11px;font-weight:500;color:#97948E;text-align:center;margin-top:4px}
+.pv-row{display:flex;gap:4px;margin:16px 0;align-items:flex-end}
+.pv-col{display:flex;flex-direction:column;align-items:center}
+
+/* Discussion prompt */
+.discuss{display:flex;align-items:flex-start;gap:8px;margin-top:20px;font-size:14px;color:#1C1917;line-height:1.5}
+.discuss-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+
+/* Input style */
+.blank-input{border:none;border-bottom:2px solid #1C1917;background:transparent;font-family:'UntitledSans';font-size:14px;width:240px;padding:4px 0;outline:none;color:#1C1917}
+.blank-input::placeholder{color:#C6C0B8}
+.fill-row{display:flex;align-items:center;gap:12px;margin:10px 0;font-size:14px}
+
+/* Bottom toolbar */
+.slide-toolbar{height:52px;background:#fff;border-top:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 20px;flex-shrink:0;position:relative}
+.toolbar-tools{display:flex;gap:4px}
+.tool-btn{width:36px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#97948E;border-radius:6px}
+.tool-btn:hover{background:#F5F0E8;color:#1C1917}
+.tool-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.toolbar-counter{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;color:#97948E}
+.toolbar-nav{margin-left:auto;display:flex;gap:4px}
+.nav-btn{width:38px;height:38px;border:1px solid rgba(0,0,0,.12);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#1C1917}
+.nav-btn:hover{background:#F5F0E8}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+/* RIGHT PANEL */
+.rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-lesson-info{background:#fff;padding:14px;border:1px solid rgba(0,0,0,.07)}
+.rp-lesson-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#97948E;margin-bottom:4px}
+.rp-lesson-name{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;line-height:1.3;margin-bottom:8px}
+.rp-lesson-tags{display:flex;gap:6px;flex-wrap:wrap}
+.rp-tag{padding:3px 9px;border:1px solid rgba(0,0,0,.1);font-size:11px;color:#97948E}
+.rp-divider{height:1px;background:rgba(0,0,0,.08)}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+
+/* Practice tab */
+.practice-wrap{flex:1;overflow-y:auto;background:#F5F0E8;padding:24px}
+.practice-inner{max-width:640px;margin:0 auto}
+.practice-progress{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.prac-bar-bg{flex:1;height:6px;background:#E5DDD4}
+.prac-bar-fill{height:100%;background:#F4AB52;transition:width .3s}
+.prac-count{font-size:12px;color:#97948E;white-space:nowrap}
+.q-card{background:#fff;padding:24px;margin-bottom:16px;border:1px solid rgba(0,0,0,.07)}
+.q-num{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#97948E;margin-bottom:8px}
+.q-text{font-size:15px;font-weight:500;color:#1C1917;line-height:1.5;margin-bottom:18px}
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1.5px solid #E5DDD4;cursor:pointer;font-size:14px;color:#1C1917;background:#fff;text-align:left;width:100%;font-family:'UntitledSans'}
+.q-opt:hover{border-color:#F4AB52;background:#FEF9F0}
+.q-opt.selected{border-color:#F4AB52;background:#FEF9F0}
+.q-opt.correct{border-color:#42B36F;background:#ECF9EF;color:#1A623A}
+.q-opt.wrong{border-color:#E5555E;background:#FFE9E9;color:#652328}
+.q-opt-key{width:24px;height:24px;border:1.5px solid #C6C0B8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.q-next{background:#1C1917;color:#fff;border:none;padding:12px 28px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;display:none}
+.q-next:hover{background:#333}
+.q-next.show{display:inline-block}
+
+/* Practice CTA (after Q4) */
+.practice-cta{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 100%);padding:28px 24px;text-align:center;border:1px solid rgba(0,0,0,.07)}
+.pcta-eyebrow{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#7E4800;margin-bottom:8px;display:block}
+.pcta-title{font-family:'Athletics';font-size:22px;font-weight:700;color:#1C1917;margin-bottom:6px;line-height:1.25}
+.pcta-sub{font-size:13px;color:#5B4100;margin-bottom:18px;line-height:1.5}
+.pcta-btn{background:#1C1917;color:#fff;border:none;padding:13px 28px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;margin-right:10px}
+.pcta-btn:hover{background:#333}
+.pcta-link{font-size:12px;color:#7E4800;text-decoration:underline;cursor:pointer;background:none;border:none;font-family:'UntitledSans'}
+
+/* Resources tab */
+.resources-wrap{flex:1;overflow-y:auto;background:#F5F0E8;padding:24px}
+.resources-inner{max-width:680px;margin:0 auto}
+.res-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#97948E;margin-bottom:12px;margin-top:20px}
+.res-section-title:first-child{margin-top:0}
+.res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:4px}
+.res-card{background:#fff;border:1px solid rgba(0,0,0,.07);padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:8px;text-decoration:none}
+.res-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.res-card-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.res-card-name{font-size:13px;font-weight:600;color:#1C1917;line-height:1.3}
+.res-card-meta{font-size:11px;color:#97948E}
+.res-card-action{font-size:11px;font-weight:600;color:#F4AB52;text-transform:uppercase;letter-spacing:.06em;margin-top:auto}
+.res-card.locked-res{opacity:.6;cursor:default}
+.res-card.locked-res .res-card-action{color:#C6C0B8}
+
+/* App download banner */
+.app-banner{background:linear-gradient(135deg,#1C1917 0%,#3D3A37 100%);padding:18px 20px;margin:16px 0;display:flex;align-items:center}
+.app-banner-left{display:flex;align-items:flex-start;gap:14px;flex:1}
+.app-banner-emoji{font-size:28px;flex-shrink:0;margin-top:2px}
+.app-banner-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.app-banner-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.4;margin-bottom:12px}
+.app-banner-btns{display:flex;gap:8px;flex-wrap:wrap}
+.app-store-btn{display:flex;align-items:center;gap:6px;background:#F4AB52;color:#1C1917;padding:7px 14px;font-family:'UntitledSans';font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}
+.app-store-btn:hover{background:#CE7E12;color:#fff}
+
+/* Lesson nav in right panel */
+.rp-lesson-nav{background:#fff;border:1px solid rgba(0,0,0,.07)}
+.rln-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#97948E;padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.07)}
+.rln-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.05);font-size:12px;color:#97948E;cursor:pointer}
+.rln-item:hover{background:#FAFAF8;color:#1C1917}
+.rln-item.active{color:#1C1917;font-weight:500}
+.rln-num{width:22px;height:22px;border-radius:50%;background:#EDD5BE;border:1px solid #E0C9A8;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#7A5C3A;flex-shrink:0}
+.rln-item.active .rln-num{background:#F4AB52;border-color:#E89040;color:#fff}
+.rln-item:last-child{border-bottom:none}
+
+@media(max-width:768px){.shell{grid-template-columns:64px 1fr}.rightpanel{display:none}}
+@media(max-width:480px){.shell{grid-template-columns:1fr}.leftnav{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- LEFT NAV -->
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- Breadcrumb topbar -->
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a><span>›</span>
+        <a href="maths-grade-3.html" id="bc-grade">Grade 3</a><span>›</span>
+        <a href="maths-grade-3-chapter.html" id="bc-chapter">Number System</a><span>›</span>
+        <span class="cur" id="bc-lesson">Read and Write 4-Digit Numbers</span>
+      </div>
+      <button class="tb-btn">Book a free class</button>
+    </div>
+
+    <!-- Page tabs -->
+    <div class="page-tabs">
+      <button class="page-tab active" onclick="switchTab('learn')">Learn</button>
+      <button class="page-tab" onclick="switchTab('practice')">Practice</button>
+      <button class="page-tab" onclick="switchTab('resources')">Resources</button>
+    </div>
+
+    <!-- LEARN TAB -->
+    <div class="tab-panel active" id="tab-learn">
+
+    <!-- Slide nav bar -->
+    <div class="slide-nav-bar">
+      <div class="snb-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.87-3.13 7-7 7s-7-3.13-7-7a7 7 0 017-7z"/><path d="M12 16v6M8 22h8"/></svg>
+      </div>
+      <div class="slide-pills" id="slide-pills"></div>
+      <div class="snb-divider"></div>
+      <div class="snb-activity">
+        <div class="snb-act-item">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span class="snb-act-count">1</span>
+        </div>
+        <div class="snb-act-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <span class="snb-act-count">1</span>
+        </div>
+        <div class="snb-act-item">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span class="snb-act-count">1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide viewer -->
+    <div class="slide-viewer">
+      <div class="slides-wrap" id="slides-wrap">
+
+        <!-- SLIDE 0: Intro / Objectives -->
+        <div class="slide active" id="slide-0">
+          <div class="bg-blue">
+            <div class="intro-card">
+              <div class="intro-heading">By the end of this lesson, I will be able to:</div>
+              <div class="intro-item"><span class="intro-star">✦</span> Read 4-digit numbers like 1002, 1345, 2452, 5678, and so on</div>
+              <div class="intro-item"><span class="intro-star">✦</span> Write 4-digit numbers in words</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 1: Concept title -->
+        <div class="slide" id="slide-1">
+          <div class="bg-blue">
+            <div class="concept-card">
+              <div class="concept-title">Recap: Read and Write<br><strong>3-Digit Numbers</strong></div>
+              <div class="concept-sub">In this concept, the students will recall<br>how to read and write 3-digit numbers.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 2: WE DO — example -->
+        <div class="slide" id="slide-2">
+          <div class="bg-wedo">
+            <div class="activity-content">
+              <div class="activity-header">
+                <div class="act-num">1a</div>
+                <div class="act-badge wedo">WE DO</div>
+              </div>
+              <p>A 4-digit number has four place values: <strong>Thousands, Hundreds, Tens,</strong> and <strong>Ones</strong>.</p>
+              <p>Let's read and write the number <strong>1,345</strong>.</p>
+              <div class="pv-row">
+                <div class="pv-col"><div class="pv-box">1</div><div class="pv-label">Thousands</div></div>
+                <div class="pv-col"><div class="pv-box">3</div><div class="pv-label">Hundreds</div></div>
+                <div class="pv-col"><div class="pv-box">4</div><div class="pv-label">Tens</div></div>
+                <div class="pv-col"><div class="pv-box">5</div><div class="pv-label">Ones</div></div>
+              </div>
+              <table class="lesson-table">
+                <thead><tr><th>Number</th><th>Number Name</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>1,345</strong></td><td>One thousand three hundred forty-five</td></tr>
+                  <tr><td><strong>2,008</strong></td><td>Two thousand and eight</td></tr>
+                  <tr><td><strong>5,670</strong></td><td>Five thousand six hundred seventy</td></tr>
+                </tbody>
+              </table>
+              <div class="discuss">
+                <span class="discuss-icon">💬</span>
+                <span>Explain how you identify the thousands place in the number 2,008.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 3: YOUR TURN — practice -->
+        <div class="slide" id="slide-3">
+          <div class="bg-yourturn">
+            <div class="activity-content">
+              <div class="activity-header">
+                <div class="act-num" style="background:#4EBF70">2a</div>
+                <div class="act-badge yourturn">YOUR TURN</div>
+              </div>
+              <p>✏️ Write the number name for each 4-digit number.</p>
+              <table class="lesson-table green">
+                <thead><tr><th>Number</th><th>Number Name</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>2,045</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="Write the number name…"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>3,708</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="Write the number name…"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>5,100</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="Write the number name…"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>9,060</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="Write the number name…"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4: Concept title 2 -->
+        <div class="slide" id="slide-4">
+          <div class="bg-blue">
+            <div class="concept-card">
+              <div class="concept-title">Reading and Writing<br><strong>4-Digit Numbers</strong></div>
+              <div class="concept-sub">Now students will learn to read and<br>write 4-digit numbers in expanded form.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 5: WE DO 2 -->
+        <div class="slide" id="slide-5">
+          <div class="bg-wedo">
+            <div class="activity-content">
+              <div class="activity-header">
+                <div class="act-num">3a</div>
+                <div class="act-badge wedo">WE DO</div>
+              </div>
+              <p>We can also write 4-digit numbers in <strong>expanded form</strong>.</p>
+              <p>Let's break apart the number <strong>4,523</strong>:</p>
+              <table class="lesson-table">
+                <thead><tr><th>Form</th><th>4,523</th></tr></thead>
+                <tbody>
+                  <tr><td>Standard form</td><td><strong>4,523</strong></td></tr>
+                  <tr><td>Expanded form</td><td><strong>4,000 + 500 + 20 + 3</strong></td></tr>
+                  <tr><td>Number name</td><td>Four thousand five hundred twenty-three</td></tr>
+                </tbody>
+              </table>
+              <div class="discuss">
+                <span class="discuss-icon">💬</span>
+                <span>How does expanded form help us understand the value of each digit?</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 6: YOUR TURN 2 -->
+        <div class="slide" id="slide-6">
+          <div class="bg-yourturn">
+            <div class="activity-content">
+              <div class="activity-header">
+                <div class="act-num" style="background:#4EBF70">4a</div>
+                <div class="act-badge yourturn">YOUR TURN</div>
+              </div>
+              <p>✏️ Write each number in expanded form and as a number name.</p>
+              <table class="lesson-table green">
+                <thead><tr><th>Number</th><th>Expanded Form</th><th>Number Name</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>6,204</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="6,000 + …" style="width:160px"></td>
+                    <td class="blank"><input class="blank-input" placeholder="Six thousand…" style="width:160px"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>8,070</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="8,000 + …" style="width:160px"></td>
+                    <td class="blank"><input class="blank-input" placeholder="Eight thousand…" style="width:160px"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>1,900</strong></td>
+                    <td class="blank"><input class="blank-input" placeholder="1,000 + …" style="width:160px"></td>
+                    <td class="blank"><input class="blank-input" placeholder="One thousand…" style="width:160px"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- slides-wrap -->
+    </div><!-- slide-viewer -->
+
+    <!-- Bottom toolbar -->
+    <div class="slide-toolbar">
+      <div class="toolbar-tools">
+        <button class="tool-btn" title="Draw">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button class="tool-btn" title="Pointer">
+          <svg viewBox="0 0 24 24"><path d="M5 3l14 9-7 1-4 7z"/></svg>
+        </button>
+        <button class="tool-btn" title="Notes">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="tool-btn" title="Flip">
+          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        </button>
+      </div>
+      <span class="toolbar-counter" id="slide-counter">1 / 7</span>
+      <div class="toolbar-nav">
+        <button class="nav-btn" id="btn-prev" onclick="changeSlide(-1)" disabled>
+          <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+        <button class="nav-btn" id="btn-next" onclick="changeSlide(1)">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+
+    </div><!-- /tab-learn -->
+
+    <!-- PRACTICE TAB -->
+    <div class="tab-panel" id="tab-practice">
+      <div class="practice-wrap">
+        <div class="practice-inner">
+          <div class="practice-progress">
+            <div class="prac-bar-bg"><div class="prac-bar-fill" id="prac-fill" style="width:0%"></div></div>
+            <span class="prac-count" id="prac-count">Question 1 of 5</span>
+          </div>
+          <div id="practice-questions"></div>
+          <div id="practice-cta" style="display:none">
+            <div class="practice-cta">
+              <span class="pcta-eyebrow">You've had a taste!</span>
+              <div class="pcta-title">Ready to go further?</div>
+              <div class="pcta-sub">Sign up free to unlock all practice questions, track your progress, and get personalised feedback.</div>
+              <button class="pcta-btn">Sign up free</button>
+              <button class="pcta-link">Book a 1:1 class instead</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESOURCES TAB -->
+    <div class="tab-panel" id="tab-resources">
+      <div class="resources-wrap">
+        <div class="resources-inner">
+          <div class="res-section-title">Worksheets</div>
+          <div class="res-grid">
+            <a class="res-card" href="#" onclick="return false">
+              <div class="res-card-icon">📄</div>
+              <div class="res-card-name">Worksheet 1 — Read &amp; Write Numbers</div>
+              <div class="res-card-meta">Grade 3 · Number System · PDF</div>
+              <div class="res-card-action">Download ↓</div>
+            </a>
+            <a class="res-card" href="#" onclick="return false">
+              <div class="res-card-icon">📄</div>
+              <div class="res-card-name">Worksheet 2 — Place Value Practice</div>
+              <div class="res-card-meta">Grade 3 · Number System · PDF</div>
+              <div class="res-card-action">Download ↓</div>
+            </a>
+          </div>
+
+          <div class="res-section-title">Games</div>
+          <div class="res-grid">
+            <a class="res-card" href="https://www.cuemath.com/math-games/" target="_blank" rel="noopener">
+              <div class="res-card-icon">🎮</div>
+              <div class="res-card-name">Cuemath Math Games</div>
+              <div class="res-card-meta">Free · All topics</div>
+              <div class="res-card-action">Play →</div>
+            </a>
+            <a class="res-card" href="https://www.cuemath.com/free-online-math-games/" target="_blank" rel="noopener">
+              <div class="res-card-icon">🕹️</div>
+              <div class="res-card-name">Free Online Math Games</div>
+              <div class="res-card-meta">Free · Interactive</div>
+              <div class="res-card-action">Play →</div>
+            </a>
+          </div>
+
+          <!-- App download banner -->
+          <div class="app-banner">
+            <div class="app-banner-left">
+              <div class="app-banner-emoji">📱</div>
+              <div>
+                <div class="app-banner-title">Get more on the Cuemath App</div>
+                <div class="app-banner-sub">Games, puzzles, live sessions and full curriculum — all in one place.</div>
+                <div class="app-banner-btns">
+                  <a class="app-store-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    App Store
+                  </a>
+                  <a class="app-store-btn" href="https://play.google.com/store/apps/details?id=com.cuemath" target="_blank" rel="noopener">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.36.6 1.24 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>
+                    Google Play
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="res-section-title">Videos</div>
+          <div class="res-grid">
+            <a class="res-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener">
+              <div class="res-card-icon">▶️</div>
+              <div class="res-card-name">Reading 4-Digit Numbers</div>
+              <div class="res-card-meta">Cuemath · 4 min</div>
+              <div class="res-card-action">Watch →</div>
+            </a>
+            <a class="res-card" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" rel="noopener">
+              <div class="res-card-icon">▶️</div>
+              <div class="res-card-name">Place Value Explained</div>
+              <div class="res-card-meta">Cuemath · 5 min</div>
+              <div class="res-card-action">Watch →</div>
+            </a>
+          </div>
+
+          <div class="res-section-title">Puzzles</div>
+          <div class="res-grid">
+            <a class="res-card" href="https://www.cuemath.com/math-puzzles/" target="_blank" rel="noopener">
+              <div class="res-card-icon">🧩</div>
+              <div class="res-card-name">Cuemath Math Puzzles</div>
+              <div class="res-card-meta">Free · All grades</div>
+              <div class="res-card-action">Solve →</div>
+            </a>
+            <div class="res-card locked-res">
+              <div class="res-card-icon">🧩</div>
+              <div class="res-card-name">Place Value Puzzle</div>
+              <div class="res-card-meta">Grade 3 · Hard</div>
+              <div class="res-card-action">🔒 Sign in to solve</div>
+            </div>
+          </div>
+
+          <div class="res-section-title">Calculators</div>
+          <div class="res-grid">
+            <a class="res-card" href="https://www.cuemath.com/calculators/" target="_blank" rel="noopener">
+              <div class="res-card-icon">🧮</div>
+              <div class="res-card-name">Cuemath Calculators</div>
+              <div class="res-card-meta">Free · All topics</div>
+              <div class="res-card-action">Open →</div>
+            </a>
+          </div>
+
+          <div class="res-section-title">Formulas</div>
+          <div class="res-grid">
+            <a class="res-card" href="https://www.cuemath.com/math-formulas/" target="_blank" rel="noopener">
+              <div class="res-card-icon">📐</div>
+              <div class="res-card-name">Math Formulas</div>
+              <div class="res-card-meta">Free · All grades</div>
+              <div class="res-card-action">View →</div>
+            </a>
+          </div>
+
+          <div class="res-section-title">Practice Test</div>
+          <div class="res-grid">
+            <div class="res-card locked-res">
+              <div class="res-card-icon">📝</div>
+              <div class="res-card-name">Chapter Practice Test</div>
+              <div class="res-card-meta">10 questions · 20 min</div>
+              <div class="res-card-action">🔒 Sign in to attempt</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- main -->
+
+  <!-- RIGHT PANEL -->
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-lesson-info">
+        <div class="rp-lesson-label" id="rp-chapter-label">CHAPTER 1 · LESSON 1</div>
+        <div class="rp-lesson-name" id="rp-lesson-name">Read and Write 4-Digit Numbers</div>
+        <div class="rp-lesson-tags">
+          <span class="rp-tag">Medium</span>
+          <span class="rp-tag">Learn</span>
+          <span class="rp-tag">Grade 3</span>
+        </div>
+      </div>
+      <div class="rp-divider"></div>
+      <!-- Lesson navigator within chapter -->
+      <div class="rp-lesson-nav" id="rp-lesson-nav">
+        <div class="rln-title">Chapter Lessons</div>
+        <!-- populated by JS -->
+      </div>
+      <div class="rp-divider"></div>
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Learn faster with a personal tutor</div>
+        <div class="rp-cta-sub">Live sessions, personalised to your grade.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- shell -->
+
+<script>
+const csvGradeData = {
+  3: [
+    {name:"Number System", emoji:"🔢", lessons:["Read and Write 4-Digit Numbers","Write 4-digit numbers in Order","Identify Places, Place Values, and Face Values in 4-Digit Numbers","Write 4-digit numbers in their expanded form and standard form","Compare 4-Digit Numbers","Order 4-Digit Numbers","Round numbers up to 4 digits to the nearest 10 using a number line","Round numbers up to 4-digits to the nearest 10 using place value","Round numbers up to 4 digits to the nearest 100","Skip Counting numbers up to 4 digits by 10, 100, and 1000"]},
+    {name:"Addition and Subtraction", emoji:"➕", lessons:["Add numbers upto 4 digits without grouping","Add numbers upto 4-digits with regrouping","Subtract numbers upto 4 digits without grouping","Subtract numbers upto 4-digits with regrouping","Use the relationship between addition and subtraction","Understand Properties of addition and subtraction","Use Mental strategies to add numbers up to 4 digits","Use Mental strategies to subtract numbers up to 4 digits","Estimate Sum of Numbers up to 4 digits","Estimate Difference of Numbers up to 4 digits","Solve 1-step word problems on addition","Solve 1-step word problems on subtraction","Solve 2-step word problems addition and subtraction"]},
+    {name:"Fractions", emoji:"🍕", lessons:["Understand Unit Fractions","Understand the Fractions of Whole","Plot Fractions on Number Line","Find the Fraction of a Collection","Compare Like Fractions","Compare Fractions with the Same Numerator","Recognise Equivalent Fractions Visually"]},
+    {name:"Multiplication", emoji:"✖️", lessons:["Multiply Single-Digit Numbers Using Equal Groups and Arrays","Multiply Single-Digit Numbers Using Number Lines","Build multiplication tables of 2, 5, and 10","Build multiplication tables of 3 and 4","Understand the zero, identity, and commutative, properties of multiplication","Understand the distributive property of multiplication","Build multiplication tables of 6 and 8","Build multiplication tables of 7 and 9","Multiply single-digit numbers by multiples of 10 using the associative property","Solve word problems on multiplication based on equal groups and arrays"]},
+    {name:"Geometry", emoji:"📐", lessons:["Understand the Properties of 2D Shapes","Identify Different Types of Quadrilaterals","Compare Types of Parallelograms"]},
+  ],
+};
+
+const params = new URLSearchParams(location.search);
+const grade = parseInt(params.get('grade')) || 3;
+const chIdx = (parseInt(params.get('ch')) || 1) - 1;
+const lessonIdx = (parseInt(params.get('lesson')) || 1) - 1;
+
+const chapters = csvGradeData[grade] || csvGradeData[3];
+const ch = chapters[Math.min(chIdx, chapters.length - 1)];
+const lessonName = ch.lessons[Math.min(lessonIdx, ch.lessons.length - 1)];
+
+// Update breadcrumbs + header
+document.getElementById('bc-grade').textContent = 'Grade ' + grade;
+document.getElementById('bc-grade').href = 'maths-grade-3.html?grade=' + grade;
+document.getElementById('bc-chapter').textContent = ch.name;
+document.getElementById('bc-chapter').href = 'maths-grade-3-chapter.html?grade=' + grade + '&ch=' + (chIdx + 1);
+document.getElementById('bc-lesson').textContent = lessonName;
+document.getElementById('rp-chapter-label').textContent = 'CHAPTER ' + (chIdx + 1) + ' · LESSON ' + (lessonIdx + 1);
+document.getElementById('rp-lesson-name').textContent = lessonName;
+document.title = lessonName + ' · Grade ' + grade + ' — Cuemath';
+
+// Slide navigation
+const totalSlides = document.querySelectorAll('.slide').length;
+let currentSlide = 0;
+
+// Build slide pills
+const pillsEl = document.getElementById('slide-pills');
+for(let i = 0; i < totalSlides; i++){
+  const btn = document.createElement('button');
+  btn.className = 'sp' + (i === 0 ? ' active' : '');
+  btn.textContent = i + 1;
+  btn.onclick = () => goToSlide(i);
+  pillsEl.appendChild(btn);
+}
+
+function goToSlide(n){
+  document.querySelectorAll('.slide').forEach((s, i) => s.classList.toggle('active', i === n));
+  document.querySelectorAll('.sp').forEach((p, i) => p.classList.toggle('active', i === n));
+  currentSlide = n;
+  document.getElementById('slide-counter').textContent = (n + 1) + ' / ' + totalSlides;
+  document.getElementById('btn-prev').disabled = n === 0;
+  document.getElementById('btn-next').disabled = n === totalSlides - 1;
+}
+
+function changeSlide(dir){
+  const next = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+  goToSlide(next);
+}
+
+// Build lesson navigator in right panel
+const navEl = document.getElementById('rp-lesson-nav');
+ch.lessons.forEach((ln, i) => {
+  const item = document.createElement('div');
+  item.className = 'rln-item' + (i === lessonIdx ? ' active' : '');
+  item.innerHTML = `<div class="rln-num">${i + 1}</div><span>${ln}</span>`;
+  item.onclick = () => {
+    location.href = 'maths-grade-3-lesson.html?grade=' + grade + '&ch=' + (chIdx + 1) + '&lesson=' + (i + 1);
+  };
+  navEl.appendChild(item);
+});
+
+// Init
+goToSlide(0);
+
+// Auto-switch tab if URL param set (e.g. ?tab=practice from REVIEW)
+const tabParam = params.get('tab');
+if(tabParam) switchTab(tabParam);
+
+// ── Tab switching ──
+function switchTab(tab){
+  document.querySelectorAll('.page-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['learn','practice','resources'][i] === tab);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if(tab === 'practice') initPractice();
+}
+
+// ── Practice questions ──
+const questions = [
+  { q: 'What is the place value of 7 in the number 3,725?', opts: ['Thousands','Hundreds','Tens','Ones'], ans: 1 },
+  { q: 'Write 5,063 in words.', opts: ['Five thousand sixty-three','Five hundred sixty-three','Five thousand six hundred three','Fifty-six thousand three'], ans: 0 },
+  { q: 'Which number has a 4 in the thousands place?', opts: ['3,412','4,087','2,489','1,234'], ans: 1 },
+  { q: 'What is the expanded form of 2,509?', opts: ['2,000 + 500 + 9','2,000 + 50 + 9','200 + 500 + 9','2,000 + 5 + 9'], ans: 0 },
+  { q: 'Order these from least to greatest: 4,201 · 4,021 · 4,210', opts: ['4,021 · 4,201 · 4,210','4,210 · 4,201 · 4,021','4,201 · 4,021 · 4,210','4,021 · 4,210 · 4,201'], ans: 0 },
+];
+
+let currentQ = 0;
+let answered = false;
+const FREE_QS = 4; // show CTA after this many
+
+function initPractice(){
+  currentQ = 0;
+  answered = false;
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const container = document.getElementById('practice-questions');
+  const ctaEl = document.getElementById('practice-cta');
+
+  if(currentQ >= FREE_QS){
+    container.innerHTML = '';
+    ctaEl.style.display = 'block';
+    document.getElementById('prac-fill').style.width = '80%';
+    document.getElementById('prac-count').textContent = 'Question ' + (currentQ+1) + ' of ' + questions.length;
+    return;
+  }
+
+  ctaEl.style.display = 'none';
+  const q = questions[currentQ];
+  const pct = (currentQ / questions.length * 100) + '%';
+  document.getElementById('prac-fill').style.width = pct;
+  document.getElementById('prac-count').textContent = 'Question ' + (currentQ + 1) + ' of ' + questions.length;
+  answered = false;
+
+  container.innerHTML = `
+    <div class="q-card">
+      <div class="q-num">Question ${currentQ + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((o,i) => `
+          <button class="q-opt" onclick="selectOpt(${i})" id="opt-${i}">
+            <span class="q-opt-key">${['A','B','C','D'][i]}</span>${o}
+          </button>`).join('')}
+      </div>
+      <button class="q-next" id="q-next-btn" onclick="nextQ()">Next →</button>
+    </div>`;
+}
+
+function selectOpt(i){
+  if(answered) return;
+  answered = true;
+  const q = questions[currentQ];
+  document.querySelectorAll('.q-opt').forEach((el, idx) => {
+    if(idx === q.ans) el.classList.add('correct');
+    else if(idx === i && i !== q.ans) el.classList.add('wrong');
+  });
+  document.getElementById('q-next-btn').classList.add('show');
+}
+
+function nextQ(){
+  currentQ++;
+  renderQuestion();
+}
+</script>
+</body>
+</html>

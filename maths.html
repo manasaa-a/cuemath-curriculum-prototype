@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/
+  Shell + Homepage: country → curriculum → grade/topic view
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths — Cuemath</title>
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F3EF}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;cursor:pointer;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label,.ln-item:hover .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0}
+
+/* Top bar */
+.topbar{background:#F5F3EF;border-bottom:1px solid #E8E4DD;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#78716C;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#78716C;text-decoration:none}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tb-search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #E8E4DD;padding:7px 14px;font-size:13px;color:#78716C;cursor:text;min-width:220px}
+.tb-search svg{width:14px;height:14px;flex-shrink:0}
+.tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:8px 18px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer}
+.tb-btn:hover{background:#CE7E12}
+
+/* Selector bar */
+.selector-bar{background:#fff;border-bottom:1px solid #E8E4DD;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex-shrink:0}
+.sel-group{display:flex;align-items:center;gap:8px}
+.sel-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#78716C;white-space:nowrap}
+.sel-divider{width:1px;height:24px;background:#E8E4DD}
+
+/* Country dropdown */
+.country-select{display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #E8E4DD;background:#F5F3EF;font-family:'UntitledSans';font-size:13px;color:#1C1917;cursor:pointer;min-width:160px;justify-content:space-between}
+.country-select:hover{border-color:#1C1917}
+.country-dropdown{position:relative;display:inline-block}
+.country-menu{position:absolute;top:100%;left:0;background:#fff;border:1px solid #E8E4DD;min-width:200px;z-index:20;display:none;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.country-menu.open{display:block}
+.country-option{padding:10px 14px;font-size:13px;color:#1C1917;cursor:pointer;display:flex;align-items:center;gap:8px}
+.country-option:hover{background:#F5F3EF}
+.country-option.active{background:#FEF3C7;font-weight:500}
+
+/* Curriculum pills */
+.curriculum-pills{display:flex;gap:6px;flex-wrap:wrap}
+.cp{padding:5px 14px;border:1px solid #E8E4DD;background:#F5F3EF;font-family:'UntitledSans';font-size:12px;font-weight:500;color:#78716C;cursor:pointer;white-space:nowrap}
+.cp:hover{border-color:#1C1917;color:#1C1917}
+.cp.active{background:#1C1917;color:#fff;border-color:#1C1917}
+
+/* View toggle */
+.view-toggle{margin-left:auto;display:flex;border:1px solid #E8E4DD;overflow:hidden;flex-shrink:0}
+.vt{padding:5px 14px;border:none;background:#F5F3EF;font-family:'UntitledSans';font-size:12px;font-weight:500;color:#78716C;cursor:pointer;display:flex;align-items:center;gap:5px;border-right:1px solid #E8E4DD}
+.vt:last-child{border-right:none}
+.vt.active{background:#1C1917;color:#fff}
+.vt:hover:not(.active){background:#E8E4DD;color:#1C1917}
+.vt svg{width:13px;height:13px}
+
+/* Main content */
+.main-content{padding:24px;flex:1}
+
+/* Grade grid — By Grade view */
+.grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1000px){.grade-grid{grid-template-columns:repeat(2,1fr)}}
+
+.grade-card{background:#fff;border:1px solid #E8E4DD;cursor:pointer;text-decoration:none;display:block;transition:border-color .12s,box-shadow .12s}
+.grade-card:hover{border-color:#F4AB52;box-shadow:0 2px 8px rgba(0,0,0,.07);text-decoration:none}
+
+.gc-inner{padding:20px 16px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.gc-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gc-num{font-family:'Athletics';font-size:26px;font-weight:700;color:#fff;line-height:1}
+.gc-label{font-family:'Athletics';font-size:15px;font-weight:700;color:#1C1917}
+.gc-topics{font-size:12px;color:#78716C;line-height:1.5;margin-top:2px}
+.gc-meta{font-size:11px;color:#B0AAA5;margin-top:4px}
+
+/* Band labels */
+.band-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#78716C;margin:20px 0 10px;display:flex;align-items:center;gap:10px}
+.band-label::after{content:'';flex:1;height:1px;background:#E8E4DD}
+
+/* Topic grid — By Topic view */
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;display:none}
+.topic-card{background:#fff;border:1px solid #E8E4DD;padding:16px;cursor:pointer;text-decoration:none;display:block;transition:border-color .12s}
+.topic-card:hover{border-color:#F4AB52;text-decoration:none}
+.tc-icon{font-size:24px;margin-bottom:8px}
+.tc-name{font-family:'Athletics';font-size:15px;font-weight:700;color:#1C1917;margin-bottom:3px}
+.tc-meta{font-size:11px;color:#78716C}
+
+/* Resources section */
+.resources-section{margin-top:32px;padding-top:28px;border-top:1px solid #E8E4DD}
+.resources-heading{font-family:'Athletics';font-size:20px;font-weight:700;color:#1C1917;margin-bottom:4px}
+.resources-sub{font-size:13px;color:#78716C;margin-bottom:16px}
+.resources-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.app-download-strip{margin-top:12px;background:#1C1917;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.app-dl-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.app-dl-icon{font-size:24px;flex-shrink:0}
+.app-dl-title{font-family:'Athletics';font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.app-dl-sub{font-size:11px;color:rgba(255,255,255,.55);line-height:1.4}
+.app-dl-btns{display:flex;gap:8px;flex-shrink:0}
+.app-dl-btn{display:flex;align-items:center;gap:5px;background:#F4AB52;color:#1C1917;padding:7px 14px;font-family:'UntitledSans';font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}
+.app-dl-btn:hover{background:#CE7E12;color:#fff}
+.res-tile{background:#fff;border:1px solid #E8E4DD;padding:12px 14px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:10px}
+.res-tile:hover{border-color:#F4AB52;text-decoration:none}
+.res-icon{font-size:20px;flex-shrink:0}
+.res-name{font-size:13px;font-weight:500;color:#1C1917;display:block}
+.res-meta{font-size:11px;color:#78716C}
+
+/* PAGE HERO */
+.page-hero{position:relative;background:linear-gradient(160deg,#0d0a1a 0%,#1a1210 45%,#0a1528 100%);padding:52px 40px 44px;text-align:center;flex-shrink:0;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 30%,rgba(217,148,248,.15) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(116,172,252,.12) 0%,transparent 50%);pointer-events:none}
+.page-hero-content{position:relative;z-index:1}
+.page-hero-pill{display:inline-block;background:rgba(255,255,255,.12);color:#fff;font-family:'Athletics';font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;padding:10px 18px;margin:0 0 18px}
+.page-hero h1{font-family:'Athletics';font-size:40px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.01em;margin:0 0 18px}
+.page-hero-sub{font-family:'UntitledSans';font-size:17px;color:rgba(255,255,255,.7);max-width:540px;margin:0 auto 28px;line-height:1.55}
+.page-hero-btn{display:inline-block;background:#fff;color:#1C1917;font-family:'Athletics';font-size:15px;font-weight:700;padding:16px 48px;text-decoration:none;cursor:pointer;border:none;margin-bottom:36px}
+.page-hero-btn:hover{background:#F5F3EF}
+.hero-formula{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
+.hero-formula-item{font-family:'Athletics';font-size:13px;font-weight:700;color:#fff;line-height:1.3;text-align:center}
+.hero-formula-op{font-family:'Athletics';font-size:22px;font-weight:700;color:#F4AB52}
+
+/* EXAM VIEW */
+.exam-section-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#78716C;margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.exam-section-label::after{content:'';flex:1;height:1px;background:#E8E4DD}
+.exam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.exam-card{background:#fff;border:1px solid #E8E4DD;padding:16px;cursor:pointer;text-decoration:none;display:block;transition:border-color .12s,box-shadow .12s}
+.exam-card:hover{border-color:#F4AB52;box-shadow:0 2px 8px rgba(0,0,0,.07);text-decoration:none}
+.exam-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;margin-bottom:10px}
+.badge-competition{background:#FEF3C7;color:#92400E}
+.badge-test{background:#EDE9FE;color:#5B21B6}
+.exam-name{font-family:'Athletics';font-size:16px;font-weight:700;color:#1C1917;margin-bottom:3px}
+.exam-desc{font-size:12px;color:#78716C;margin-bottom:8px;line-height:1.4}
+.exam-meta{font-size:11px;color:#B0AAA5}
+
+/* SOCIAL PROOF BAR — matches video-library.html exactly */
+.social-proof{background:#F6F3ED;border-bottom:1px solid #E8E4DD;padding:40px 32px;flex-shrink:0}
+.social-proof-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.sp-cell{padding:0 32px;border-right:1px solid #C6C0B8}
+.sp-cell:first-child{padding-left:0}
+.sp-cell:last-child{border-right:none;padding-right:0}
+.sp-stat{font-family:'Athletics';font-size:40px;font-weight:800;line-height:1;margin-bottom:8px}
+.sp-trustpilot{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.tp-stars{display:flex;gap:2px}
+.tp-star{width:24px;height:24px;background:#00B259;display:flex;align-items:center;justify-content:center}
+.tp-star svg{width:14px;height:14px}
+.tp-logo{font-family:'UntitledSans';font-size:13px;font-weight:600;color:#292827}
+.sp-label{font-family:'UntitledSans';font-size:16px;font-weight:600;color:#292827;margin-bottom:8px;line-height:1.3}
+.sp-sublabel{font-size:14px;color:#5B5854;line-height:1.5}
+
+/* RIGHT PANEL */
+.rightpanel{background:#F5F3EF;border-left:1px solid #E8E4DD;overflow-y:auto;display:flex;flex-direction:column}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-gami{background:#fff;border:1px solid #E8E4DD;padding:12px}
+.rp-gami-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:#78716C;margin-bottom:8px}
+.rp-gami-row{display:flex;gap:6px}
+.gami-item{flex:1;background:#F5F3EF;border:1px solid #E8E4DD;padding:8px 4px;text-align:center;position:relative}
+.gami-lock{position:absolute;top:3px;right:3px;font-size:9px;color:#B0AAA5}
+.gami-icon{font-size:15px;margin-bottom:1px}
+.gami-label{font-size:9px;color:#78716C;display:block;margin-bottom:1px}
+.gami-val{font-family:'Athletics';font-size:14px;font-weight:700;color:#E8E4DD}
+.rp-signin{background:#fff;border:1px solid #E8E4DD;padding:14px}
+.rp-signin-title{font-family:'Athletics';font-size:13px;font-weight:700;margin-bottom:3px}
+.rp-signin-sub{font-size:11px;color:#78716C;margin-bottom:10px;line-height:1.5}
+.rp-signin-btn{width:100%;background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;margin-bottom:6px}
+.rp-signin-btn:hover{background:#333}
+.rp-signin-link{display:block;text-align:center;font-size:11px;color:#78716C;cursor:pointer}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+.rp-cta-btn:hover{background:#333}
+.rp-free{background:#fff;border:1px solid #E8E4DD;padding:12px}
+.rp-free-title{font-size:11px;font-weight:600;color:#78716C;margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.free-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:5px}
+.free-list li{font-size:11px;color:#44403C;display:flex;align-items:center;gap:7px}
+.free-dot{width:5px;height:5px;border-radius:50%;background:#6AC88A;flex-shrink:0}
+.locked-dot{width:5px;height:5px;border-radius:50%;background:#E8E4DD;flex-shrink:0}
+
+@media(max-width:768px){.shell{grid-template-columns:64px 1fr}.rightpanel{display:none}}
+@media(max-width:480px){.shell{grid-template-columns:1fr}.leftnav{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- LEFT NAV -->
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-bc">
+        <span class="cur">Maths</span>
+      </div>
+      <div class="topbar-right">
+        <div class="tb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#78716C" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search topics, chapters, lessons…
+        </div>
+        <button class="tb-btn">Book a free class</button>
+      </div>
+    </div>
+
+    <!-- Page hero -->
+    <div class="page-hero">
+      <div class="page-hero-content">
+        <div class="page-hero-pill">The same curriculum Cuemath tutors use. Now free for every child.</div>
+        <h1>Math Curriculum for K-12</h1>
+        <p class="page-hero-sub">500,000+ students learn from this curriculum every week. The same lessons, problems, and practice — now free, K to 12.</p>
+        <button class="page-hero-btn">Explore Curriculum</button>
+        <p class="page-hero-sub" style="margin-top:16px;margin-bottom:0;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-weight:600">Curriculum &nbsp;+&nbsp; Test Prep &nbsp;+&nbsp; Worksheets</p>
+      </div>
+    </div>
+
+    <!-- Social proof bar — exact video-library.html implementation -->
+    <div class="social-proof">
+      <div class="social-proof-inner">
+        <div class="sp-cell">
+          <div class="sp-stat" style="color:#00B259">4.9★</div>
+          <div class="sp-trustpilot">
+            <div class="tp-stars"><div class="tp-star"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#fff"/></svg></div><div class="tp-star"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#fff"/></svg></div><div class="tp-star"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#fff"/></svg></div><div class="tp-star"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#fff"/></svg></div><div class="tp-star"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#fff"/></svg></div></div>
+            <span class="tp-logo">Trustpilot</span>
+          </div>
+          <div class="sp-sublabel">Across 10,000+ verified parent reviews from 80+ countries</div>
+        </div>
+        <div class="sp-cell">
+          <div class="sp-stat" style="color:#EC5B13">97%</div>
+          <div class="sp-label">Report a positive experience</div>
+          <div class="sp-sublabel">Citing the right tutor, real understanding, or growing confidence</div>
+        </div>
+        <div class="sp-cell">
+          <div class="sp-stat" style="color:#0086E5">1,000+</div>
+          <div class="sp-label">Math competition wins</div>
+          <div class="sp-sublabel">Cuemath students placed in major math contests worldwide</div>
+        </div>
+        <div class="sp-cell">
+          <div class="sp-stat" style="color:#D926CA">200K+</div>
+          <div class="sp-label">Students taught worldwide</div>
+          <div class="sp-sublabel">Through logic and reasoning, not rote memorization</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selector bar: country → curriculum → view toggle -->
+    <div class="selector-bar">
+
+      <!-- Country -->
+      <div class="sel-group">
+        <span class="sel-label">Country</span>
+        <div class="country-dropdown" id="countryDropdown">
+          <div class="country-select" onclick="toggleCountry()">
+            <span id="country-label">🇺🇸 United States</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="country-menu" id="countryMenu">
+            <div class="country-option active" onclick="selectCountry(this,'🇺🇸 United States','us')">🇺🇸 United States</div>
+            <div class="country-option" onclick="selectCountry(this,'🇮🇳 India','in')">🇮🇳 India</div>
+            <div class="country-option" onclick="selectCountry(this,'🇬🇧 United Kingdom','uk')">🇬🇧 United Kingdom</div>
+            <div class="country-option" onclick="selectCountry(this,'🇸🇬 Singapore','sg')">🇸🇬 Singapore</div>
+            <div class="country-option" onclick="selectCountry(this,'🇦🇺 Australia','au')">🇦🇺 Australia</div>
+            <div class="country-option" onclick="selectCountry(this,'🌍 Other','other')">🌍 Other</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sel-divider"></div>
+
+      <!-- Curriculum (only shown when country has multiple boards) -->
+      <div class="sel-group" id="curriculum-group" style="display:none">
+        <div class="curriculum-pills" id="curriculum-pills"></div>
+        <div class="sel-divider"></div>
+      </div>
+
+      <!-- View toggle -->
+      <div class="view-toggle">
+        <button class="vt active" id="vt-grade" onclick="setView('grade')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          By Grade
+        </button>
+        <button class="vt" id="vt-topic" onclick="setView('topic')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          By Topic
+        </button>
+        <button class="vt" id="vt-exam" onclick="setView('exam')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          By Exam
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="main-content">
+
+      <!-- BY GRADE VIEW -->
+      <div id="view-grade">
+
+        <div class="band-label">Elementary</div>
+        <div class="grade-grid">
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#9CA3AF">
+                <span class="gc-num">K</span>
+              </div>
+              <div class="gc-label">Kindergarten</div>
+              <div class="gc-topics">Counting, shapes, patterns, comparing numbers</div>
+              <div class="gc-meta">5 chapters &middot; 38 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F97279">
+                <span class="gc-num">1</span>
+              </div>
+              <div class="gc-label">Grade 1</div>
+              <div class="gc-topics">Place value, addition & subtraction, time, basic geometry</div>
+              <div class="gc-meta">6 chapters &middot; 44 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F4AB52">
+                <span class="gc-num">2</span>
+              </div>
+              <div class="gc-label">Grade 2</div>
+              <div class="gc-topics">3-digit numbers, measurement, money, arrays</div>
+              <div class="gc-meta">6 chapters &middot; 48 lessons</div>
+            </div>
+          </a>
+          <a href="maths-grade-3.html" class="grade-card" style="border-color:#F4AB52">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#D994F8">
+                <span class="gc-num">3</span>
+              </div>
+              <div class="gc-label">Grade 3</div>
+              <div class="gc-topics">Multiplication, division, fractions, geometry</div>
+              <div class="gc-meta">7 chapters &middot; 53 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#74ACFC">
+                <span class="gc-num">4</span>
+              </div>
+              <div class="gc-label">Grade 4</div>
+              <div class="gc-topics">Multi-digit operations, factors, decimals intro, angles</div>
+              <div class="gc-meta">7 chapters &middot; 55 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#6AC88A">
+                <span class="gc-num">5</span>
+              </div>
+              <div class="gc-label">Grade 5</div>
+              <div class="gc-topics">Fraction & decimal operations, volume, coordinate plane</div>
+              <div class="gc-meta">7 chapters &middot; 56 lessons</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="band-label">Middle School</div>
+        <div class="grade-grid">
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F4AB52">
+                <span class="gc-num">6</span>
+              </div>
+              <div class="gc-label">Grade 6</div>
+              <div class="gc-topics">Ratios, integers, expressions, equations, statistics</div>
+              <div class="gc-meta">8 chapters &middot; 58 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F97279">
+                <span class="gc-num">7</span>
+              </div>
+              <div class="gc-label">Grade 7</div>
+              <div class="gc-topics">Proportions, negative numbers, linear equations, probability</div>
+              <div class="gc-meta">8 chapters &middot; 60 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#D994F8">
+                <span class="gc-num">8</span>
+              </div>
+              <div class="gc-label">Grade 8</div>
+              <div class="gc-topics">Functions, systems of equations, geometry, statistics</div>
+              <div class="gc-meta">8 chapters &middot; 62 lessons</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="band-label">High School</div>
+        <div class="grade-grid">
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#74ACFC">
+                <span class="gc-num">9</span>
+              </div>
+              <div class="gc-label">Grade 9</div>
+              <div class="gc-topics">Algebra I — linear equations, quadratics, polynomials</div>
+              <div class="gc-meta">9 chapters &middot; 68 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#6AC88A">
+                <span class="gc-num">10</span>
+              </div>
+              <div class="gc-label">Grade 10</div>
+              <div class="gc-topics">Geometry — congruence, similarity, trigonometry, proofs</div>
+              <div class="gc-meta">9 chapters &middot; 70 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F4AB52">
+                <span class="gc-num">11</span>
+              </div>
+              <div class="gc-label">Grade 11</div>
+              <div class="gc-topics">Algebra II — exponentials, logarithms, sequences</div>
+              <div class="gc-meta">9 chapters &middot; 72 lessons</div>
+            </div>
+          </a>
+          <a href="#" class="grade-card" onclick="event.preventDefault()">
+            <div class="gc-inner">
+              <div class="gc-circle" style="background:#F97279">
+                <span class="gc-num">12</span>
+              </div>
+              <div class="gc-label">Grade 12</div>
+              <div class="gc-topics">Pre-Calculus — trigonometry, vectors, limits intro</div>
+              <div class="gc-meta">8 chapters &middot; 66 lessons</div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- BY TOPIC VIEW -->
+      <div id="view-topic" style="display:none">
+        <div class="topic-grid" style="display:grid">
+          <a href="maths-topic.html?topic=number-system" class="topic-card"><div class="tc-icon">🔢</div><div class="tc-name">Number System</div><div class="tc-meta">Grades 3–6 · 98 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">➕</div><div class="tc-name">Addition &amp; Subtraction</div><div class="tc-meta">Grades K–4 · 36 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">✖️</div><div class="tc-name">Multiplication &amp; Division</div><div class="tc-meta">Grades 3–6 · 44 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">½</div><div class="tc-name">Fractions &amp; Decimals</div><div class="tc-meta">Grades 3–7 · 52 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">📐</div><div class="tc-name">Geometry</div><div class="tc-meta">Grades K–12 · 80 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">📏</div><div class="tc-name">Measurement</div><div class="tc-meta">Grades 1–6 · 34 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">📊</div><div class="tc-name">Data &amp; Graphs</div><div class="tc-meta">Grades 1–8 · 40 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">🔣</div><div class="tc-name">Algebra</div><div class="tc-meta">Grades 6–12 · 90 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">🎲</div><div class="tc-name">Probability &amp; Statistics</div><div class="tc-meta">Grades 6–12 · 48 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">〽️</div><div class="tc-name">Calculus</div><div class="tc-meta">Grades 11–12 · 36 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">🔺</div><div class="tc-name">Trigonometry</div><div class="tc-meta">Grades 10–12 · 30 lessons</div></a>
+          <a href="#" class="topic-card" onclick="event.preventDefault()"><div class="tc-icon">🔢</div><div class="tc-name">Number Theory</div><div class="tc-meta">Grades 3–8 · 24 lessons</div></a>
+        </div>
+      </div>
+
+      <!-- BY EXAM VIEW -->
+      <div id="view-exam" style="display:none">
+
+        <div class="exam-section-label">Competition Math</div>
+        <div class="exam-grid">
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">Math Kangaroo</div>
+            <div class="exam-desc">Multiple-choice contest with playful problem styles. Great for developing lateral thinking.</div>
+            <div class="exam-meta">Grades 1–12 · 24 questions · 75 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">AMC 8</div>
+            <div class="exam-desc">AMC's entry-level contest. Builds problem-solving skills before AMC 10/12.</div>
+            <div class="exam-meta">Middle school · 25 questions · 40 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">AMC 10 / AMC 12</div>
+            <div class="exam-desc">Pathway to AIME and USAMO. Covers algebra, geometry, number theory, and combinatorics.</div>
+            <div class="exam-meta">High school · 30 questions · 75 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">MATHCOUNTS</div>
+            <div class="exam-desc">US middle-school competition with Sprint, Target, Team, and Countdown rounds.</div>
+            <div class="exam-meta">Grades 6–8 · State + national levels</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">IMO / RMO</div>
+            <div class="exam-desc">Olympiad-level proof-based problems. For advanced students aiming at national teams.</div>
+            <div class="exam-meta">Grades 9–12 · Proof-based</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-competition">🏆 Competition</div>
+            <div class="exam-name">Math League</div>
+            <div class="exam-desc">School-based contest focusing on speed and accuracy across grade-level topics.</div>
+            <div class="exam-meta">Grades 4–12 · Monthly rounds</div>
+          </a>
+        </div>
+
+        <div class="exam-section-label">Standardized Tests</div>
+        <div class="exam-grid">
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-test">📝 Standardized</div>
+            <div class="exam-name">SAT Math</div>
+            <div class="exam-desc">Digital SAT math section — algebra, advanced math, problem-solving, and data analysis.</div>
+            <div class="exam-meta">Grades 10–12 · 44 questions · 70 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-test">📝 Standardized</div>
+            <div class="exam-name">ACT Math</div>
+            <div class="exam-desc">60 questions covering pre-algebra through trigonometry. Calculator permitted.</div>
+            <div class="exam-meta">Grades 10–12 · 60 questions · 60 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-test">📝 Standardized</div>
+            <div class="exam-name">JEE Main / Advanced</div>
+            <div class="exam-desc">India's engineering entrance. Heavy on calculus, algebra, and co-ordinate geometry.</div>
+            <div class="exam-meta">Grades 11–12 · Highly competitive</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-test">📝 Standardized</div>
+            <div class="exam-name">GMAT Quant</div>
+            <div class="exam-desc">Problem Solving and Data Sufficiency — arithmetic, algebra, and word problems.</div>
+            <div class="exam-meta">Graduate level · 31 questions · 62 min</div>
+          </a>
+          <a href="#" class="exam-card" onclick="event.preventDefault()">
+            <div class="exam-badge badge-test">📝 Standardized</div>
+            <div class="exam-name">GRE Quantitative</div>
+            <div class="exam-desc">Arithmetic, algebra, geometry, and data analysis. Two 35-minute sections.</div>
+            <div class="exam-meta">Graduate level · 40 questions · 70 min</div>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Resources section -->
+      <div class="resources-section">
+      <div class="resources-heading">More ways to learn</div>
+      <div class="resources-sub">Worksheets, games, tests, and tools — all mapped to your grade and topics.</div>
+      <div class="resources-strip">
+        <a href="#" class="res-tile" onclick="event.preventDefault()"><div class="res-icon">📄</div><div><span class="res-name">Worksheets</span><span class="res-meta">Free PDF downloads</span></div></a>
+        <a href="https://www.cuemath.com/math-games/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🎮</div><div><span class="res-name">Math Games</span><span class="res-meta">Play &amp; learn</span></div></a>
+        <a href="https://www.cuemath.com/math-puzzles/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🧩</div><div><span class="res-name">Puzzles</span><span class="res-meta">Challenge yourself</span></div></a>
+        <a href="https://www.cuemath.com/calculators/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🧮</div><div><span class="res-name">Calculators</span><span class="res-meta">Topic-wise tools</span></div></a>
+        <a href="https://www.cuemath.com/math-formulas/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">📐</div><div><span class="res-name">Formulas</span><span class="res-meta">All math formulas</span></div></a>
+        <a href="https://www.cuemath.com/free-online-math-games/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🕹️</div><div><span class="res-name">Online Games</span><span class="res-meta">Free &amp; interactive</span></div></a>
+      </div>
+      <!-- App download strip -->
+      <div class="app-download-strip">
+        <div class="app-dl-left">
+          <span class="app-dl-icon">📱</span>
+          <div>
+            <div class="app-dl-title">Take learning further — get the Cuemath app</div>
+            <div class="app-dl-sub">Full curriculum, live classes, games &amp; progress tracking in one place.</div>
+          </div>
+        </div>
+        <div class="app-dl-btns">
+          <a class="app-dl-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">📱 App Store</a>
+          <a class="app-dl-btn" href="https://play.google.com/store/apps/details?id=com.cuemath" target="_blank" rel="noopener">▶ Google Play</a>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Learn faster with a personal tutor</div>
+        <div class="rp-cta-sub">Live sessions, personalised to your grade and gaps. Same curriculum, expert-led.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Country → curriculum mapping
+const curricula = {
+  us: [{label:'Common Core',id:'cc'}],
+  in: [{label:'CBSE',id:'cbse'},{label:'ICSE',id:'icse'},{label:'IGCSE',id:'igcse'},{label:'State Boards',id:'state'}],
+  uk: [{label:'UK National',id:'uk'},{label:'IGCSE',id:'igcse'}],
+  sg: [{label:'Singapore Math',id:'sg'},{label:'IGCSE',id:'igcse'}],
+  au: [{label:'Australian Curriculum',id:'au'}],
+  other: [{label:'IGCSE',id:'igcse'},{label:'International',id:'intl'}],
+};
+
+let currentCountry = 'us';
+
+function toggleCountry() {
+  document.getElementById('countryMenu').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!document.getElementById('countryDropdown').contains(e.target))
+    document.getElementById('countryMenu').classList.remove('open');
+});
+
+function selectCountry(el, label, code) {
+  document.querySelectorAll('.country-option').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('country-label').textContent = label;
+  document.getElementById('countryMenu').classList.remove('open');
+  currentCountry = code;
+  renderCurriculum(code);
+}
+
+function renderCurriculum(code) {
+  const list = curricula[code] || curricula.us;
+  const container = document.getElementById('curriculum-pills');
+  const group = document.getElementById('curriculum-group');
+  if (list.length <= 1) {
+    group.style.display = 'none';
+    container.innerHTML = '';
+  } else {
+    group.style.display = 'flex';
+    container.innerHTML = list.map((c,i) =>
+      `<button class="cp${i===0?' active':''}" onclick="setCurriculum(this)">${c.label}</button>`
+    ).join('');
+  }
+}
+
+function setCurriculum(btn) {
+  document.querySelectorAll('.cp').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setView(v) {
+  document.getElementById('vt-grade').classList.toggle('active', v==='grade');
+  document.getElementById('vt-topic').classList.toggle('active', v==='topic');
+  document.getElementById('vt-exam').classList.toggle('active', v==='exam');
+  document.getElementById('view-grade').style.display = v==='grade' ? 'block' : 'none';
+  document.getElementById('view-topic').style.display = v==='topic' ? 'block' : 'none';
+  document.getElementById('view-exam').style.display = v==='exam' ? 'block' : 'none';
+}
+
+// Init
+renderCurriculum('us');
+</script>
+</body>
+</html>

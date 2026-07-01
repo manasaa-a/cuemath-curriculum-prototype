@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<!--
+  PROTOTYPE: Curriculum Grade Page
+  URL pattern: cuemath.com/math/grade-3-math/
+  Purpose: Show Grade 3 curriculum (chapter list + lessons), geo-specific look/feel, app-like UX
+  Status: Prototype — content is representative, not final
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 3 Math Curriculum — Topics, Chapters & Skills | Cuemath</title>
+<link rel="stylesheet" href="cuedesign.css">
+<meta name="description" content="Explore the Grade 3 math curriculum on Cuemath. Chapter-by-chapter breakdown of multiplication, fractions, geometry, measurement, and data — aligned to Common Core.">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Untitled Sans',-apple-system,system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.6;color:var(--ink);background:var(--bg)}
+h1,h2,h3{font-family:'Athletics',Georgia,serif;font-weight:700;color:var(--ink);line-height:1.25}
+p{margin-bottom:12px;color:var(--ink2)}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{font-weight:500;color:var(--ink)}
+
+/* Nav */
+nav{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Athletics',Georgia,serif;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-signin{font-size:14px;color:var(--ink2);font-weight:500;text-decoration:none;padding:8px 16px;border:1px solid var(--border)}
+.nav-signin:hover{border-color:var(--yellow);color:var(--ink);text-decoration:none}
+.nav-cta{background:var(--yellow);color:var(--ink);font-weight:600;font-size:14px;padding:9px 20px;text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.nav-cta:hover{background:var(--gold-600);text-decoration:none}
+
+/* Breadcrumb */
+.breadcrumb{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 24px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;max-width:1200px;margin:0 auto}
+.breadcrumb a{color:var(--muted)}
+
+/* Layout */
+.page-wrap{max-width:1200px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:280px 1fr;gap:40px;padding-top:40px;padding-bottom:80px}
+@media(max-width:860px){.page-wrap{grid-template-columns:1fr}}
+
+/* Sidebar */
+.sidebar{position:sticky;top:72px;height:fit-content}
+.sidebar-card{background:var(--surface);border:1px solid var(--border);padding:0;overflow:hidden;margin-bottom:16px}
+.sidebar-header{padding:16px 20px;border-bottom:1px solid var(--border);background:var(--bg)}
+.sidebar-header-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
+.sidebar-header-title{font-family:'Athletics',Georgia,serif;font-size:18px;font-weight:700;color:var(--ink)}
+
+/* Grade selector */
+.grade-pills{display:flex;flex-wrap:wrap;gap:6px;padding:16px 20px;border-bottom:1px solid var(--border)}
+.grade-pill{padding:5px 12px;border:1px solid var(--border);font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;background:var(--bg);text-decoration:none}
+.grade-pill:hover{border-color:var(--yellow);background:var(--yellow-light);color:var(--ink);text-decoration:none}
+.grade-pill.active{background:var(--yellow);color:var(--ink);border-color:var(--yellow);font-weight:600}
+
+/* Geo selector */
+.geo-wrap{padding:16px 20px;border-bottom:1px solid var(--border)}
+.geo-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;display:block}
+.geo-select{width:100%;padding:9px 12px;border:1px solid var(--border);background:var(--bg);font-family:'Untitled Sans',-apple-system,system-ui,sans-serif;font-size:14px;color:var(--ink);cursor:pointer}
+.geo-select:focus{outline:none;border-color:var(--yellow)}
+
+/* Chapter nav in sidebar */
+.chapter-nav{padding:8px 0}
+.chapter-nav-item{padding:8px 20px;font-size:13px;color:var(--ink2);cursor:pointer;border-left:3px solid transparent;display:flex;align-items:center;justify-content:space-between;text-decoration:none}
+.chapter-nav-item:hover{background:var(--bg);color:var(--ink);text-decoration:none}
+.chapter-nav-item.active{border-left-color:var(--yellow);background:#FEF3E2;color:#292827;font-weight:500}
+.chapter-nav-count{font-size:11px;color:var(--muted);background:var(--border);padding:2px 7px}
+
+/* CTA sidebar */
+.sidebar-cta{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 100%);padding:20px;text-align:center}
+.sidebar-cta p{font-family:'Athletics',Georgia,serif;font-size:16px;font-weight:700;color:#292827;margin-bottom:8px}
+.sidebar-cta span{font-size:13px;color:#5B4100;display:block;margin-bottom:14px}
+.sidebar-cta-btn{background:#fff;color:var(--neutral-1000);border:none;padding:10px 20px;font-family:'Untitled Sans',-apple-system,system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.sidebar-cta-btn:hover{background:#F3F0EB}
+
+/* Main content */
+.main-content{}
+
+/* Hero */
+.page-hero{margin-bottom:32px}
+.hero-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--yellow);margin-bottom:10px;display:block}
+.page-hero h1{font-size:clamp(26px,3.5vw,38px);margin-bottom:12px}
+.page-hero p{font-size:16px;color:var(--ink2);max-width:640px;margin-bottom:20px}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap}
+.hero-stat{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink2)}
+.hero-stat strong{color:var(--ink);font-weight:600}
+.hero-stat-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* Progress bar (decorative) */
+.curriculum-progress{background:var(--surface);border:1px solid var(--border);padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.cp-label{font-size:13px;font-weight:500;color:var(--ink2)}
+.cp-bar-wrap{flex:1;min-width:160px;height:6px;background:var(--border)}
+.cp-bar{height:100%;background:var(--green);width:0}
+.cp-cta{font-size:13px;font-weight:600;color:var(--blue);cursor:pointer;white-space:nowrap}
+
+/* Chapter card */
+.chapter-card{background:var(--surface);border:1px solid var(--border);margin-bottom:12px}
+.chapter-header{padding:18px 20px;cursor:pointer;display:flex;align-items:center;gap:16px;user-select:none;position:relative;z-index:1;background:var(--surface)}
+.chapter-header:hover{background:var(--bg)}
+.chapter-number{width:32px;height:32px;background:var(--yellow-light);border:1px solid var(--yellow);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#7E4800;flex-shrink:0}
+.chapter-info{flex:1}
+.chapter-title{font-family:'Athletics',Georgia,serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.chapter-meta{font-size:13px;color:var(--muted)}
+.chapter-chevron{color:var(--muted);transition:transform .2s;flex-shrink:0}
+.chapter-card.open .chapter-chevron{transform:rotate(180deg)}
+.chapter-body{display:none;border-top:1px solid var(--border);position:relative;z-index:0}
+.chapter-card.open .chapter-body{display:block}
+
+/* Lesson content type tags */
+.lesson-types{display:flex;gap:6px;margin-left:auto;flex-shrink:0}
+.ltype{font-size:10px;font-weight:600;padding:2px 7px;border:1px solid var(--border);color:var(--muted);letter-spacing:.04em;background:var(--bg)}
+.ltype.learn{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.ltype.pdf{border-color:var(--green);color:var(--green);background:var(--green-light)}
+
+/* Chapter end section (Test + Download) */
+.chapter-end{padding:14px 20px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chapter-end-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.chapter-end-btn{font-size:12px;font-weight:500;padding:6px 14px;border:1px solid var(--border);color:var(--ink2);background:var(--surface);cursor:pointer;display:inline-flex;align-items:center;gap:5px;text-decoration:none}
+.chapter-end-btn:hover{border-color:var(--yellow);color:var(--ink);background:var(--yellow-light);text-decoration:none}
+.chapter-cta{margin-left:auto;font-size:13px;font-weight:500;color:var(--blue);text-decoration:none}
+.chapter-cta:hover{text-decoration:underline}
+
+/* Lesson objectives (from Leap) */
+.lesson-objectives{background:#F0F7FF;border-bottom:1px solid var(--border);padding:20px 20px 16px}
+.obj-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.obj-title{font-family:'Athletics',Georgia,serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.obj-list{list-style:none;padding:0;margin-bottom:14px}
+.obj-list li{font-size:14px;color:var(--ink2);padding:4px 0 4px 20px;position:relative}
+.obj-list li::before{content:'✦';position:absolute;left:0;color:#F4AB52;font-size:11px;top:5px}
+.obj-cta{display:flex;align-items:center;gap:16px}
+.obj-start-btn{background:var(--blue);color:#fff;font-size:13px;font-weight:600;padding:8px 16px;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.obj-start-btn:hover{background:#3464B1;text-decoration:none}
+.obj-note{font-size:13px;color:var(--blue);font-weight:500}
+
+/* Lessons list */
+.lessons-list{padding:0}
+.lesson-item{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;text-decoration:none}
+.lesson-item:last-child{border-bottom:none}
+.lesson-item:hover{background:var(--bg)}
+.lesson-icon{width:28px;height:28px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);flex-shrink:0}
+.lesson-icon.done{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.lesson-name{font-size:14px;font-weight:500;color:var(--ink);flex:1}
+.lesson-skills{font-size:12px;color:var(--muted)}
+.lesson-tag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:0}
+.lesson-tag.new{background:var(--blue-light);color:var(--blue)}
+.lesson-tag.key{background:var(--yellow-light);color:#7E4800}
+
+/* Skills preview on hover */
+.skills-preview{display:none;padding:12px 20px 16px 62px;background:#FAFAF8;border-top:1px solid var(--border)}
+.skills-preview-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.skill-chips{display:flex;flex-wrap:wrap;gap:8px}
+.skill-chip{font-size:13px;color:var(--ink2);background:var(--surface);border:1px solid var(--border);padding:5px 12px;cursor:pointer}
+.skill-chip:hover{border-color:var(--yellow);background:var(--yellow-light);color:var(--ink)}
+
+/* Section head */
+.section-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--yellow);margin:36px 0 6px;display:block}
+.section-title{font-family:'Athletics',Georgia,serif;font-size:22px;font-weight:700;margin-bottom:16px}
+
+/* Standards strip */
+.standards-strip{background:var(--surface);border:1px solid var(--border);padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.std-badge{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+.std-dot{width:6px;height:6px;border-radius:50%;background:var(--yellow);flex-shrink:0}
+
+/* SEO content */
+.seo-section{margin-top:48px;padding-top:32px;border-top:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-btn{width:100%;background:none;border:none;padding:16px 0;text-align:left;font-family:'Untitled Sans',-apple-system,system-ui,sans-serif;font-size:15px;font-weight:500;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-ch{color:var(--muted);flex-shrink:0;transition:transform .2s}
+.faq-btn.open .faq-ch{transform:rotate(180deg)}
+.faq-answer{display:none;padding-bottom:14px;font-size:14px;color:var(--ink2);line-height:1.6}
+.faq-answer.open{display:block}
+
+/* Related grades */
+.grade-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+@media(max-width:640px){.grade-grid{grid-template-columns:repeat(2,1fr)}}
+.grade-card{background:var(--surface);border:1px solid var(--border);padding:16px;text-align:center;text-decoration:none;display:block}
+.grade-card:hover{border-color:var(--yellow);background:var(--yellow-light);text-decoration:none}
+.grade-card-num{font-family:'Athletics',Georgia,serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.grade-card-topics{font-size:12px;color:var(--muted)}
+
+footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 24px;margin-top:64px}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--muted);text-decoration:none}
+.footer-copy{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">Cuemath</a>
+    <div class="nav-right">
+      <a class="nav-signin" href="#">Sign in</a>
+      <a class="nav-cta" href="#">Start for free <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 11.4C17.2481 11.4 15.1143 9.37891 15.1143 7H13.9143C13.9143 8.80489 14.8299 10.3831 16.2357 11.4L4 11.4V12.6L16.2357 12.6C14.8299 13.6169 13.9143 15.1951 13.9143 17H15.1143C15.1143 14.6211 17.2481 12.6 20 12.6V11.4Z" fill="currentColor"/></svg></a>
+    </div>
+  </div>
+</nav>
+
+<div style="background:var(--surface);border-bottom:1px solid var(--border);padding:10px 24px;font-size:13px;color:var(--muted)">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:6px">
+    <a href="curriculum-home.html" style="color:var(--muted)">Math</a>
+    <span>›</span>
+    <a href="#" style="color:var(--muted)">Curriculum</a>
+    <span>›</span>
+    <span>Grade 3</span>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- Grade selector -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <div class="sidebar-header-label">Curriculum</div>
+        <div class="sidebar-header-title">Grade 3 Math</div>
+      </div>
+
+      <div class="geo-wrap">
+        <span class="geo-label">Your location</span>
+        <select class="geo-select" id="geo-select">
+          <option value="us-common-core">🇺🇸 United States (Common Core)</option>
+          <option value="us-texas">🇺🇸 Texas (TEKS)</option>
+          <option value="us-california">🇺🇸 California</option>
+          <option value="us-florida">🇺🇸 Florida (BEST)</option>
+          <option value="in-cbse">🇮🇳 India (CBSE)</option>
+          <option value="in-icse">🇮🇳 India (ICSE)</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="sg">🇸🇬 Singapore</option>
+          <option value="au">🇦🇺 Australia</option>
+        </select>
+      </div>
+
+      <div class="grade-pills">
+        <a href="#" class="grade-pill">K</a>
+        <a href="#" class="grade-pill">1</a>
+        <a href="#" class="grade-pill">2</a>
+        <a href="#" class="grade-pill active">3</a>
+        <a href="#" class="grade-pill">4</a>
+        <a href="#" class="grade-pill">5</a>
+        <a href="#" class="grade-pill">6</a>
+        <a href="#" class="grade-pill">7</a>
+        <a href="#" class="grade-pill">8</a>
+      </div>
+
+      <nav class="chapter-nav" id="chapter-nav">
+        <a href="#ch1" class="chapter-nav-item active">Magic with Numbers <span class="chapter-nav-count">7</span></a>
+        <a href="#ch2" class="chapter-nav-item">Multiply It! <span class="chapter-nav-count">10</span></a>
+        <a href="#ch3" class="chapter-nav-item">Divide and Conquer <span class="chapter-nav-count">8</span></a>
+        <a href="#ch4" class="chapter-nav-item">Fractions Uncovered <span class="chapter-nav-count">9</span></a>
+        <a href="#ch5" class="chapter-nav-item">Measure Up <span class="chapter-nav-count">7</span></a>
+        <a href="#ch6" class="chapter-nav-item">Shapes Around Us <span class="chapter-nav-count">6</span></a>
+        <a href="#ch7" class="chapter-nav-item">Data Detectives <span class="chapter-nav-count">5</span></a>
+      </nav>
+    </div>
+
+    <!-- CTA -->
+    <div class="sidebar-cta">
+      <p>Learn Grade 3 Math 1:1</p>
+      <span>Live sessions with a Cuemath expert tutor</span>
+      <button class="sidebar-cta-btn" onclick="void(0)">Book a free class <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 11.4C17.2481 11.4 15.1143 9.37891 15.1143 7H13.9143C13.9143 8.80489 14.8299 10.3831 16.2357 11.4L4 11.4V12.6L16.2357 12.6C14.8299 13.6169 13.9143 15.1951 13.9143 17H15.1143C15.1143 14.6211 17.2481 12.6 20 12.6V11.4Z" fill="currentColor"/></svg></button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- Hero -->
+    <div class="page-hero">
+      <span class="hero-eyebrow">Grade 3 · Common Core</span>
+      <h1>Grade 3 Math Curriculum</h1>
+      <p>53 lessons across 7 chapters — covering multiplication, fractions, geometry, measurement, and data. Aligned to Common Core State Standards.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-dot"></div><strong>7</strong> chapters</div>
+        <div class="hero-stat"><div class="hero-stat-dot"></div><strong>53</strong> lessons</div>
+        <div class="hero-stat"><div class="hero-stat-dot"></div><strong>Common Core</strong> aligned</div>
+        <div class="hero-stat"><div class="hero-stat-dot"></div>Ages <strong>8–9</strong></div>
+      </div>
+    </div>
+
+    <!-- Standards strip -->
+    <div class="standards-strip">
+      <div class="std-badge"><div class="std-dot"></div> Common Core State Standards (CCSS)</div>
+      <div class="std-badge"><div class="std-dot" style="background:var(--blue)"></div> 3.OA · Operations &amp; Algebraic Thinking</div>
+      <div class="std-badge"><div class="std-dot" style="background:var(--purple)"></div> 3.NF · Number &amp; Operations — Fractions</div>
+      <div class="std-badge"><div class="std-dot" style="background:var(--green)"></div> 3.MD · Measurement &amp; Data</div>
+    </div>
+
+    <!-- Chapter 1 -->
+    <div class="chapter-card open" id="ch1">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">1</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Magic with Numbers</div>
+          <div class="chapter-meta">7 lessons · Core 0/7 · Counting, place value, comparing 3-digit numbers</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <!-- Lesson objectives — pulled from Leap (same as app) -->
+        <div class="lesson-objectives">
+          <div class="obj-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Lesson 1 objectives · Counting to 1,000
+          </div>
+          <div class="obj-title">By the end of this lesson, I will be able to:</div>
+          <ul class="obj-list">
+            <li>Count and write numbers up to 109 in figures and words</li>
+            <li>Count and write numbers up to 119 in figures and words</li>
+            <li>Count and write numbers up to 199 in figures and words</li>
+          </ul>
+          <div class="obj-cta">
+            <a href="#" class="obj-start-btn">Start lesson <svg width="12" height="12" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 11.4C17.25 11.4 15.11 9.38 15.11 7H13.91C13.91 8.8 14.83 10.38 16.24 11.4L4 11.4V12.6L16.24 12.6C14.83 13.62 13.91 15.2 13.91 17H15.11C15.11 14.62 17.25 12.6 20 12.6V11.4Z" fill="currentColor"/></svg></a>
+            <span class="obj-note">or get help from a tutor →</span>
+          </div>
+        </div>
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon done">✓</div><span class="lesson-name">Count and Write Numbers up to 200</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Count and Write Numbers up to 1000</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Identify Numbers Before, After, and Between Numbers up to 1000</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Identify Place, Place Value, and Face Value in 3-digit numbers</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Write Expanded Form and Standard Form of 3-digit Numbers</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">Compare 3-Digit Numbers</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">7</div><span class="lesson-name">Order 3-Digit Numbers</span><div class="lesson-types"><span class="ltype learn">Learn</span><span class="ltype pdf">PDF</span></div></a>
+        </div>
+        <!-- Chapter end: Test + Download (from Leap) -->
+        <div class="chapter-end">
+          <a href="#" class="chapter-end-btn">🧪 Chapter Test · Magic with Numbers</a>
+          <a href="#" class="chapter-end-btn">⬇ Chapter PDF · Magic with Numbers</a>
+          <a href="#" class="chapter-cta">Get help with this chapter →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2 -->
+    <div class="chapter-card" id="ch2">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">2</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Multiplication</div>
+          <div class="chapter-meta">10 lessons · Times tables, arrays, word problems</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">Understanding multiplication as equal groups</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Multiplication with arrays</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Multiplication facts: 1s, 2s, 5s, 10s</span><span class="lesson-skills">14 skills</span><span class="lesson-tag key" style="margin-left:8px">Key</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Multiplication facts: 3s, 4s, 6s</span><span class="lesson-skills">12 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Multiplication facts: 7s, 8s, 9s</span><span class="lesson-skills">12 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">Commutative and associative properties</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">7</div><span class="lesson-name">Distributive property</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">8</div><span class="lesson-name">Multiplying by multiples of 10</span><span class="lesson-skills">7 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">9</div><span class="lesson-name">Multiplication word problems</span><span class="lesson-skills">11 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">10</div><span class="lesson-name">Two-step word problems</span><span class="lesson-skills">10 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 3 -->
+    <div class="chapter-card" id="ch3">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">3</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Division</div>
+          <div class="chapter-meta">8 lessons · Equal sharing, remainders, relationship to multiplication</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">Understanding division as equal sharing</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Relating multiplication and division</span><span class="lesson-skills">9 skills</span><span class="lesson-tag key" style="margin-left:8px">Key</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Division facts: 1s, 2s, 5s, 10s</span><span class="lesson-skills">12 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Division facts: 3s, 4s, 6s, 7s, 8s, 9s</span><span class="lesson-skills">13 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Dividing by multiples of 10</span><span class="lesson-skills">7 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">Division with remainders (intro)</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">7</div><span class="lesson-name">Division word problems</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">8</div><span class="lesson-name">Mixed multiplication &amp; division problems</span><span class="lesson-skills">11 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 4 -->
+    <div class="chapter-card" id="ch4">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">4</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Fractions</div>
+          <div class="chapter-meta">9 lessons · Unit fractions, equal parts, number line</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">Understanding fractions as equal parts</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Unit fractions (½, ⅓, ¼, ⅙, ⅛)</span><span class="lesson-skills">11 skills</span><span class="lesson-tag key" style="margin-left:8px">Key</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Fractions on a number line</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Equivalent fractions</span><span class="lesson-skills">12 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Comparing fractions with same numerator</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">Comparing fractions with same denominator</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">7</div><span class="lesson-name">Fractions of a whole</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">8</div><span class="lesson-name">Fractions of a set</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">9</div><span class="lesson-name">Fractions word problems</span><span class="lesson-skills">10 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapters 5-7 collapsed -->
+    <div class="chapter-card" id="ch5">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">5</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Measurement &amp; Time</div>
+          <div class="chapter-meta">7 lessons · Length, mass, liquid volume, elapsed time</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">Measuring length with standard units</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Estimating and measuring in metric units</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Mass: grams and kilograms</span><span class="lesson-skills">7 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Liquid volume: liters and milliliters</span><span class="lesson-skills">7 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Telling time to the minute</span><span class="lesson-skills">10 skills</span><span class="lesson-tag key" style="margin-left:8px">Key</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">Elapsed time</span><span class="lesson-skills">11 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">7</div><span class="lesson-name">Area and perimeter (intro)</span><span class="lesson-skills">12 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card" id="ch6">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">6</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Geometry</div>
+          <div class="chapter-meta">6 lessons · Shapes, quadrilaterals, lines, angles</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">2D shapes and their attributes</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Quadrilaterals: squares, rectangles, rhombuses</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Lines: parallel, perpendicular, intersecting</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Angles: right, acute, obtuse</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Symmetry and congruence</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">6</div><span class="lesson-name">3D shapes (intro)</span><span class="lesson-skills">7 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="chapter-card" id="ch7">
+      <div class="chapter-header" onclick="toggleChapter(this)">
+        <div class="chapter-number">7</div>
+        <div class="chapter-info">
+          <div class="chapter-title">Data &amp; Graphs</div>
+          <div class="chapter-meta">5 lessons · Bar graphs, picture graphs, line plots</div>
+        </div>
+        <svg class="chapter-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg>
+      </div>
+      <div class="chapter-body">
+        <div class="lessons-list">
+          <a class="lesson-item" href="#"><div class="lesson-icon">1</div><span class="lesson-name">Picture graphs</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">2</div><span class="lesson-name">Bar graphs — reading and interpreting</span><span class="lesson-skills">10 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">3</div><span class="lesson-name">Creating bar graphs</span><span class="lesson-skills">8 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">4</div><span class="lesson-name">Line plots</span><span class="lesson-skills">9 skills</span></a>
+          <a class="lesson-item" href="#"><div class="lesson-icon">5</div><span class="lesson-name">Data word problems</span><span class="lesson-skills">10 skills</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEO content -->
+    <div class="seo-section">
+      <span class="section-eyebrow">About this curriculum</span>
+      <h2 class="section-title">Grade 3 Math — What Students Learn</h2>
+      <p>In Grade 3, students make the leap from addition and subtraction to <strong>multiplication and division</strong> — the core shift of early elementary math. They also meet fractions for the first time, learn to measure in standard units, and begin working with data.</p>
+      <p>The Cuemath Grade 3 curriculum is fully aligned to the <strong>Common Core State Standards (CCSS)</strong> and covers all seven domains: Operations & Algebraic Thinking, Number & Operations in Base Ten, Number & Operations — Fractions, Measurement & Data, and Geometry.</p>
+
+      <h3 style="font-family:'Athletics',Georgia,serif;font-size:18px;margin:24px 0 12px">Frequently Asked Questions</h3>
+      <div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)">What math topics are covered in Grade 3?<svg class="faq-ch" width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg></button><div class="faq-answer">Grade 3 covers multiplication and division facts, introduction to fractions, measurement (length, mass, volume, time), geometry (shapes, angles, lines), and data (bar graphs, line plots). The major focus is multiplication — students are expected to know all facts from 1×1 to 10×10 by the end of the year.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)">Is Cuemath's Grade 3 curriculum aligned to Common Core?<svg class="faq-ch" width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg></button><div class="faq-answer">Yes. All lessons are mapped to the Common Core State Standards (CCSS) for Grade 3. Parents in states that use TEKS (Texas), BEST (Florida), or other state standards will find strong overlap, as these standards share most of the same content expectations.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)">How is Cuemath different from a textbook curriculum?<svg class="faq-ch" width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg></button><div class="faq-answer">Cuemath delivers each lesson as a live 1:1 session with a dedicated tutor, supplemented by interactive simulations and adaptive practice. The curriculum content is the same as what students cover in school — but the method is personalised, visual, and conversational rather than textbook-based.</div></div>
+        <div class="faq-item"><button class="faq-btn" onclick="toggleFaq(this)">How many lessons does Grade 3 cover?<svg class="faq-ch" width="14" height="14" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4002 17C11.4002 13.6495 8.68402 10.9333 5.3335 10.9333L5.3335 9.73333C8.31742 9.73333 10.8813 11.5319 12.0002 14.104C13.1191 11.5319 15.6829 9.73333 18.6668 9.73333V10.9333C15.3163 10.9333 12.6002 13.6495 12.6002 17H11.4002Z" fill="currentColor"/></svg></button><div class="faq-answer">Grade 3 has 53 lessons across 7 chapters. At 2–3 sessions per week, most students complete the grade curriculum in one academic year. Cuemath tutors adapt the pace to the individual student.</div></div>
+      </div>
+
+      <span class="section-eyebrow" style="margin-top:36px">Explore other grades</span>
+      <div class="grade-grid">
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 1</div><div class="grade-card-topics">Numbers, Addition, Shapes</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 2</div><div class="grade-card-topics">Place value, Measurement</div></a>
+        <a href="#" class="grade-card" style="border-color:var(--yellow);background:var(--yellow-light)"><div class="grade-card-num">Grade 3</div><div class="grade-card-topics">Multiplication, Fractions</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 4</div><div class="grade-card-topics">Factors, Multi-digit ops</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 5</div><div class="grade-card-topics">Decimals, Fractions ops</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 6</div><div class="grade-card-topics">Ratios, Expressions</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 7</div><div class="grade-card-topics">Proportions, Geometry</div></a>
+        <a href="#" class="grade-card"><div class="grade-card-num">Grade 8</div><div class="grade-card-topics">Linear equations, Stats</div></a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <a style="font-family:'Athletics',Georgia,serif;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none" href="/">Cuemath</a>
+    <div class="footer-links">
+      <a href="curriculum-home.html">Curriculum</a>
+      <a href="#">Math Classes</a>
+      <a href="#">For Schools</a>
+      <a href="#">About</a>
+    </div>
+    <span class="footer-copy">© 2024 Cuemath</span>
+  </div>
+</footer>
+
+<script>
+function toggleChapter(header) {
+  const card = header.closest('.chapter-card');
+  const isOpen = card.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.chapter-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+  // Update sidebar nav
+  const id = card.id;
+  document.querySelectorAll('.chapter-nav-item').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+  });
+}
+
+function toggleFaq(btn) {
+  const a = btn.nextElementSibling, o = btn.classList.contains('open');
+  btn.classList.toggle('open', !o); a.classList.toggle('open', !o);
+}
+
+// Smooth scroll sidebar nav
+document.querySelectorAll('.chapter-nav-item').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Open that chapter
+      if (!target.classList.contains('open')) {
+        toggleChapter(target.querySelector('.chapter-header'));
+      }
+    }
+  });
+});
+
+// Geo selector — update eyebrow label
+document.getElementById('geo-select').addEventListener('change', function() {
+  const labels = {
+    'us-common-core': 'Grade 3 · Common Core',
+    'us-texas': 'Grade 3 · Texas (TEKS)',
+    'us-california': 'Grade 3 · California',
+    'us-florida': 'Grade 3 · Florida (BEST)',
+    'in-cbse': 'Grade 3 · India (CBSE)',
+    'in-icse': 'Grade 3 · India (ICSE)',
+    'uk': 'Year 4 · UK National Curriculum',
+    'sg': 'Primary 3 · Singapore',
+    'au': 'Year 3 · Australian Curriculum',
+  };
+  document.querySelector('.hero-eyebrow').textContent = labels[this.value] || 'Grade 3';
+});
+</script>
+</body>
+</html>

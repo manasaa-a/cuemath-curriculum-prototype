@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/number-system/
+  Topic page — cross-grade view for a single topic
+  URL param: ?topic=number-system (extensible to any topic)
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number System — All Grades · Cuemath</title>
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F3EF}
+
+/* SHELL */
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;cursor:pointer}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0}
+
+/* Topbar */
+.topbar{background:#F5F3EF;border-bottom:1px solid #E8E4DD;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#78716C;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#78716C;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .sep{color:#D6D0C8}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:8px 18px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer}
+.tb-btn:hover{background:#CE7E12}
+
+/* TOPIC HERO */
+.topic-hero{background:#1C1917;padding:28px 28px 24px;flex-shrink:0}
+.topic-eyebrow{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.topic-eyebrow a{color:rgba(255,255,255,.4);text-decoration:none}
+.topic-eyebrow a:hover{color:rgba(255,255,255,.7)}
+.topic-eyebrow .sep{color:rgba(255,255,255,.2)}
+.topic-hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.topic-hero-left{}
+.topic-title{font-family:'Athletics';font-size:36px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px}
+.topic-sub{font-size:13px;color:rgba(255,255,255,.5);max-width:480px;line-height:1.5}
+.topic-meta-pills{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.topic-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:5px 12px;font-size:12px;color:rgba(255,255,255,.65)}
+.topic-pill strong{color:#fff;font-weight:600}
+
+/* GRADE FILTER BAR */
+.grade-filter-bar{background:#fff;border-bottom:1px solid #E8E4DD;padding:0 24px;display:flex;align-items:center;gap:0;flex-shrink:0;overflow-x:auto}
+.gf-tab{padding:14px 18px;font-size:13px;font-weight:500;color:#78716C;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .12s}
+.gf-tab:hover{color:#1C1917}
+.gf-tab.active{color:#1C1917;font-weight:600;border-bottom-color:#1C1917}
+.gf-all{border-right:1px solid #E8E4DD;margin-right:8px;padding-right:20px}
+
+/* MAIN CONTENT */
+.main-content{padding:0;flex:1}
+
+/* GRADE SECTION */
+.grade-section{border-bottom:1px solid #E8E4DD}
+.grade-section-header{padding:16px 24px;display:flex;align-items:center;gap:14px;background:#F5F3EF;cursor:pointer;user-select:none}
+.grade-section-header:hover{background:#EDE9E3}
+.grade-badge{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.grade-section-info{flex:1}
+.grade-section-name{font-family:'Athletics';font-size:15px;font-weight:700;color:#1C1917}
+.grade-section-meta{font-size:12px;color:#78716C;margin-top:1px}
+.grade-section-actions{display:flex;align-items:center;gap:10px}
+.grade-go-btn{background:#1C1917;color:#fff;border:none;padding:7px 16px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block}
+.grade-go-btn:hover{background:#333}
+.grade-chevron{width:20px;height:20px;color:#78716C;transition:transform .2s;flex-shrink:0}
+.grade-section.open .grade-chevron{transform:rotate(180deg)}
+
+/* LESSON LIST inside grade section */
+.grade-lessons{display:none;padding:0 24px 16px}
+.grade-section.open .grade-lessons{display:block}
+.topic-lesson-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid #F0EDE8}
+.topic-lesson-row:last-child{border-bottom:none}
+.tl-num{width:28px;height:28px;border-radius:50%;background:#F5F3EF;border:1px solid #E8E4DD;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#78716C;flex-shrink:0}
+.tl-name{flex:1;font-size:14px;color:#1C1917;line-height:1.3}
+.tl-type{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:#B0AAA5}
+.tl-link{font-size:12px;font-weight:500;color:#F4AB52;text-decoration:none;white-space:nowrap;padding:6px 14px;border:1px solid #F4AB52}
+.tl-link:hover{background:#F4AB52;color:#1C1917}
+
+/* RIGHT PANEL */
+.rightpanel{background:#F5F3EF;border-left:1px solid #E8E4DD;overflow-y:auto;display:flex;flex-direction:column}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+.rp-cta-btn:hover{background:#333}
+
+/* Related topics */
+.rp-section{background:#fff;border:1px solid #E8E4DD;padding:14px}
+.rp-section-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#78716C;margin-bottom:10px}
+.related-topic{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #F0EDE8;cursor:pointer;text-decoration:none}
+.related-topic:last-child{border-bottom:none}
+.related-topic:hover .rt-name{color:#F4AB52}
+.rt-icon{font-size:16px;flex-shrink:0}
+.rt-name{font-size:13px;font-weight:500;color:#1C1917;transition:color .12s}
+.rt-meta{font-size:11px;color:#78716C;margin-left:auto}
+
+@media(max-width:768px){.shell{grid-template-columns:64px 1fr}.rightpanel{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- LEFT NAV -->
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a>
+        <span class="sep">/</span>
+        <span class="cur">Number System</span>
+      </div>
+      <div class="topbar-right">
+        <button class="tb-btn">Book a free class</button>
+      </div>
+    </div>
+
+    <!-- Topic hero -->
+    <div class="topic-hero">
+      <div class="topic-eyebrow">
+        <a href="maths.html">Maths</a>
+        <span class="sep">/</span>
+        By Topic
+      </div>
+      <div class="topic-hero-row">
+        <div class="topic-hero-left">
+          <div class="topic-title">🔢 Number System</div>
+          <div class="topic-sub">Place value, number names, comparing and ordering — from 2-digit numbers in Grade 1 all the way to integers and rational numbers in Grade 6.</div>
+          <div class="topic-meta-pills">
+            <div class="topic-pill"><strong>6</strong> grades covered</div>
+            <div class="topic-pill"><strong>24</strong> chapters</div>
+            <div class="topic-pill"><strong>98</strong> lessons</div>
+            <div class="topic-pill">Grades <strong>1–6</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grade filter tabs -->
+    <div class="grade-filter-bar">
+      <div class="gf-tab gf-all active" onclick="filterGrade('all',this)">All grades</div>
+      <div class="gf-tab" onclick="filterGrade('3',this)">Grade 3</div>
+      <div class="gf-tab" onclick="filterGrade('4',this)">Grade 4</div>
+      <div class="gf-tab" onclick="filterGrade('5',this)">Grade 5</div>
+      <div class="gf-tab" onclick="filterGrade('6',this)">Grade 6</div>
+    </div>
+
+    <!-- Grade sections -->
+    <div class="main-content" id="grade-content">
+
+      <!-- Grade 3 -->
+      <div class="grade-section open" data-grade="3" id="section-3">
+        <div class="grade-section-header" onclick="toggleSection('section-3')">
+          <div class="grade-badge" style="background:#D994F8">3</div>
+          <div class="grade-section-info">
+            <div class="grade-section-name">Grade 3 — Number System</div>
+            <div class="grade-section-meta">4 lessons · Place value, 4-digit numbers, comparing and ordering</div>
+          </div>
+          <div class="grade-section-actions">
+            <a class="grade-go-btn" href="maths-grade-3-chapter.html?grade=3&ch=1">Go to chapter →</a>
+          </div>
+          <svg class="grade-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="grade-lessons">
+          <div class="topic-lesson-row">
+            <div class="tl-num">1</div>
+            <div class="tl-name">Identify Places, Place Values and Face Values in 4-Digit Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=3&ch=1&lesson=1">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">2</div>
+            <div class="tl-name">Read and Write 4-Digit Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=3&ch=1&lesson=2">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">3</div>
+            <div class="tl-name">Expanded Form and Number Names of 4-Digit Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=3&ch=1&lesson=3">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">4</div>
+            <div class="tl-name">Comparing and Ordering 4-Digit Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=3&ch=1&lesson=4">Start →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 4 -->
+      <div class="grade-section open" data-grade="4" id="section-4">
+        <div class="grade-section-header" onclick="toggleSection('section-4')">
+          <div class="grade-badge" style="background:#74ACFC">4</div>
+          <div class="grade-section-info">
+            <div class="grade-section-name">Grade 4 — Number System</div>
+            <div class="grade-section-meta">5 lessons · 5 and 6-digit numbers, place value up to millions, rounding</div>
+          </div>
+          <div class="grade-section-actions">
+            <a class="grade-go-btn" href="maths-grade-3-chapter.html?grade=4&ch=1">Go to chapter →</a>
+          </div>
+          <svg class="grade-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="grade-lessons">
+          <div class="topic-lesson-row">
+            <div class="tl-num">1</div>
+            <div class="tl-name">5-Digit and 6-Digit Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=4&ch=1&lesson=1">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">2</div>
+            <div class="tl-name">Place Value up to Millions</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=4&ch=1&lesson=2">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">3</div>
+            <div class="tl-name">Rounding Numbers to Nearest 10, 100 and 1000</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=4&ch=1&lesson=3">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">4</div>
+            <div class="tl-name">Roman Numerals up to 100</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=4&ch=1&lesson=4">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">5</div>
+            <div class="tl-name">Successor and Predecessor of Large Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=4&ch=1&lesson=5">Start →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 5 -->
+      <div class="grade-section open" data-grade="5" id="section-5">
+        <div class="grade-section-header" onclick="toggleSection('section-5')">
+          <div class="grade-badge" style="background:#6AC88A">5</div>
+          <div class="grade-section-info">
+            <div class="grade-section-name">Grade 5 — Number System</div>
+            <div class="grade-section-meta">4 lessons · Large numbers, Indian and international systems, estimation</div>
+          </div>
+          <div class="grade-section-actions">
+            <a class="grade-go-btn" href="maths-grade-3-chapter.html?grade=5&ch=1">Go to chapter →</a>
+          </div>
+          <svg class="grade-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="grade-lessons">
+          <div class="topic-lesson-row">
+            <div class="tl-num">1</div>
+            <div class="tl-name">Large Numbers — up to Crores and Billions</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=5&ch=1&lesson=1">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">2</div>
+            <div class="tl-name">Indian and International Number Systems</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=5&ch=1&lesson=2">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">3</div>
+            <div class="tl-name">Estimation and Rounding Large Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=5&ch=1&lesson=3">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">4</div>
+            <div class="tl-name">Number Patterns and Sequences</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=5&ch=1&lesson=4">Start →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade 6 -->
+      <div class="grade-section open" data-grade="6" id="section-6">
+        <div class="grade-section-header" onclick="toggleSection('section-6')">
+          <div class="grade-badge" style="background:#F4AB52">6</div>
+          <div class="grade-section-info">
+            <div class="grade-section-name">Grade 6 — Number System</div>
+            <div class="grade-section-meta">5 lessons · Integers, rational numbers, prime factorisation, LCM and HCF</div>
+          </div>
+          <div class="grade-section-actions">
+            <a class="grade-go-btn" href="maths-grade-3-chapter.html?grade=6&ch=1">Go to chapter →</a>
+          </div>
+          <svg class="grade-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="grade-lessons">
+          <div class="topic-lesson-row">
+            <div class="tl-num">1</div>
+            <div class="tl-name">Integers — Introduction and Absolute Value</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=6&ch=1&lesson=1">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">2</div>
+            <div class="tl-name">Rational Numbers on a Number Line</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=6&ch=1&lesson=2">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">3</div>
+            <div class="tl-name">Prime and Composite Numbers</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=6&ch=1&lesson=3">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">4</div>
+            <div class="tl-name">Prime Factorisation</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=6&ch=1&lesson=4">Start →</a>
+          </div>
+          <div class="topic-lesson-row">
+            <div class="tl-num">5</div>
+            <div class="tl-name">LCM and HCF</div>
+            <div class="tl-type">Lesson</div>
+            <a class="tl-link" href="maths-grade-3-lesson.html?grade=6&ch=1&lesson=5">Start →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Learn Number System with a personal tutor</div>
+        <div class="rp-cta-sub">Live sessions, personalised to your grade and gaps. Same curriculum, expert-led.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-section-title">Related topics</div>
+        <a class="related-topic" href="#">
+          <span class="rt-icon">➕</span>
+          <span class="rt-name">Addition &amp; Subtraction</span>
+          <span class="rt-meta">K–4</span>
+        </a>
+        <a class="related-topic" href="#">
+          <span class="rt-icon">✖️</span>
+          <span class="rt-name">Multiplication</span>
+          <span class="rt-meta">3–6</span>
+        </a>
+        <a class="related-topic" href="#">
+          <span class="rt-icon">½</span>
+          <span class="rt-name">Fractions</span>
+          <span class="rt-meta">3–7</span>
+        </a>
+        <a class="related-topic" href="#">
+          <span class="rt-icon">📊</span>
+          <span class="rt-name">Data &amp; Graphs</span>
+          <span class="rt-meta">1–8</span>
+        </a>
+        <a class="related-topic" href="#">
+          <span class="rt-icon">🔣</span>
+          <span class="rt-name">Algebra</span>
+          <span class="rt-meta">6–12</span>
+        </a>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-section-title">Resources</div>
+        <a class="related-topic" href="https://www.cuemath.com/math-formulas/" target="_blank" rel="noopener">
+          <span class="rt-icon">📐</span>
+          <span class="rt-name">Number formulas</span>
+        </a>
+        <a class="related-topic" href="https://www.cuemath.com/calculators/" target="_blank" rel="noopener">
+          <span class="rt-icon">🧮</span>
+          <span class="rt-name">Calculators</span>
+        </a>
+        <a class="related-topic" href="https://www.cuemath.com/math-puzzles/" target="_blank" rel="noopener">
+          <span class="rt-icon">🧩</span>
+          <span class="rt-name">Number puzzles</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSection(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function filterGrade(grade, tab){
+  document.querySelectorAll('.gf-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.querySelectorAll('.grade-section').forEach(s => {
+    if(grade === 'all' || s.dataset.grade === grade){
+      s.style.display = 'block';
+    } else {
+      s.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
