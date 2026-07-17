@@ -188,16 +188,32 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .prac-bar-bg{flex:1;height:6px;background:#E5DDD4}
 .prac-bar-fill{height:100%;background:#F4AB52;transition:width .3s}
 .prac-count{font-size:12px;color:#97948E;white-space:nowrap}
-.q-card{background:#fff;padding:24px;margin-bottom:16px;border:1px solid rgba(0,0,0,.07)}
-.q-num{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#97948E;margin-bottom:8px}
-.q-text{font-size:15px;font-weight:500;color:#1C1917;line-height:1.5;margin-bottom:18px}
+/* Question card — same Learnosity-preview visual pattern as
+   maths-testprep-worksheet.html (2026-07-17, Manasa's spec: grade-wise
+   Practice questions should look like this too). Page background is
+   already the same cream (#F5F0E8) as that page, so the card/border
+   colors carry over directly. */
+.q-card{background:#F5F0E8;border:1.5px solid #EDD5BE;padding:24px;margin-bottom:16px}
+.q-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.q-num-badge{width:28px;height:28px;border-radius:7px;background:#F4AB52;color:#1C1917;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:13px;font-weight:700;flex-shrink:0}
+.q-text{font-size:15px;color:#1C1917;line-height:1.55;padding-top:2px}
 .q-options{display:flex;flex-direction:column;gap:8px}
-.q-opt{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1.5px solid #E5DDD4;cursor:pointer;font-size:14px;color:#1C1917;background:#fff;text-align:left;width:100%;font-family:'UntitledSans'}
-.q-opt:hover{border-color:#F4AB52;background:#FEF9F0}
-.q-opt.selected{border-color:#F4AB52;background:#FEF9F0}
-.q-opt.correct{border-color:#42B36F;background:#ECF9EF;color:#1A623A}
-.q-opt.wrong{border-color:#E5555E;background:#FFE9E9;color:#652328}
-.q-opt-key{width:24px;height:24px;border:1.5px solid #C6C0B8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.q-opt{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(0,0,0,.1);padding:11px 14px;cursor:pointer;width:100%;font-family:'UntitledSans';transition:background .1s,border-color .1s}
+.q-opt:hover{border-color:#C6C0B8}
+.q-opt.selected{background:#FAF1E6;border-color:#F4AB52}
+.q-opt.selected .q-opt-key{background:#F4AB52;border-color:#F4AB52;color:#1C1917}
+.q-opt.correct{background:#FEF9E7;border-color:#F4D35E;cursor:default}
+.q-opt.correct .q-opt-key{background:#F4AB52;border-color:#F4AB52;color:#1C1917}
+.q-opt.wrong{background:#FBEAEA;border-color:#E39A9A;cursor:default}
+.q-opt.wrong .q-opt-key{background:#D94F4F;border-color:#D94F4F;color:#fff}
+.q-opt-key{width:26px;height:26px;border-radius:5px;border:1.5px solid #C6C0B8;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:12px;font-weight:700;color:#78716C;flex-shrink:0}
+.q-opt-text{flex:1;font-size:14px;color:#1C1917;text-align:left}
+.q-opt-check{width:18px;height:18px;border-radius:50%;background:#3B9E6B;display:none;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.q-opt.correct .q-opt-check{display:flex}
+.q-opt-check svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.q-opt-x{width:18px;height:18px;border-radius:50%;background:#D94F4F;display:none;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.q-opt.wrong .q-opt-x{display:flex}
+.q-opt-x svg{width:9px;height:9px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round}
 .q-next{background:#1C1917;color:#fff;border:none;padding:12px 28px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;display:none}
 .q-next:hover{background:#333}
 .q-next.show{display:inline-block}
@@ -1190,12 +1206,17 @@ function renderQuestion(){
 
   container.innerHTML = `
     <div class="q-card">
-      <div class="q-num">Question ${currentQ + 1}</div>
-      <div class="q-text">${q.q}</div>
+      <div class="q-head">
+        <span class="q-num-badge">${currentQ + 1}</span>
+        <div class="q-text">${q.q}</div>
+      </div>
       <div class="q-options">
         ${q.opts.map((o,i) => `
           <button class="q-opt" onclick="selectOpt(${i})" id="opt-${i}">
-            <span class="q-opt-key">${['A','B','C','D'][i]}</span>${o}
+            <span class="q-opt-key">${['A','B','C','D'][i]}</span>
+            <span class="q-opt-text">${o}</span>
+            <span class="q-opt-check"><svg viewBox="0 0 16 16"><polyline points="2,9 6,13 14,4"/></svg></span>
+            <span class="q-opt-x"><svg viewBox="0 0 16 16"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg></span>
           </button>`).join('')}
       </div>
       <button class="q-next" id="q-next-btn" onclick="nextQ()">Next →</button>
