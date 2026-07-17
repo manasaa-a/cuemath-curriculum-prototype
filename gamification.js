@@ -14,9 +14,8 @@
 // +10 points award ("even navigating within the learn section will cost
 // them sparks"). See goToSlide() in maths-grade-3-lesson.html for where
 // that's enforced; a test-prep worksheet still costs a flat 1 spark (that
-// hasn't been corrected to per-question). The SPARK REFILL RATE specifically
-// is still not a number Manasa gave us — CM_SPARK_REFILL_HOURS below is a
-// reasonable placeholder, clearly flagged, not a confirmed value.
+// hasn't been corrected to per-question). Spark refill rate confirmed
+// 2026-07-16: 1 spark per hour (CM_SPARK_REFILL_HOURS).
 //
 // Uses localStorage on purpose — these should survive across sessions/tabs
 // closing, unlike the existing one-free-lesson / one-free-worksheet gating
@@ -44,7 +43,7 @@ const CM_SPARK_CHARGED_ITEMS_KEY = 'cuemathSparkChargedItems'; // string[] of ar
 const CM_POINTS_PER_LEARN_ITEM = 10; // CONFIRMED 2026-07-10 — per slide/item advanced through in a Learn sheet, not once per whole sheet
 const CM_POINTS_PER_PRACTICE_QUESTION = 50; // CONFIRMED 2026-07-10 — per completed practice question, regardless of correctness (not specified as correctness-gated)
 const CM_SPARK_MAX = 5; // CONFIRMED 2026-07-10 (was 3 in the earlier provisional version)
-const CM_SPARK_REFILL_HOURS = 4; // NOT confirmed — Manasa's direction was "keep a reasonable placeholder rate," exact number still open (Open Questions §13)
+const CM_SPARK_REFILL_HOURS = 1; // CONFIRMED 2026-07-16 — 1 spark refills per hour
 
 function cmToday() {
   return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC date — fine for a mockup, real impl should use local calendar day)
