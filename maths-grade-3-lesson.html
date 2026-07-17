@@ -184,10 +184,13 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 /* Practice tab */
 .practice-wrap{flex:1;overflow-y:auto;background:#F5F0E8;padding:24px}
 .practice-inner{max-width:640px;margin:0 auto}
-.practice-progress{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.prac-bar-bg{flex:1;height:6px;background:#E5DDD4}
-.prac-bar-fill{height:100%;background:#F4AB52;transition:width .3s}
-.prac-count{font-size:12px;color:#97948E;white-space:nowrap}
+/* Question number pill nav — same component as maths-testprep-worksheet.html
+   (2026-07-17: Practice questions scroll as a stack now, same as test-prep,
+   replacing the old progress-bar + one-at-a-time layout). */
+.q-nav{background:#F5F0E8;border-top:2px solid #1C1917;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:8px;padding:12px 4px;margin:0 0 24px;flex-wrap:wrap}
+.q-badge{width:32px;height:32px;border-radius:50%;background:#E8E2D8;color:#97948E;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:13px;font-weight:700;cursor:pointer;border:none;flex-shrink:0;transition:background .12s,color .12s}
+.q-badge:hover{background:#EDD5BE}
+.q-badge.active{background:#F4AB52;color:#1C1917}
 /* Question card — same Learnosity-preview visual pattern as
    maths-testprep-worksheet.html (2026-07-17, Manasa's spec: grade-wise
    Practice questions should look like this too). Page background is
@@ -199,6 +202,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .q-text{font-size:15px;color:#1C1917;line-height:1.55;padding-top:2px}
 .q-options{display:flex;flex-direction:column;gap:8px}
 .q-opt{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(0,0,0,.1);padding:11px 14px;cursor:pointer;width:100%;font-family:'UntitledSans';transition:background .1s,border-color .1s}
+.q-opt:disabled{cursor:default}
 .q-opt:hover{border-color:#C6C0B8}
 .q-opt.selected{background:#FAF1E6;border-color:#F4AB52}
 .q-opt.selected .q-opt-key{background:#F4AB52;border-color:#F4AB52;color:#1C1917}
@@ -214,9 +218,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .q-opt-x{width:18px;height:18px;border-radius:50%;background:#D94F4F;display:none;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
 .q-opt.wrong .q-opt-x{display:flex}
 .q-opt-x svg{width:9px;height:9px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round}
-.q-next{background:#1C1917;color:#fff;border:none;padding:12px 28px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;margin-top:16px;display:none}
-.q-next:hover{background:#333}
-.q-next.show{display:inline-block}
 
 /* Practice CTA (after Q4) */
 .practice-cta{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 100%);padding:28px 24px;text-align:center;border:1px solid rgba(0,0,0,.07)}
@@ -575,10 +576,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
     <div class="tab-panel" id="tab-practice">
       <div class="practice-wrap">
         <div class="practice-inner">
-          <div class="practice-progress">
-            <div class="prac-bar-bg"><div class="prac-bar-fill" id="prac-fill" style="width:0%"></div></div>
-            <span class="prac-count" id="prac-count">Question 1 of 5</span>
-          </div>
+          <div class="q-nav" id="q-nav"></div>
           <div id="practice-questions"></div>
           <div id="practice-cta" style="display:none">
             <div class="practice-cta">
@@ -1148,14 +1146,31 @@ const questions = [
   { q: 'Order these from least to greatest: 4,201 · 4,021 · 4,210', opts: ['4,021 · 4,201 · 4,210','4,210 · 4,201 · 4,021','4,201 · 4,021 · 4,210','4,021 · 4,210 · 4,201'], ans: 0 },
 ];
 
-let currentQ = 0;
-let answered = false;
-const FREE_QS = 4; // show CTA after this many
+questions.forEach(q => { q.selected = null; q.submitted = false; });
+
+const FREE_QS = 4; // only this many render — the rest stay behind the CTA
+// active = whichever question card is most visible while scrolling (drives
+// the nav pill highlight), not "the only one shown" — every free question
+// is in the DOM at once (2026-07-17: scroll instead of one-at-a-time
+// paging, same conversion as the test-prep worksheet page).
+let active = 0;
 
 function initPractice(){
-  currentQ = 0;
-  answered = false;
-  renderQuestion();
+  active = 0;
+  renderNav();
+  renderAllQuestions();
+}
+
+function renderNav(){
+  const shown = Math.min(FREE_QS, questions.length);
+  document.getElementById('q-nav').innerHTML = Array.from({length: shown}, (_, i) =>
+    `<button class="q-badge${i===active?' active':''}" onclick="scrollToQuestion(${i})">${i+1}</button>`
+  ).join('');
+}
+
+function scrollToQuestion(i){
+  const el = document.getElementById(`q-card-${i}`);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 // A lesson only counts as fully "done" (Review, on the chapter page) once its
@@ -1178,47 +1193,70 @@ function markPracticeDone(){
   }
 }
 
-function renderQuestion(){
-  const container = document.getElementById('practice-questions');
-  const ctaEl = document.getElementById('practice-cta');
-
-  if(currentQ >= FREE_QS){
-    container.innerHTML = '';
-    ctaEl.style.display = 'block';
-    document.getElementById('prac-fill').style.width = '80%';
-    document.getElementById('prac-count').textContent = 'Question ' + (currentQ+1) + ' of ' + questions.length;
-    markPracticeDone();
-    return;
-  }
-
-  ctaEl.style.display = 'none';
-  const q = questions[currentQ];
-  const pct = (currentQ / questions.length * 100) + '%';
-  document.getElementById('prac-fill').style.width = pct;
-  document.getElementById('prac-count').textContent = 'Question ' + (currentQ + 1) + ' of ' + questions.length;
-  answered = false;
-
-  container.innerHTML = `
-    <div class="q-card">
-      <div class="q-head">
-        <span class="q-num-badge">${currentQ + 1}</span>
-        <div class="q-text">${q.q}</div>
-      </div>
-      <div class="q-options">
-        ${q.opts.map((o,i) => `
-          <button class="q-opt" onclick="selectOpt(${i})" id="opt-${i}">
+// Builds one question's inner markup — shared by the initial stack render
+// and by re-rendering a single card in place after an answer, so answering
+// question 1 doesn't disturb scroll position on question 3.
+function questionInner(qIdx){
+  const q = questions[qIdx];
+  return `
+    <div class="q-head">
+      <span class="q-num-badge">${qIdx + 1}</span>
+      <div class="q-text">${q.q}</div>
+    </div>
+    <div class="q-options">
+      ${q.opts.map((o,i) => {
+        let cls = '';
+        if (q.submitted) {
+          if (i === q.ans) cls = 'correct';
+          else if (i === q.selected) cls = 'wrong';
+        } else if (i === q.selected) {
+          cls = 'selected';
+        }
+        const clickable = q.submitted ? '' : ` onclick="selectOpt(${qIdx},${i})"`;
+        return `
+          <button class="q-opt${cls?' '+cls:''}"${clickable} ${q.submitted?'disabled':''}>
             <span class="q-opt-key">${['A','B','C','D'][i]}</span>
             <span class="q-opt-text">${o}</span>
             <span class="q-opt-check"><svg viewBox="0 0 16 16"><polyline points="2,9 6,13 14,4"/></svg></span>
             <span class="q-opt-x"><svg viewBox="0 0 16 16"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg></span>
-          </button>`).join('')}
-      </div>
-      <button class="q-next" id="q-next-btn" onclick="nextQ()">Next →</button>
+          </button>`;
+      }).join('')}
     </div>`;
 }
 
-function selectOpt(i){
-  if(answered) return;
+// Initial render — every free question stacked in the DOM at once, each in
+// its own scroll-observable card (id="q-card-N"). The CTA card is a plain
+// sibling right after this container, so scrolling past the last free
+// question reaches it naturally — no separate "reveal" step needed.
+function renderAllQuestions(){
+  const shown = Math.min(FREE_QS, questions.length);
+  document.getElementById('practice-questions').innerHTML = Array.from({length: shown}, (_, i) =>
+    `<div class="q-card" id="q-card-${i}">${questionInner(i)}</div>`
+  ).join('');
+  document.getElementById('practice-cta').style.display = 'block';
+  for (let i = 0; i < shown; i++) io.observe(document.getElementById(`q-card-${i}`));
+}
+
+function renderQuestionCard(qIdx){
+  document.getElementById(`q-card-${qIdx}`).innerHTML = questionInner(qIdx);
+}
+
+// Tracks which question card is most visible while scrolling — drives the
+// nav pill highlight, not which question is "shown" (every free one is
+// shown at once). Same pattern as the Learn tab's slide tracking and the
+// test-prep worksheet page.
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+      const idx = Number(entry.target.id.replace('q-card-', ''));
+      if (idx !== active) { active = idx; renderNav(); }
+    }
+  });
+}, { threshold: [0.5] });
+
+function selectOpt(qIdx, i){
+  const q = questions[qIdx];
+  if (q.submitted) return;
   // Practice's 1-spark-per-sheet charge lands here, not on opening the tab
   // (corrected 2026-07-10 — landing on Practice via Start/Resume/Review must
   // always be free). This is the first real in-lesson action ("solving" the
@@ -1228,22 +1266,17 @@ function selectOpt(i){
     openSparksModal();
     return; // blocked — no selection applied, no points awarded
   }
-  answered = true;
-  const q = questions[currentQ];
+  q.selected = i;
+  q.submitted = true;
   // +50 per completed practice question, regardless of correctness
-  // (CONFIRMED — Open Questions §13 DECIDED) — guarded by `answered` above
+  // (CONFIRMED — Open Questions §13 DECIDED) — guarded by q.submitted above
   // so this can't double-fire on a repeat click of the same question.
   cmAwardPracticePoints();
-  document.querySelectorAll('.q-opt').forEach((el, idx) => {
-    if(idx === q.ans) el.classList.add('correct');
-    else if(idx === i && i !== q.ans) el.classList.add('wrong');
-  });
-  document.getElementById('q-next-btn').classList.add('show');
-}
-
-function nextQ(){
-  currentQ++;
-  renderQuestion();
+  renderQuestionCard(qIdx);
+  // Finishing the last free question is what used to trigger the CTA swap
+  // under the old one-at-a-time flow — now it just marks the lesson's
+  // practice as done, since the CTA card is already visible below the stack.
+  if (qIdx === Math.min(FREE_QS, questions.length) - 1) markPracticeDone();
 }
 </script>
 </body>
