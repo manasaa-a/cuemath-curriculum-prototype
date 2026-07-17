@@ -86,6 +86,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .grade-spine{flex:0 0 175px;background:var(--accent,#EBE7E0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px 16px;text-decoration:none}
 .grade-spine-badge{display:inline-flex;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.3);align-items:center;justify-content:center;font-family:'Athletics';font-weight:700;font-size:18px;color:#fff}
 .grade-spine-label{font-family:'Athletics';font-weight:700;font-size:17px;color:#fff;text-align:center}
+.grade-spine-chevron{display:none;color:#fff}
 .grade-pages{flex:1;padding:22px 28px;min-width:0;background:color-mix(in srgb, var(--accent,#EBE7E0) 12%, #fff)}
 .grade-pages-meta{display:block;font-size:13px;color:#84807B;font-weight:500;margin-bottom:12px}
 .grade-pages-list{display:flex;gap:32px}
@@ -122,11 +123,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .app-dl-btns{display:flex;gap:8px;flex-shrink:0}
 .app-dl-btn{display:flex;align-items:center;gap:5px;background:#F4AB52;color:#1D1C1B;padding:7px 14px;font-family:'UntitledSans';font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}
 .app-dl-btn:hover{background:#CE7E12;color:#fff}
-.tutor-cta-card{margin-top:12px;background:#fff;border:2px solid #1D1C1B;box-shadow:8px 8px 0 #1D1C1B;padding:28px 32px}
-.tutor-cta-eyebrow{font-family:'Athletics';font-size:16px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#1D1C1B;margin-bottom:10px}
-.tutor-cta-body{font-size:14px;color:#1D1C1B;line-height:1.5;margin-bottom:22px;max-width:480px}
-.tutor-cta-btn{background:#1D1C1B;color:#fff;border:none;padding:14px 36px;font-family:'UntitledSans';font-size:14px;font-weight:700;cursor:pointer}
-.tutor-cta-btn:hover{background:#333}
 .res-tile{background:#fff;border:1px solid #EBE7E0;padding:12px 14px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:10px}
 .res-tile:hover{border-color:#F4AB52;text-decoration:none}
 .res-icon{font-size:20px;flex-shrink:0}
@@ -147,6 +143,17 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .faq-a-inner{overflow:hidden}
 .faq-a-inner p{padding:0 4px 18px;font-size:13px;color:#5B5854;line-height:1.6;max-width:680px}
 
+/* Trial-booking form placeholder modal */
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
+
 /* PAGE HERO */
 /* HERO — matches the real cuemath.com hero (2026-07-15, per Manasa's
    reference screenshots + design-system.html tokens: gold-300 bg, Athletics
@@ -157,8 +164,11 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .hero2{position:relative;background:#FAD6AC;background-image:radial-gradient(circle,rgba(41,40,39,.12) 1px,transparent 1px);background-size:18px 18px;padding:120px 24px 0;text-align:center;flex-shrink:0}
 .hero2 h1{font-family:'Athletics';font-size:64px;font-weight:500;color:#292827;line-height:72px;letter-spacing:0;max-width:1072px;margin:0 auto 8px}
 .hero2-sub{font-family:'UntitledSans';font-size:20px;color:rgba(41,40,39,.7);max-width:928px;margin:0 auto 32px;line-height:28px}
-.hero2-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#F4AB52;color:#292827;font-family:'UntitledSans';font-size:16px;font-weight:500;height:48px;width:280px;padding:0 24px;border:1px solid #292827;border-radius:4px;text-decoration:none;cursor:pointer}
+.hero2-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#F4AB52;color:#292827;font-family:'UntitledSans';font-size:16px;font-weight:500;height:48px;min-width:220px;padding:0 24px;border:1px solid #292827;border-radius:4px;text-decoration:none;cursor:pointer;white-space:nowrap}
 .hero2-btn:hover{background:#EC9A32}
+.hero2-cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.hero2-btn-secondary{background:#fff}
+.hero2-btn-secondary:hover{background:#F6F3ED}
 .hero2-proof{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:115px;padding-bottom:20px;font-size:14px;color:#292827}
 .hero2-avatars{display:flex;height:32px}
 .hero2-avatars img{height:32px;width:auto;display:block}
@@ -250,8 +260,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   .vt{flex:1;justify-content:center}
   .main-content{padding:16px}
   .grade-card{flex-direction:column}
-  .grade-spine{flex-direction:row;justify-content:flex-start;padding:14px 18px}
+  .grade-spine{flex:0 0 auto;flex-direction:row;justify-content:center;padding:16px 18px}
   .grade-pages-list{flex-direction:column;gap:0}
+  /* Mobile-only: collapsed by default, tap the spine to expand (2026-07-17,
+     Manasa's spec — desktop keeps chapters always visible). Collapsed state
+     shows just the colored spine with the grade name, nothing else — badge
+     and chevron are desktop/open-state-only additions, not part of the
+     collapsed mobile look. */
+  .grade-spine-badge{display:none}
+  .grade-spine-chevron{display:none}
+  .grade-pages{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .grade-pages-meta{display:none}
+  .grade-card.open .grade-pages{max-height:3000px}
+  .grade-card.open .grade-pages-meta{display:block}
   .app-download-strip{flex-direction:column;align-items:flex-start}
   .app-dl-btns{width:100%}
   .app-dl-btn{flex:1;justify-content:center}
@@ -279,11 +300,18 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       </div>
     </div>
 
-    <!-- Hero — matches the real cuemath.com hero verbatim (2026-07-15) -->
+    <!-- Hero — updated 2026-07-17: two distinct CTAs instead of one "Get
+         Started" (see Open Questions — App Leads is the main intent, not
+         trial booking, so the primary ask here is "look at the curriculum";
+         the trial-booking form is the secondary ask, not the first thing
+         a homepage visitor hits). -->
     <div class="hero2">
-      <h1>We Make Your Child MathFit<sup style="font-size:.5em">™</sup></h1>
-      <p class="hero2-sub">The same curriculum our tutors use in 1:1 classes, now free for every child to explore.</p>
-      <button class="hero2-btn">Get Started</button>
+      <h1>The Complete Math Curriculum</h1>
+      <p class="hero2-sub">A 360° system covering school work, test prep, and enrichment, built for real math mastery, not just grades. Start with a free evaluation to see where your child stands today.</p>
+      <div class="hero2-cta-row">
+        <button class="hero2-btn" onclick="openDiagnosticForm()">Schedule a Free Diagnostic</button>
+        <button class="hero2-btn hero2-btn-secondary" onclick="scrollToGrades()">Explore Curriculum</button>
+      </div>
       <div class="hero2-proof">
         <div class="hero2-avatars">
           <img src="avatar-group.svg" alt="" width="96" height="32">
@@ -504,19 +532,10 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       <div class="resources-sub">Worksheets, games, tests, and tools — all mapped to your grade and topics.</div>
       <div class="resources-strip">
         <a href="#" class="res-tile" onclick="event.preventDefault()"><div class="res-icon">📄</div><div><span class="res-name">Worksheets</span><span class="res-meta">Free PDF downloads</span></div></a>
-        <a href="https://www.cuemath.com/math-games/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🎮</div><div><span class="res-name">Math Games</span><span class="res-meta">Play &amp; learn</span></div></a>
         <a href="https://www.cuemath.com/math-puzzles/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🧩</div><div><span class="res-name">Puzzles</span><span class="res-meta">Challenge yourself</span></div></a>
         <a href="https://www.cuemath.com/calculators/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🧮</div><div><span class="res-name">Calculators</span><span class="res-meta">Topic-wise tools</span></div></a>
         <a href="https://www.cuemath.com/math-formulas/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">📐</div><div><span class="res-name">Formulas</span><span class="res-meta">All math formulas</span></div></a>
         <a href="https://www.cuemath.com/free-online-math-games/" target="_blank" rel="noopener" class="res-tile"><div class="res-icon">🕹️</div><div><span class="res-name">Online Games</span><span class="res-meta">Free &amp; interactive</span></div></a>
-      </div>
-      <!-- Book a free class card (was the app-download strip — Neelima's CTA
-           pass: homepage bottom converts to tutoring, not app). Hard-shadow
-           card style per Manasa's reference image. -->
-      <div class="tutor-cta-card">
-        <div class="tutor-cta-eyebrow">Explore With a Tutor</div>
-        <div class="tutor-cta-body">Does visualising make math click for your child? A Cuemath tutor explains every concept this way, personalised to your child.</div>
-        <button class="tutor-cta-btn">Get Started</button>
       </div>
       </div>
 
@@ -530,6 +549,21 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     </div>
   </div>
 
+</div>
+
+<!-- Trial-booking form placeholder (2026-07-17) — "Schedule a Free
+     Diagnostic" opens this. The real form (name/phone/grade, tbd) isn't
+     built yet; this exists so the button does something visible rather
+     than nothing, without pretending to be the real thing. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder — the real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
+    </div>
+  </div>
 </div>
 
 <script src="curriculum-data.js"></script>
@@ -594,6 +628,22 @@ function setView(v) {
   document.getElementById('view-exam').style.display = v==='exam' ? 'block' : 'none';
 }
 
+// Hero CTAs (2026-07-17) — "Explore Curriculum" scrolls to the browsing hub,
+// same target/behavior as the deep-link scroll a few lines down and as
+// maths-v2.html's original scrollToGrades(). "Schedule a Free Diagnostic"
+// opens the trial-booking form — not built yet (Manasa: "that we can do",
+// 2026-07-17), so this is a clearly-labeled placeholder, not a real form.
+function scrollToGrades() {
+  setView('grade');
+  document.getElementById('main-content').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function openDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
+}
+
 // "Learn How Cuemath Works" hero video — plays inline (2026-07-15, replacing
 // the earlier modal-popup version). The overlay (play icon/heading/Get
 // Started) shows whenever the video is paused and hides once it's playing.
@@ -647,6 +697,20 @@ function slugify(s) {
   return s;
 }
 
+// Mobile-only (<=600px): the grade card's chapter list starts collapsed and
+// opens on tap, since showing every chapter inline for every grade makes for
+// an extremely long scroll on a phone. Desktop keeps chapters always visible
+// — this only intercepts the click when the mobile breakpoint is active, so
+// the same spine link still navigates normally on desktop. The corner arrow
+// button (grade-card-cta) is a separate element and keeps navigating on tap
+// at every screen size.
+function toggleGradeCardMobile(e, cardId) {
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    e.preventDefault();
+    document.getElementById(cardId).classList.toggle('open');
+  }
+}
+
 function renderGradeCard(cardId, headHref, badgeText, label, chapters, lessonCount, chapterHrefFn, accentColor) {
   const color = accentColor || '#EBE7E0';
   const splitAt = Math.ceil(chapters.length / 2);
@@ -664,9 +728,10 @@ function renderGradeCard(cardId, headHref, badgeText, label, chapters, lessonCou
     : '';
   return `
     <div class="grade-card" id="${cardId}" style="--accent:${color}">
-      <a class="grade-spine" href="${headHref}" style="background:${color}">
+      <a class="grade-spine" href="${headHref}" style="background:${color}" onclick="toggleGradeCardMobile(event,'${cardId}')">
         ${badge}
         <span class="grade-spine-label">${label}</span>
+        <span class="grade-spine-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
       </a>
       <div class="grade-pages">
         <span class="grade-pages-meta">${chapters.length} chapter${chapters.length===1?'':'s'} &middot; ${lessonCount} lesson${lessonCount===1?'':'s'}</span>

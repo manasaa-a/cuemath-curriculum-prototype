@@ -99,9 +99,41 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 
 .disclaimer{font-size:11px;color:#B0AAA5;text-align:center;margin-top:12px;line-height:1.5}
 
+/* Bottom toolbar — Annotate/Hint, same component as maths-grade-3-lesson.html's
+   Learn tab. The counter here tracks scroll position through the stacked
+   question list instead of a slide index, but the visual is identical. */
+.slide-toolbar{height:52px;background:#fff;border-top:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 20px;flex-shrink:0;position:sticky;bottom:0;z-index:5}
+.toolbar-tools{display:flex;gap:4px}
+.tool-btn{width:36px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#97948E;border-radius:6px;position:relative}
+.tool-btn:hover{background:#F5F0E8;color:#1C1917}
+.tool-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.tool-btn.tool-active{background:#FEF3E2;color:#CE7E12}
+.tool-btn.tool-locked{color:#C6C0B8}
+.tool-lock-badge{position:absolute;bottom:2px;right:2px;font-size:8px;line-height:1}
+.toolbar-counter{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;color:#97948E}
+
 /* RIGHT PANEL */
 .rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
 .rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+/* Points/Streak/Sparks — same component as maths-grade-3-lesson.html's
+   right panel (2026-07-17, Manasa's spec: this page gets the stats row too,
+   it's no longer excluded). */
+.rp-stats-row{display:flex;background:#fff;border:1px solid rgba(0,0,0,.07)}
+.rp-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;border-right:1px solid rgba(0,0,0,.06)}
+.rp-stat:last-child{border-right:none}
+.rp-stat-icon{width:30px;height:30px;border-radius:50%;background:#F5F0E8;display:flex;align-items:center;justify-content:center}
+.rp-stat-icon svg{width:15px;height:15px}
+.rp-stat-points{color:#7C3AED}
+.rp-stat-streak{color:#16A34A}
+.rp-stat-sparks{color:#E89040}
+.rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
+.rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
+/* Next-worksheet-in-chapter nav (2026-07-17) */
+.rp-next{background:#fff;border:1px solid rgba(0,0,0,.07);padding:14px;text-decoration:none;display:block}
+.rp-next-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#97948E;margin-bottom:6px}
+.rp-next-name{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rp-next-name svg{width:14px;height:14px;stroke:#97948E;fill:none;stroke-width:2;flex-shrink:0}
+.rp-next-empty{font-size:12px;color:#97948E;background:#fff;border:1px solid rgba(0,0,0,.07);padding:14px}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
 .rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
 .rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
@@ -128,6 +160,11 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .qr-placeholder{width:120px;height:120px;margin:0 auto;background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#C6C0B8}
 .qr-caption{font-size:11px;color:#97948E;text-align:center;margin:8px 0 16px;line-height:1.5}
 .qr-caption em{color:#C6C0B8;font-style:normal}
+.gif-placeholder{background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:16px}
+.gif-placeholder-icon{font-size:22px}
+.gif-placeholder-label{font-size:11px;color:#97948E;text-align:center;padding:0 16px}
+.feature-modal-btn{display:block;width:100%;background:#1C1917;color:#fff;border:none;padding:12px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
+.feature-modal-btn:hover{background:#333;color:#fff}
 @media(max-width:768px){
   html,body{height:auto;overflow:visible}
   .shell{display:block;height:auto}
@@ -180,10 +217,43 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       <div id="q-body"></div>
       <div class="disclaimer">Static preview — one representative worksheet shown for every block right now, not the real Learnosity-rendered sheet for this specific topic.</div>
     </div>
+
+    <!-- Bottom toolbar — Annotate/Hint, ported from maths-grade-3-lesson.html.
+         Counter tracks scroll position through the stacked questions. -->
+    <div class="slide-toolbar">
+      <div class="toolbar-tools">
+        <button class="tool-btn" id="tool-annotate" title="Annotate" onclick="onAnnotateClick()">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button class="tool-btn tool-locked" id="tool-hint" title="Hint" onclick="onHintClick()">
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z"/></svg>
+          <span class="tool-lock-badge">🔒</span>
+        </button>
+      </div>
+      <span class="toolbar-counter" id="q-counter">1 / 5</span>
+    </div>
   </div>
 
   <div class="rightpanel">
     <div class="rp-inner">
+      <div class="rp-stats-row">
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-points"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="rp-stat-label">Points</div>
+          <div class="rp-stat-value" id="rp-points-value">0</div>
+        </div>
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1 3-4 5-4 9a4 4 0 008 0c0-1.3-.5-2.3-1-3 .3 1 .2 2-.5 2.5C15 9 13 7 12 2z"/></svg></div>
+          <div class="rp-stat-label">Streak</div>
+          <div class="rp-stat-value" id="rp-streak-value">0</div>
+        </div>
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-sparks"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+          <div class="rp-stat-label">Sparks</div>
+          <div class="rp-stat-value" id="rp-sparks-value">5</div>
+        </div>
+      </div>
+      <div id="rp-next-slot"></div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">1:1 live tutoring</span>
         <div class="rp-cta-title">Stuck on a question?</div>
@@ -216,10 +286,30 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   </div>
 </div>
 
-<!-- Points earned here (+50/completed question, see gamification.js) but
-     this page has no .rp-stats-row to display them — it's a bare worksheet
-     preview, not one of the pages in scope for the stats sidebar. -->
+<!-- Annotate/Hint feature-lock modal — ported from maths-grade-3-lesson.html.
+     Annotate: works once, then locks. Hint: locked outright. Both point to
+     the app instead, with a placeholder standing in for a real capture. -->
+<div class="modal-overlay" id="feature-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeatureModal()">×</button>
+    <div class="feature-modal-body">
+      <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
+      <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
+      <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
+      <div class="gif-placeholder">
+        <span class="gif-placeholder-icon">🎬</span>
+        <span class="gif-placeholder-label" id="feature-modal-gif-label">GIF placeholder — swap for a real capture</span>
+      </div>
+      <a class="feature-modal-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">Get the Cuemath App</a>
+    </div>
+  </div>
+</div>
+
+<!-- Points earned here (+50/completed question, see gamification.js) — now
+     shown via .rp-stats-row in the right panel (2026-07-17, no longer
+     excluded from this page). -->
 <script src="gamification.js"></script>
+<script src="testprep-data.js"></script>
 <script>
 // Static sample questions — verbatim from the 5 real screenshots Manasa shared.
 const questions = [
@@ -260,19 +350,29 @@ const questions = [
 // global submit. Nothing is revealed until that specific question is submitted.
 questions.forEach(q => { q.selected = null; q.submitted = false; });
 
+// active = whichever question is currently most visible in the scroll
+// viewport (driven by the IntersectionObserver below), not "the only one
+// rendered" — every question is in the DOM at once now (2026-07-17,
+// Manasa's spec: scroll instead of one-at-a-time paging, same conversion
+// already done for the lesson page's Learn tab).
 let active = 0;
 
 function renderNav() {
   document.getElementById('q-nav').innerHTML = questions.map((q, i) =>
-    `<button class="q-badge${i===active?' active':''}" onclick="setActive(${i})">${i+1}</button>`
+    `<button class="q-badge${i===active?' active':''}" onclick="scrollToQuestion(${i})">${i+1}</button>`
   ).join('');
+  document.getElementById('q-counter').textContent = `${active+1} / ${questions.length}`;
+}
+
+function scrollToQuestion(i) {
+  document.getElementById(`q-card-${i}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function selectOption(qIdx, letter) {
   const q = questions[qIdx];
   if (q.submitted) return; // locked in after submit
   q.selected = letter;
-  renderQuestion();
+  renderQuestion(qIdx);
 }
 
 // Points: +50 per completed question, regardless of correctness (CONFIRMED
@@ -304,19 +404,23 @@ function submitAnswer(qIdx) {
   }
 
   q.submitted = true;
-  renderQuestion();
+  renderQuestion(qIdx);
   cmAwardPracticePoints();
+  cmRenderStats();
 }
 
 function escapeAttr(str) {
   return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 }
 
-function renderQuestion() {
-  const q = questions[active];
+// Builds the inner markup for one question — shared by the initial full
+// stack render and by re-rendering a single card in place after an answer
+// (so answering question 2 doesn't disturb scroll position on question 4).
+function questionInner(qIdx) {
+  const q = questions[qIdx];
   let inner = `
     <div class="q-head">
-      <span class="q-num-badge">${active+1}</span>
+      <span class="q-num-badge">${qIdx+1}</span>
       <div class="q-text">${q.text}</div>
     </div>`;
 
@@ -330,7 +434,7 @@ function renderQuestion() {
       } else if (o.letter === q.selected) {
         cls = 'selected';
       }
-      const clickable = q.submitted ? '' : ` onclick="selectOption(${active},'${o.letter}')"`;
+      const clickable = q.submitted ? '' : ` onclick="selectOption(${qIdx},'${o.letter}')"`;
       return `
       <div class="q-option${cls?' '+cls:''}"${clickable}>
         <span class="q-option-letter">${o.letter}</span>
@@ -340,14 +444,14 @@ function renderQuestion() {
       </div>`;
     }).join('')}</div>`;
     inner += q.submitted
-      ? `<span class="q-submitted-tag">${q.selected === questions[active].options.find(o=>o.correct).letter ? '✓ Correct!' : 'Answer submitted — correct option highlighted above.'}</span>`
-      : `<button class="q-check-btn" ${q.selected ? '' : 'disabled'} onclick="submitAnswer(${active})">Check Answer</button>`;
+      ? `<span class="q-submitted-tag">${q.selected === q.options.find(o=>o.correct).letter ? '✓ Correct!' : 'Answer submitted — correct option highlighted above.'}</span>`
+      : `<button class="q-check-btn" ${q.selected ? '' : 'disabled'} onclick="submitAnswer(${qIdx})">Check Answer</button>`;
   } else {
     inner += `<div class="q-blanks">${q.blanks.map((b,i) => {
       const cls = q.submitted ? (q.blankCorrect[i] ? ' correct' : ' incorrect') : '';
       const val = q.submitted && q.userAnswers ? escapeAttr(q.userAnswers[i]) : '';
       const disabled = q.submitted ? 'disabled' : '';
-      return `<div class="q-blank-group"><input class="q-input${cls}" type="text" placeholder="" id="blank-${active}-${i}" value="${val}" ${disabled}>${b.suffix ? `<span class="q-blank-suffix">${b.suffix}</span>` : ''}</div>`;
+      return `<div class="q-blank-group"><input class="q-input${cls}" type="text" placeholder="" id="blank-${qIdx}-${i}" value="${val}" ${disabled}>${b.suffix ? `<span class="q-blank-suffix">${b.suffix}</span>` : ''}</div>`;
     }).join('')}</div>`;
     inner += q.submitted
       ? `<span class="q-submitted-tag">${q.blankCorrect.every(Boolean) ? '✓ Correct!' : 'Some answers need review — correct values shown below.'}</span>
@@ -359,16 +463,40 @@ function renderQuestion() {
               ${b.suffix ? `<span class="q-answer-suffix">${b.suffix}</span>` : ''}
             </span>`).join('')}</div>
         </div>`
-      : `<button class="q-check-btn" onclick="submitAnswer(${active})">Check Answer</button>`;
+      : `<button class="q-check-btn" onclick="submitAnswer(${qIdx})">Check Answer</button>`;
   }
-  document.getElementById('q-body').innerHTML = `<div class="q-card">${inner}</div>`;
+  return inner;
 }
 
-function setActive(i) {
-  active = i;
-  renderNav();
-  renderQuestion();
+// Initial render — every question stacked in the DOM at once, each in its
+// own scroll-observable card (id="q-card-N").
+function renderAllQuestions() {
+  document.getElementById('q-body').innerHTML = questions.map((q, i) =>
+    `<div class="q-card" id="q-card-${i}">${questionInner(i)}</div>`
+  ).join('');
+  questions.forEach((q, i) => io.observe(document.getElementById(`q-card-${i}`)));
 }
+
+// Re-render just one question's card in place (after select/submit) —
+// leaves every other card, and the scroll position, untouched.
+function renderQuestion(qIdx) {
+  document.getElementById(`q-card-${qIdx}`).innerHTML = questionInner(qIdx);
+}
+
+// Tracks which question card is most visible as the user scrolls, same
+// pattern as the Learn tab's slide tracking — drives the nav pill highlight
+// and the "X / N" counter, not which question is "shown" (they're all shown).
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+      const idx = Number(entry.target.id.replace('q-card-', ''));
+      if (idx !== active) {
+        active = idx;
+        renderNav();
+      }
+    }
+  });
+}, { threshold: [0.5] });
 
 // ── One-free-then-sign-in gating (test-prep pool — separate from curriculum's
 // cuemathGlobalCompletedLesson; see report for why). Landing on a worksheet
@@ -414,8 +542,98 @@ document.getElementById('sparks-modal-overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) closeSparksModal();
 });
 
+// ── Annotate / Hint gating — ported verbatim from maths-grade-3-lesson.html
+// (Open Questions doc). Annotate works once for free (persisted across
+// reloads), then locks. Hint is locked outright. Both point to the app.
+function anyModalOpen(){
+  return document.getElementById('sparks-modal-overlay').classList.contains('open')
+    || document.getElementById('feature-modal-overlay').classList.contains('open');
+}
+function openFeatureModal(kind){
+  if(anyModalOpen()) return;
+  const copy = {
+    annotate: {
+      icon: '🔒',
+      title: "You've used your free annotation",
+      sub: 'Annotations save and stay with your lesson in the Cuemath app.',
+      gif: 'GIF placeholder — annotation saving in the app'
+    },
+    hint: {
+      icon: '💡',
+      title: 'Hints are available in the app',
+      sub: 'Get a nudge in the right direction without giving away the answer, in the Cuemath app.',
+      gif: 'GIF placeholder — hint flow in the app'
+    }
+  }[kind];
+  document.getElementById('feature-modal-icon').textContent = copy.icon;
+  document.getElementById('feature-modal-title').textContent = copy.title;
+  document.getElementById('feature-modal-sub').textContent = copy.sub;
+  document.getElementById('feature-modal-gif-label').textContent = copy.gif;
+  document.getElementById('feature-modal-overlay').classList.add('open');
+}
+function closeFeatureModal(){
+  document.getElementById('feature-modal-overlay').classList.remove('open');
+}
+document.getElementById('feature-modal-overlay').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeFeatureModal();
+});
+
+const ANNOTATE_USED_KEY = 'cuemathAnnotateUsedOnce';
+if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
+  const annotateBtn = document.getElementById('tool-annotate');
+  annotateBtn.classList.add('tool-locked');
+  annotateBtn.insertAdjacentHTML('beforeend', '<span class="tool-lock-badge">🔒</span>');
+}
+function onAnnotateClick(){
+  if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
+    openFeatureModal('annotate');
+    return;
+  }
+  sessionStorage.setItem(ANNOTATE_USED_KEY, '1');
+  const btn = document.getElementById('tool-annotate');
+  btn.classList.add('tool-active');
+  setTimeout(() => btn.classList.remove('tool-active'), 600);
+}
+function onHintClick(){
+  openFeatureModal('hint'); // locked outright, no free use
+}
+
+// ── Next worksheet in this chapter (2026-07-17, Manasa's spec) ──
+// testPrepData doesn't carry a band in this page's URL (only exam/chapter/
+// block), and a chapter name isn't guaranteed unique across an exam's bands
+// (known limitation, same as elsewhere in this project) — so this searches
+// every band for the first chapter matching chapterName and uses that one.
+function renderNextWorksheetNav() {
+  const slot = document.getElementById('rp-next-slot');
+  const exam = examSlug && testPrepData[examSlug];
+  if (!exam || !chapterName || !blockName) { slot.innerHTML = ''; return; }
+
+  let chapter = null;
+  for (const band of exam.bands) {
+    chapter = band.chapters.find(c => c.name === chapterName);
+    if (chapter) break;
+  }
+  if (!chapter) { slot.innerHTML = ''; return; }
+
+  const idx = chapter.blocks.findIndex(b => b.name === blockName);
+  const next = idx !== -1 ? chapter.blocks[idx + 1] : null;
+
+  if (next) {
+    const href = `maths-testprep-worksheet.html?exam=${examSlug}&chapter=${encodeURIComponent(chapterName)}&block=${encodeURIComponent(next.name)}`;
+    slot.innerHTML = `
+      <a class="rp-next" href="${href}">
+        <div class="rp-next-label">Next in this chapter</div>
+        <div class="rp-next-name">${next.name}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>`;
+  } else {
+    slot.innerHTML = `<div class="rp-next-empty">You've reached the last worksheet in this chapter.</div>`;
+  }
+}
+
 renderNav();
-renderQuestion();
+renderAllQuestions();
+renderNextWorksheetNav();
+cmRenderStats();
 </script>
 </body>
 </html>
