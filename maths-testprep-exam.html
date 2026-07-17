@@ -377,7 +377,12 @@ function loadBand(idx) {
         return `<div class="block-locked">${block.name}<a class="block-signin-btn" href="https://student.cuemath.com/" onclick="event.stopPropagation()">Sign Up</a></div>`;
       }
       const doneTag = state === 'done' ? 'Reviewed' : tag;
-      const href = `maths-testprep-worksheet.html?exam=${examSlug}&chapter=${encodeURIComponent(ch.name)}&block=${encodeURIComponent(block.name)}`;
+      // Common worksheet link (2026-07-17, Manasa's direction): every block
+      // still shows the same static sample worksheet, not real per-topic
+      // content, so encoding chapter/block in the URL implied a precision
+      // that doesn't exist yet. Keeping ?exam= since that part is real —
+      // you did come from that exam's page.
+      const href = `maths-testprep-worksheet.html?exam=${examSlug}`;
       return `<a href="${href}" onclick="event.stopPropagation()">${block.name}<span class="block-tag">${doneTag}</span></a>`;
     }).join('');
     return `
