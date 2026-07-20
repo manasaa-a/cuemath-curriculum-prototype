@@ -577,15 +577,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
     <div class="tab-panel" id="tab-resources">
       <div class="resources-wrap">
         <div class="resources-inner">
-          <div class="res-section" data-section="read" id="ressec-read-wrap" onmouseenter="openResSectionExclusive('read')">
-          <button class="res-section-title" id="restitle-read" onclick="openResSectionExclusive('read')">
-            <span>Read</span><span class="res-section-chevron">⌄</span>
-          </button>
-          <div class="res-section-body" id="ressec-read"><div class="res-section-body-inner">
-          <div class="res-grid" style="grid-template-columns:1fr" id="read-grid"></div>
-          </div></div>
-          </div>
-
           <div class="res-section" data-section="worksheets" onmouseenter="openResSectionExclusive('worksheets')">
           <button class="res-section-title" id="restitle-worksheets" onclick="openResSectionExclusive('worksheets')">
             <span>Worksheets</span><span class="res-section-chevron">⌄</span>
@@ -805,7 +796,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 
 <script src="gamification.js"></script>
 <script src="curriculum-data.js"></script>
-<script src="content-page-map.js"></script>
 <script>
 // csvGradeData now comes from curriculum-data.js (shared, real K-7 xlsx data).
 // gamification.js (Points/Streaks/Sparks — see Open Questions §13) is also
@@ -834,35 +824,6 @@ const ch = chapters[Math.min(chIdx, chapters.length - 1)];
 const lessonName = ch.lessons[Math.min(lessonIdx, ch.lessons.length - 1)];
 
 const gradeLabel = grade === 'K' ? 'Kindergarten' : 'Grade ' + grade;
-
-// ── "Read" resource section — real per-lesson concept-page links, from
-// content-page-map.js (114 real traffic-driven cuemath.com pages matched
-// against actual K-8/HS lessons by subject relevance — see that file's
-// header). Falls back to hiding the section entirely when this specific
-// lesson has no matched page, rather than showing a generic library link.
-(function renderReadSection() {
-  const matchedPages = (typeof contentPageMap === 'undefined' ? [] : contentPageMap).filter(page =>
-    page.matches.some(m => m.level === 'K8' && m.grade === grade && m.chapterName === ch.name && m.lessonName === lessonName)
-  );
-  const wrap = document.getElementById('ressec-read-wrap');
-  if (!matchedPages.length) {
-    wrap.remove();
-    return;
-  }
-  const grid = document.getElementById('read-grid');
-  grid.innerHTML = matchedPages.map(page => {
-    const title = page.keywords
-      ? page.keywords.split(';')[0].trim().replace(/\b\w/g, c => c.toUpperCase())
-      : page.url;
-    return `
-      <a class="res-card" href="${page.url}" target="_blank" rel="noopener">
-        <div class="res-card-icon">📖</div>
-        <div class="res-card-name">${title}</div>
-        <div class="res-card-meta">Cuemath · Concept explanation</div>
-        <div class="res-card-action">Read →</div>
-      </a>`;
-  }).join('');
-})();
 
 // Starting ANY lesson (anywhere — any grade, any chapter) uses up the one free
 // lesson: it becomes the site-wide claimed lesson, and every other lesson locks
