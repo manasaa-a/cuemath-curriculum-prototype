@@ -1,7 +1,18 @@
-// Shared K-7 curriculum data — single source of truth for all mockups.
-// Generated from 'K-7-chapter-details [US Curriculum].xlsx' via extract_curriculum.py.
-// Do not hand-edit lesson lists here without re-running the extraction script,
-// or the mockups and the xlsx will drift again.
+// Shared K-8 curriculum data — single source of truth for all mockups.
+// K-7 generated from 'K-7-chapter-details [US Curriculum].xlsx' via extract_curriculum.py.
+// Grade 8 (csvGradeData[8]) added later from the LEAP API pull — see
+// grade8-learnosity-refs.js for provenance. Do not hand-edit lesson lists
+// here without re-running the extraction script, or the mockups and the
+// xlsx will drift again.
+//
+// Grade 8 reconciled 2026-07-21 against the canonical Google Sheet
+// (spreadsheet ID 1fJJONd44BWF9T4meYIQRVbcvxX3XsxVznZA0iNhiMgI, "Grade 8" tab)
+// via reconcile_hs_sheet.py — content-identical (10 chapters / 51 lessons),
+// no changes needed. One cosmetic note: the sheet's "Exponents" chapter has
+// "Scientific Notation" rendered with a ligature glyph ("Scientiﬁc Notation",
+// U+FB01) in two lesson names, almost certainly a PDF-copy-paste artifact,
+// not an intentional wording change — kept the plain-ASCII spelling already
+// here rather than propagating the ligature into lesson names/URL slugs.
 const csvGradeData = {
   'K': [
     {name: "What is Same? What is Different?", emoji: "➕", lessons: ["Same and Different", "Match by Same Pattern and Kind", "Sort and Classify Things in Groups"]},

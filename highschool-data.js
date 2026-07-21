@@ -3,6 +3,20 @@
 // No grade segment in URLs — high school is organized by COURSE, per the confirmed decision
 // in Open Questions & Decisions.md section 12. Names verbatim from the source, no rewording.
 // No Learnosity IDs exist in this source file.
+//
+// Reconciled 2026-07-21 against the canonical Google Sheet (spreadsheet ID
+// 1fJJONd44BWF9T4meYIQRVbcvxX3XsxVznZA0iNhiMgI, tabs: Grade 8 / Algebra 1 /
+// Geometry / Algebra 2 / AP Precalculus / AP Calculus AB) via
+// reconcile_hs_sheet.py. Algebra 1, Algebra 2, AP Precalculus, and AP
+// Calculus AB matched the xlsx-derived data exactly (content-identical;
+// a couple of lessons differ only in how a minus sign / apostrophe is
+// unicode-escaped in the source file, not real wording changes). Geometry
+// gained one new chapter, "Probability" (6 lessons), that wasn't in the
+// June xlsx pull — this closes a gap flagged back in geometry-learnosity-refs.js
+// on 2026-07-09, where the LEAP API pull already had Probability/Permutations
+// content our data didn't cover. geometry-learnosity-refs.js still has no
+// refs for the new Probability chapter (was previously "not in our data at
+// all" per its own note at line 232) — flagged as a follow-up, not done here.
 const highSchoolData = {
   "algebra-1": {
     name: "Algebra 1",
@@ -38,6 +52,7 @@ const highSchoolData = {
       {name: "Right Triangles and Trigonometry", lessons: ["The Pythagorean Theorem", "Special Right Triangles", "Similar Right Triangles", "The Tangent Ratio", "The Sine and Cosine Ratios", "Solving Right Triangles", "Law of Sines and Law of Cosines"]},
       {name: "Circles", lessons: ["Lines and Segments That Intersect Circles", "Finding Arc Measures", "Using Chords", "Inscribed Angles and Polygons", "Angle Relationships in Circles", "Segment Relationships in Circles", "Circles in the Coordinate Plane"]},
       {name: "Circumference Area and Volume", lessons: ["Circumference and Arc Length", "Areas of Circles and Sectors", "Areas of Polygons", "Three-Dimensional Figures", "Volumes of Prisms and Cylinders", "Volumes of Pyramids", "Surface Areas and Volumes of Cones", "Surface Areas and Volumes of Spheres"]},
+      {name: "Probability", lessons: ["Sample Spaces and Probability", "Independent and Dependent Events", "Two-Way Tables and Probability", "Probability of Disjoint and Overlapping Events", "Permutations and Combinations", "Binomial Distributions"]},
     ],
   },
   "algebra-2": {
@@ -72,7 +87,6 @@ const highSchoolData = {
       {name: "Inverse Trigonometric Functions", lessons: ["Analysing Domain, Range and Graphs", "Evaluating Inverse Trigonometric Expressions", "Modeling"]},
       {name: "Analytic Trigonometry", lessons: ["Trigonometric Identities", "Sum and Difference, Multiple Angle Identities", "Trigonometric Equations and Inequalities"]},
       {name: "Polar Functions", lessons: ["Polar Coordinate System", "Graphs of Polar Functions", "Rates of Change of Polar Functions"]},
-      {name: "Vectors and Matrices (Not Tested on the Exam)", lessons: ["Introduction to Vectors", "Basic Operations on Vectors", "Unit Vectors", "Dot Product of Vectors", "Basics of Determinants", "Properties of Determinants", "Inverse of a Matrix", "Solution of Linear Equations"]},
     ],
   },
   "ap-calculus-ab": {

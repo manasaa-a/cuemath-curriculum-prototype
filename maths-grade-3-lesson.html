@@ -327,7 +327,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
         <div class="ln-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <span class="ln-label">School</span>
       </div>
-      <div class="ln-item">
+      <div class="ln-item" onclick="openTestPrepModal()">
         <div class="ln-icon"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <span class="ln-label">Test</span>
       </div>
@@ -794,6 +794,18 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
   </div>
 </div>
 
+<!-- TEST PREP MODAL — opens from the "Test" left-nav icon, redirects to the By Exam view on the homepage -->
+<div class="modal-overlay" id="testprep-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeTestPrepModal()">×</button>
+    <div class="feature-modal-body">
+      <div class="feature-modal-title">Ready for Test Prep?</div>
+      <div class="feature-modal-sub">Practice by exam - AMC, Kangaroo, MOEMS, SASP, and more, each with its own set of questions.</div>
+      <a class="feature-modal-btn" href="maths.html?view=exam">Explore Test Prep</a>
+    </div>
+  </div>
+</div>
+
 <script src="gamification.js"></script>
 <script src="curriculum-data.js"></script>
 <script>
@@ -1054,6 +1066,15 @@ function openFeatureModal(kind){
 function closeFeatureModal(){
   document.getElementById('feature-modal-overlay').classList.remove('open');
 }
+function openTestPrepModal(){
+  document.getElementById('testprep-modal-overlay').classList.add('open');
+}
+function closeTestPrepModal(){
+  document.getElementById('testprep-modal-overlay').classList.remove('open');
+}
+document.getElementById('testprep-modal-overlay').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeTestPrepModal();
+});
 document.getElementById('feature-modal-overlay').addEventListener('click', e => {
   if(e.target === e.currentTarget) closeFeatureModal();
 });

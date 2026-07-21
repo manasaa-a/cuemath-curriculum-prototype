@@ -661,9 +661,14 @@ heroVideo.addEventListener('ended', () => heroVideoOverlay.style.display = 'flex
 // loads), so every chapter here is guaranteed to land on a real chapter —
 // chapter links go straight to maths-grade-3.html?grade=X&ch=N, which opens
 // that chapter already expanded (there's no separate chapter page anymore).
-// High-school courses have no local chapter-page mockup
-// yet (that's a separate, larger follow-up — not built in this pass), so
-// those always use production-style /maths/{course-slug}/{chapter-slug}/ hrefs.
+// High-school courses now have their own local browsing page
+// (maths-course.html?course=X, added 2026-07-21) mirroring maths-grade-3.html
+// — chapter links go to maths-course.html?course=X&ch=N the same way K-8
+// chapter links go to maths-grade-3.html?grade=X&ch=N. (There's still no
+// course-based *lesson*-page mockup — Start/Resume/Review inside
+// maths-course.html fall back to production-style
+// /maths/{course-slug}/{lesson-slug}/ hrefs — that's a separate, larger
+// follow-up, flagged in Tasks.md.)
 
 const GRADE_META = {
   'K': {label:'Kindergarten', badge:'K', color:'#F68D50'},
@@ -766,9 +771,9 @@ function renderGradeView() {
     const course = highSchoolData[slug];
     const chapters = course.chapters;
     const lessonCount = chapters.reduce((s, c) => s + c.lessons.length, 0);
-    const headHref = `/maths/${slug}/`;
+    const headHref = `maths-course.html?course=${slug}`;
     return renderGradeCard(`gc-hs-${slug}`, headHref, '', course.name, chapters, lessonCount,
-      (ch) => `/maths/${slug}/${slugify(ch.name)}/`, HS_COURSE_COLORS[slug]);
+      (ch, i) => `maths-course.html?course=${slug}&ch=${i+1}`, HS_COURSE_COLORS[slug]);
   }).join('');
   document.getElementById('grid-highschool').innerHTML = hsRows;
 }

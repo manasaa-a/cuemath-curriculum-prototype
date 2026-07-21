@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <!--
-  cuemath.com/maths/3-grade/
-  The standalone chapter page (maths-grade-3-chapter.html) is retired from
-  this flow: each chapter row here expands (click, one open at a time —
-  opening the next chapter closes whichever was open) directly into the full
-  lesson list with real Start/Resume/Review/lock state, mastery indicators,
-  "Mark as Complete", and the lesson-preview + sign-in modals — everything
-  the chapter page used to do. Clicking Start/Resume/Review goes straight to
-  the lesson page. maths-grade-3-chapter.html itself is left in place but is
-  no longer linked to from here.
+  cuemath.com/maths/{course-slug}/
+  High-school course browsing page — the course-organized analogue of
+  maths-grade-3.html (which covers K-8, grade-organized). Per Open Questions
+  & Decisions §12, grades 9-12 are NOT grade-wise: the 5 high-school courses
+  (Algebra 1, Geometry, Algebra 2, AP Precalculus, AP Calculus AB) each have
+  their own canonical URL, /maths/{course-slug}/{lesson-slug}/, no grade and
+  no chapter segment in the path.
+
+  Like maths-grade-3.html, this single file renders ALL 5 courses client-side
+  despite being one file — selected via a `?course=` query param (default
+  'algebra-1'), the same one-file-many-variants pattern already used by
+  maths-testprep-exam.html's `?exam=` param. Data comes from
+  highschool-data.js (highSchoolData[courseSlug]) instead of
+  curriculum-data.js (csvGradeData[grade]).
+
+  Deliberately kept as a SEPARATE file/switcher from maths-grade-3.html
+  rather than folding courses into the grade-switcher there — grades and
+  courses are different organizing concepts (see maths.html's homepage,
+  which already separates "Elementary"/"Middle School" grade bands from a
+  "High School" course band rather than mixing them into one list).
+
+  Chapter rows expand inline into the full lesson list (click, one open at a
+  time), same accordion pattern as maths-grade-3.html — there is no separate
+  course-chapter page. Start/Resume/Review and the lesson-preview modal's
+  Continue button currently link out to production-style
+  /maths/{course}/{lesson-slug}/ URLs rather than a local lesson-page mockup,
+  because no course-based lesson-page prototype exists yet (maths-grade-3-lesson.html
+  is hardwired to csvGradeData/grade, not highSchoolData/course) — this
+  mirrors the same "no local mockup yet, use the production URL" placeholder
+  maths.html already used for these courses before this page existed. Flagged
+  as a follow-up, not a silent gap.
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade 3 Math — Cuemath</title>
+<title>High School Math — Cuemath</title>
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -45,23 +67,26 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .topbar-bc .cur{color:#1C1917;font-weight:500}
 .tb-btn{background:#F4AB52;color:#1C1917;border:none;padding:7px 16px;font-family:'UntitledSans';font-size:13px;font-weight:500;cursor:pointer}
 .tb-btn:hover{background:#CE7E12}
-.grade-wrap{padding:20px 24px;flex:1}
-/* Grade switcher */
-.grade-switcher{display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
-.grade-switcher::-webkit-scrollbar{display:none}
-.gs-pill{padding:5px 14px;border:1px solid rgba(0,0,0,.12);background:none;font-family:'UntitledSans';font-size:12px;font-weight:500;color:#97948E;cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0}
-.gs-pill:hover{border-color:#1C1917;color:#1C1917}
-.gs-pill.active{background:#1C1917;color:#fff;border-color:#1C1917}
-/* Grade header */
-.grade-section-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.grade-section-title{font-family:'Athletics';font-size:17px;font-weight:700;color:#1C1917}
-.grade-section-pct{font-size:12px;color:#97948E;margin-left:auto}
+.course-wrap{padding:20px 24px;flex:1}
+/* Course switcher — same visual language/behavior as maths-grade-3.html's
+   .grade-switcher/.gs-pill, renamed so the two concerns (grade vs. course)
+   stay legible as distinct in the markup even though they never appear on
+   the same page. */
+.course-switcher{display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.course-switcher::-webkit-scrollbar{display:none}
+.cs-pill{padding:5px 14px;border:1px solid rgba(0,0,0,.12);background:none;font-family:'UntitledSans';font-size:12px;font-weight:500;color:#97948E;cursor:pointer;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.cs-pill:hover{border-color:#1C1917;color:#1C1917}
+.cs-pill.active{background:#1C1917;color:#fff;border-color:#1C1917}
+/* Course header */
+.course-section-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.course-section-title{font-family:'Athletics';font-size:17px;font-weight:700;color:#1C1917}
+.course-section-pct{font-size:12px;color:#97948E;margin-left:auto}
 .mastery-track{height:3px;background:#E5DDD4;margin-bottom:20px}
 .mastery-fill{height:100%;background:#1C1917;width:0}
 
 /* Chapter list — full-width rows, click-to-expand accordion (one open at a
-   time; opening the next chapter closes whichever was open). No separate
-   chapter page anymore, so the whole header is the toggle target. */
+   time; opening the next chapter closes whichever was open). Ported
+   verbatim from maths-grade-3.html. */
 .chapter-list{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
 .ch-row{background:#fff;border:1px solid rgba(0,0,0,.07);transition:box-shadow .12s}
 .ch-row:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
@@ -77,15 +102,13 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .ch-row-done-badge svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .ch-row-chevron{font-size:11px;color:#97948E;transition:transform .15s ease;flex-shrink:0}
 .ch-row.open .ch-row-chevron{transform:rotate(180deg);color:#1C1917}
-/* Expand wrapper — grid-template-rows 0fr→1fr, pushes content below down (normal flow, not overlay) */
 .ch-row-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
 .ch-row.open .ch-row-body{grid-template-rows:1fr}
 .ch-row-body-inner{overflow:hidden}
 .ch-row-lessons{padding:2px 16px 6px 68px;border-top:1px solid #F5F0E8;margin-top:2px}
 
-/* Lesson rows with real Start/Resume/Review state — ported from the retired
-   chapter page (maths-grade-3-chapter.html), generalized with a chIdx
-   parameter since every chapter's lessons now render on this one page. */
+/* Lesson rows with real Start/Resume/Review state — ported verbatim from
+   maths-grade-3.html, generalized with a chIdx parameter. */
 .lesson-row{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid rgba(0,0,0,.06);position:relative}
 .lesson-row:last-child{border-bottom:none}
 .lr-num-wrap{width:32px;height:32px;border-radius:50%;background:#C2E0CE;border:1.5px solid #A0CEBB;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#2D6B4F;flex-shrink:0;position:relative}
@@ -120,7 +143,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .lr-dd-item:hover{background:#EDF7F2}
 .locked-row{opacity:.7}
 
-/* Lesson-preview + sign-in modals — ported from the retired chapter page */
+/* Lesson-preview + sign-in modals — ported verbatim from maths-grade-3.html */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:400px;max-width:90vw;padding:28px 28px 24px;position:relative}
@@ -175,9 +198,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .rrn-item:last-child{border-bottom:none}
 .rrn-icon{font-size:14px;flex-shrink:0}
 
-/* MOBILE — reflow the sidebar below the main content instead of hiding it
-   (it's where the stats, app CTAs, and resources nav live — hiding it meant
-   most visitors, who are on mobile, never saw a single CTA on this page). */
+/* MOBILE — reflow the sidebar below the main content, same as maths-grade-3.html */
 @media(max-width:768px){
   html,body{height:auto;overflow:visible}
   .shell{display:block;height:auto}
@@ -186,7 +207,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   .rightpanel{overflow-y:visible;border-left:none;border-top:1px solid rgba(0,0,0,.08)}
 }
 @media(max-width:480px){
-  .grade-wrap{padding:14px}
+  .course-wrap{padding:14px}
   .ch-row-header{flex-wrap:wrap;gap:8px 10px}
   .ch-row-meta{order:3;width:100%;padding-left:52px}
   .rp-inner{padding:12px}
@@ -220,25 +241,21 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     <div class="topbar">
       <div class="topbar-bc">
         <a href="maths.html">Maths</a><span>›</span>
-        <span class="cur" id="bc-grade-label">Grade 3</span>
+        <span class="cur" id="bc-course-label">Algebra 1</span>
       </div>
     </div>
-    <div class="grade-wrap">
-      <div class="grade-switcher">
-        <button class="gs-pill" data-grade="K" onclick="loadGrade('K')">K</button>
-        <button class="gs-pill" data-grade="1" onclick="loadGrade(1)">Grade 1</button>
-        <button class="gs-pill" data-grade="2" onclick="loadGrade(2)">Grade 2</button>
-        <button class="gs-pill active" data-grade="3" onclick="loadGrade(3)">Grade 3</button>
-        <button class="gs-pill" data-grade="4" onclick="loadGrade(4)">Grade 4</button>
-        <button class="gs-pill" data-grade="5" onclick="loadGrade(5)">Grade 5</button>
-        <button class="gs-pill" data-grade="6" onclick="loadGrade(6)">Grade 6</button>
-        <button class="gs-pill" data-grade="7" onclick="loadGrade(7)">Grade 7</button>
-        <button class="gs-pill" data-grade="8" onclick="loadGrade(8)">Grade 8</button>
+    <div class="course-wrap">
+      <div class="course-switcher">
+        <button class="cs-pill" data-course="algebra-1" onclick="loadCourse('algebra-1')">Algebra 1</button>
+        <button class="cs-pill" data-course="geometry" onclick="loadCourse('geometry')">Geometry</button>
+        <button class="cs-pill" data-course="algebra-2" onclick="loadCourse('algebra-2')">Algebra 2</button>
+        <button class="cs-pill" data-course="ap-precalculus" onclick="loadCourse('ap-precalculus')">AP Precalculus</button>
+        <button class="cs-pill" data-course="ap-calculus-ab" onclick="loadCourse('ap-calculus-ab')">AP Calculus AB</button>
       </div>
-      <div class="grade-section-header">
+      <div class="course-section-header">
         <span style="font-size:18px">📓</span>
-        <span class="grade-section-title">USCC · Grade 3</span>
-        <span class="grade-section-pct">0% learnt</span>
+        <span class="course-section-title" id="course-section-title">High School · Algebra 1</span>
+        <span class="course-section-pct">0% learnt</span>
       </div>
       <div class="mastery-track"><div class="mastery-fill"></div></div>
       <div class="chapter-list" id="chapter-grid"></div>
@@ -283,7 +300,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   </div>
 </div>
 
-<!-- LESSON PREVIEW MODAL — ported from the retired chapter page -->
+<!-- LESSON PREVIEW MODAL — ported from maths-grade-3.html -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal" id="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -305,7 +322,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   </div>
 </div>
 
-<!-- TEST PREP MODAL — opens from the "Test" left-nav icon, redirects to the By Exam view on the homepage -->
+<!-- TEST PREP MODAL — opens from the "Test" left-nav icon, redirects to the By Exam view on the homepage. Ported verbatim from maths-grade-3.html. -->
 <div class="modal-overlay" id="testprep-modal-overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeTestPrepModal()">×</button>
@@ -316,23 +333,41 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 </div>
 
 <script src="gamification.js"></script>
-<script src="curriculum-data.js"></script>
+<script src="highschool-data.js"></script>
 <script>
-// csvGradeData comes from curriculum-data.js (shared, real K-7 xlsx data).
-// gamification.js renders Points/Streak/Sparks on load.
+// highSchoolData comes from highschool-data.js (shared, real HS xlsx/Sheet
+// data, reconciled 2026-07-21). gamification.js renders Points/Streak/Sparks
+// on load — same shared component as maths-grade-3.html, no course-specific
+// changes needed there.
 //
 // State logic (getGlobalCompleted/getState/markComplete/goToReview/
-// goToResume/openLessonModal/sign-in modal) is ported from the retired
-// chapter page (maths-grade-3-chapter.html) and generalized with a chIdx
-// parameter, since this page shows every chapter's lessons at once instead
-// of one chapter per page. There is no separate chapter page anymore — the
-// chapter row's header now toggles the inline lesson list (click, one open
-// at a time) instead of navigating anywhere, and Start/Resume/Review go
-// straight to the lesson page.
+// goToResume/openLessonModal/sign-in modal) is ported from maths-grade-3.html
+// almost verbatim, swapping `grade` for `course` (a slug string instead of a
+// number/'K') everywhere. Deliberately reuses the SAME sessionStorage key
+// (GLOBAL_COMPLETE_KEY) as maths-grade-3.html — this is the shared
+// site-wide "one free lesson, then everything else locks until sign-in"
+// mechanic, and the object stores either a `grade` field or a `course`
+// field depending on which page claimed it, so a lesson claimed on the
+// Grade 3 page correctly shows as locked (not claimed) here, and vice
+// versa — matching the existing "the one free lesson's been used, here or
+// elsewhere" comment in maths-grade-3.html.
 
-const gradeLabels = {'K':'USCC · Kindergarten',1:'USCC · Grade 1',2:'USCC · Grade 2',3:'USCC · Grade 3',4:'USCC · Grade 4',5:'USCC · Grade 5',6:'USCC · Grade 6',7:'USCC · Grade 7',8:'USCC · Grade 8'};
+// Course slugify — copied from maths.html's slugify(), used to build the
+// production-style lesson URLs below since a local HS lesson-page mockup
+// doesn't exist yet.
+function slugify(s) {
+  s = s.trim().toLowerCase();
+  s = s.replace(/&/g, 'and');
+  s = s.replace(/[’']/g, '');
+  s = s.replace(/[^\w\s-]/g, '');
+  s = s.replace(/[\s_]+/g, '-');
+  s = s.replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return s;
+}
 
-let currentGrade = 3;
+const COURSE_ORDER = ['algebra-1', 'geometry', 'algebra-2', 'ap-precalculus', 'ap-calculus-ab'];
+
+let currentCourse = 'algebra-1';
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
 const GLOBAL_COMPLETE_KEY = 'cuemathGlobalCompletedLesson';
 
@@ -340,15 +375,14 @@ function getGlobalCompleted(){
   const raw = sessionStorage.getItem(GLOBAL_COMPLETE_KEY);
   return raw ? JSON.parse(raw) : null;
 }
-function setGlobalManuallyCompleted(g, c, l){
-  sessionStorage.setItem(GLOBAL_COMPLETE_KEY, JSON.stringify({grade: g, ch: c, lesson: l, practiceDone: true, manuallyCompleted: true}));
+function setGlobalManuallyCompleted(c, ch, l){
+  sessionStorage.setItem(GLOBAL_COMPLETE_KEY, JSON.stringify({course: c, ch: ch, lesson: l, practiceDone: true, manuallyCompleted: true}));
 }
 
-// Pure per-lesson state check — reads global claim fresh each call rather
-// than caching arrays, since this page has to compute state for every
-// lesson across every chapter, not just one chapter's worth.
+// Pure per-lesson state check — reads global claim fresh each call, same
+// as maths-grade-3.html, just keyed on `course` instead of `grade`.
 function getState(chIdx, i, globalCompleted){
-  const isClaimed = globalCompleted && globalCompleted.grade === currentGrade && globalCompleted.ch === chIdx && globalCompleted.lesson === i;
+  const isClaimed = globalCompleted && globalCompleted.course === currentCourse && globalCompleted.ch === chIdx && globalCompleted.lesson === i;
   if (isClaimed && (globalCompleted.practiceDone || globalCompleted.manuallyCompleted)) return 'done';
   if (isClaimed) return 'resume';
   if (isSignedIn) return 'start';
@@ -406,18 +440,27 @@ function buildLessonRows(chIdx, lessons){
 
 function markComplete(chIdx, i, e){
   if(e) e.stopPropagation();
-  setGlobalManuallyCompleted(currentGrade, chIdx, i);
-  cmAwardManualCompletePoints(`${currentGrade}-${chIdx}-${i}`);
-  loadGrade(currentGrade); // full re-render — signing/completing affects every chapter's lock state
+  setGlobalManuallyCompleted(currentCourse, chIdx, i);
+  cmAwardManualCompletePoints(`${currentCourse}-${chIdx}-${i}`);
+  loadCourse(currentCourse); // full re-render — signing/completing affects every chapter's lock state
 }
 
+// NOTE: goToReview/goToResume/goToLesson point to production-style
+// /maths/{course}/{lesson-slug}/ URLs rather than a local lesson-page
+// mockup — there is no maths-course-lesson.html (or equivalent) yet.
+// maths-grade-3-lesson.html can't be reused as-is since it's hardwired to
+// csvGradeData/grade rather than highSchoolData/course. Flagged as an open
+// follow-up in Tasks.md, same treatment maths.html already gave these
+// courses before this browsing page existed.
 function goToReview(chIdx, num, e){
   if(e) e.stopPropagation();
-  location.href = 'maths-grade-3-lesson.html?grade=' + currentGrade + '&ch=' + (chIdx + 1) + '&lesson=' + num + '&tab=practice';
+  const name = highSchoolData[currentCourse].chapters[chIdx].lessons[num - 1];
+  location.href = '/maths/' + currentCourse + '/' + slugify(name) + '/';
 }
 function goToResume(chIdx, num, e){
   if(e) e.stopPropagation();
-  location.href = 'maths-grade-3-lesson.html?grade=' + currentGrade + '&ch=' + (chIdx + 1) + '&lesson=' + num + '&tab=practice';
+  const name = highSchoolData[currentCourse].chapters[chIdx].lessons[num - 1];
+  location.href = '/maths/' + currentCourse + '/' + slugify(name) + '/';
 }
 
 let openDD = null;
@@ -439,7 +482,7 @@ function openLessonModal(chIdx, num, name, e){
   currentModalLessonNum = num;
   document.getElementById('modal-label').textContent = 'LESSON ' + num;
   document.getElementById('modal-title').textContent = name;
-  const chLessons = csvGradeData[currentGrade][chIdx].lessons;
+  const chLessons = highSchoolData[currentCourse].chapters[chIdx].lessons;
   const startIdx = chLessons.indexOf(name);
   const skills = chLessons.slice(Math.max(0, startIdx), Math.max(0, startIdx) + 5);
   document.getElementById('modal-skills').innerHTML = skills.map(s =>
@@ -460,7 +503,8 @@ document.getElementById('testprep-modal-overlay').addEventListener('click', func
   if(e.target.id === 'testprep-modal-overlay') closeTestPrepModal();
 });
 function goToLesson(){
-  location.href = 'maths-grade-3-lesson.html?grade=' + currentGrade + '&ch=' + (currentModalChIdx + 1) + '&lesson=' + currentModalLessonNum;
+  const name = highSchoolData[currentCourse].chapters[currentModalChIdx].lessons[currentModalLessonNum - 1];
+  location.href = '/maths/' + currentCourse + '/' + slugify(name) + '/';
 }
 document.getElementById('modal-overlay').addEventListener('click', function(e){
   if(e.target === this) closeModal();
@@ -475,24 +519,24 @@ function toggleChapter(i){
   if(!wasOpen) document.getElementById('ch-'+(i+1)).classList.add('open');
 }
 
-function loadGrade(g){
-  if(g !== currentGrade) openChapterIdx = null;
-  currentGrade = g;
-  const chapters = csvGradeData[g];
-  if(!chapters) return;
-  const gradeName = g==='K' ? 'Kindergarten' : 'Grade '+g;
-  document.querySelector('.grade-section-title').textContent = gradeLabels[g] || ('USCC · '+gradeName);
-  document.getElementById('bc-grade-label').textContent = gradeName;
-  document.querySelectorAll('.gs-pill').forEach(p => {
-    p.classList.toggle('active', p.dataset.grade == g);
+function loadCourse(c){
+  if(!highSchoolData[c]) return;
+  if(c !== currentCourse) openChapterIdx = null;
+  currentCourse = c;
+  const course = highSchoolData[c];
+  const chapters = course.chapters;
+  document.getElementById('course-section-title').textContent = 'High School · ' + course.name;
+  document.getElementById('bc-course-label').textContent = course.name;
+  document.querySelectorAll('.cs-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.course === c);
   });
 
   const globalCompleted = getGlobalCompleted();
   const grid = document.getElementById('chapter-grid');
   grid.innerHTML = chapters.map((ch, i) => {
     const lessons = ch.lessons;
-    const pct = (globalCompleted && globalCompleted.grade === g && globalCompleted.ch === i) ? (1 / lessons.length) : 0;
-    const isDone = globalCompleted && globalCompleted.grade === g && globalCompleted.ch === i && (globalCompleted.practiceDone || globalCompleted.manuallyCompleted);
+    const pct = (globalCompleted && globalCompleted.course === c && globalCompleted.ch === i) ? (1 / lessons.length) : 0;
+    const isDone = globalCompleted && globalCompleted.course === c && globalCompleted.ch === i && (globalCompleted.practiceDone || globalCompleted.manuallyCompleted);
     const lessonRows = buildLessonRows(i, lessons);
     return `
     <div class="ch-row" id="ch-${i+1}">
@@ -522,14 +566,14 @@ function loadGrade(g){
 }
 
 const _initParams = new URLSearchParams(location.search);
-const _initGradeParam = _initParams.get('grade');
-const _initGrade = _initGradeParam === 'K' ? 'K' : (parseInt(_initGradeParam) || 3);
-loadGrade(_initGrade);
+const _initCourseParam = _initParams.get('course');
+const _initCourse = (_initCourseParam && highSchoolData[_initCourseParam]) ? _initCourseParam : 'algebra-1';
+loadCourse(_initCourse);
 
-// Deep-link support — e.g. maths.html's By Grade tab or maths-topic.html's
-// "Go to chapter" button link straight to a chapter here (grade + ch),
-// since there's no separate chapter page to land on anymore. Opens that
-// chapter already expanded and scrolls it into view.
+// Deep-link support — e.g. maths.html's By Grade tab (High School band) can
+// link straight to a chapter here (course + ch), same pattern as
+// maths-grade-3.html's own _initCh handling. Opens that chapter already
+// expanded and scrolls it into view.
 const _initCh = parseInt(_initParams.get('ch'));
 if (_initCh) {
   const chRow = document.getElementById('ch-' + _initCh);

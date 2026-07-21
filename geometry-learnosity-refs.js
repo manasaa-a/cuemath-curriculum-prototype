@@ -226,9 +226,24 @@ const geometryLearnosityRefs = {
 // dev, 20 chapters / 95 lessons / 457 refs) but have NO corresponding chapter
 // in our existing highschool-data.js geometry course (11 chapters / 68
 // lessons) at all. Not added to our data -- noted here per instruction.
+//
+// UPDATE 2026-07-21: highschool-data.js geometry now HAS a "Probability"
+// chapter (added from the canonical Google Sheet, 6 lessons: Sample Spaces
+// and Probability / Independent and Dependent Events / Two-Way Tables and
+// Probability / Probability of Disjoint and Overlapping Events /
+// Permutations and Combinations / Binomial Distributions) -- this closes
+// the gap flagged below in general terms, but NOT a 1:1 match with the API
+// chapters noted here: the API's "Probability" chapter is only 4 lessons
+// (basics/Venn diagrams/OR events/AND events/conditional probability) and
+// its "Permutations and Combinations" content is a separate 4-lesson
+// chapter, neither of which lines up cleanly with our new 6-lesson version.
+// Still need a real ref-matching pass against the API pull for these 6
+// lessons -- not done here (would need re-pulling/re-checking the live API
+// response, out of scope for this data-reconciliation pass). Leaving the
+// two rows below as-is since they describe the API's shape, not ours.
 const geometryExtraChaptersInApiNotInOurs = [
   {chapter: "Sets", lessonCount: 6, note: "Represent/Classify/Compare Sets, Venn diagram operations, complements, real-life applications. Ours has no set-theory content anywhere in Geometry (or elsewhere in our HS data)."},
-  {chapter: "Permutations and Combinations", lessonCount: 4, note: "Counting principles, factorials, permutations, combinations. Not covered in our Geometry data at all -- Algebra 2 has a 'Probability' chapter with a 'Permutations and Combinations' lesson, but that's a single lesson, not this dedicated 4-lesson chapter."},
-  {chapter: "Probability", lessonCount: 4, note: "Basics of probability, Venn diagrams/'OR' events, 'AND' events, conditional probability. Ours has no Probability content in Geometry -- that lives in Algebra 2's 'Probability' chapter instead, and even there at much less depth."},
+  {chapter: "Permutations and Combinations", lessonCount: 4, note: "Counting principles, factorials, permutations, combinations. As of 2026-07-21 our Geometry data has its own 'Probability' chapter with a 'Permutations and Combinations' lesson, but that's a single lesson, not this dedicated 4-lesson API chapter -- still needs a real ref-matching pass, see update note above."},
+  {chapter: "Probability", lessonCount: 4, note: "Basics of probability, Venn diagrams/'OR' events, 'AND' events, conditional probability. As of 2026-07-21 our Geometry data has its own 6-lesson 'Probability' chapter (see update note above) but it doesn't map cleanly onto this 4-lesson API version -- still needs a real ref-matching pass, not done here."},
   {chapter: "Applications of Right Triangle Trigonometry", lessonCount: 3, note: "Heights-and-distances word problems (angle of elevation/depression), simple and advanced, plus a chapter assessment. Ours doesn't have a dedicated heights/distances lesson under 'Right Triangles and Trigonometry' -- closest is the more general 'Solving Right Triangles', already assigned above to a different, more precise API lesson."},
 ];
