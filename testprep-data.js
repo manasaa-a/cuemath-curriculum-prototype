@@ -5,7 +5,7 @@
 // Chapter/block/worksheet names are verbatim from the source CSVs — no rewording.
 const testPrepData = {
   "moems": {
-    "name": "MOEMS Math Curriculum",
+    "name": "MOEMS Mock Tests",
     "aboutName": "MOEMS",
     "slug": "moems",
     "examUrl": "/maths/moems/",
@@ -108,7 +108,7 @@ const testPrepData = {
     ]
   },
   "map": {
-    "name": "MAP Math Curriculum",
+    "name": "MAP Curriculum",
     "aboutName": "MAP",
     "slug": "map",
     "examUrl": "/maths/map/",
@@ -747,7 +747,7 @@ const testPrepData = {
     ]
   },
   "iar": {
-    "name": "IAR Math Curriculum",
+    "name": "IAR Curriculum",
     "aboutName": "IAR",
     "slug": "iar",
     "examUrl": "/maths/iar/",
@@ -2205,7 +2205,7 @@ const testPrepData = {
     ]
   },
   "aasa": {
-    "name": "AASA Math Curriculum",
+    "name": "AASA Curriculum",
     "aboutName": "AASA",
     "slug": "aasa",
     "examUrl": "/maths/aasa/",
@@ -3543,7 +3543,7 @@ const testPrepData = {
     ]
   },
   "ssat": {
-    "name": "SSAT Math Curriculum",
+    "name": "SSAT Curriculum",
     "aboutName": "SSAT",
     "slug": "ssat",
     "examUrl": "/maths/ssat/",
@@ -4239,7 +4239,7 @@ const testPrepData = {
     ]
   },
   "gmas": {
-    "name": "GMAS Math Curriculum",
+    "name": "GMAS Curriculum",
     "aboutName": "GMAS",
     "slug": "gmas",
     "examUrl": "/maths/gmas/",
@@ -5637,7 +5637,7 @@ const testPrepData = {
     ]
   },
   "sba": {
-    "name": "SBA Math Curriculum",
+    "name": "SBA Curriculum",
     "aboutName": "SBA",
     "slug": "sba",
     "examUrl": "/maths/sba/",
@@ -7022,7 +7022,7 @@ const testPrepData = {
     ]
   },
   "amc-8": {
-    "name": "AMC 8 Math Curriculum",
+    "name": "AMC 8 Curriculum",
     "aboutName": "AMC 8",
     "slug": "amc-8",
     "examUrl": "/maths/amc-8/",
@@ -9041,7 +9041,7 @@ const testPrepData = {
     ]
   },
   "staar": {
-    "name": "STAAR Math Curriculum",
+    "name": "STAAR Curriculum",
     "aboutName": "STAAR",
     "slug": "staar",
     "examUrl": "/maths/staar/",
@@ -10436,7 +10436,7 @@ const testPrepData = {
     ]
   },
   "njsla": {
-    "name": "NJSLA Math Curriculum",
+    "name": "NJSLA Curriculum",
     "aboutName": "NJSLA",
     "slug": "njsla",
     "examUrl": "/maths/njsla/",
@@ -11894,7 +11894,7 @@ const testPrepData = {
     ]
   },
   "cogat": {
-    "name": "CogAT Math Curriculum",
+    "name": "CogAT Curriculum",
     "aboutName": "CogAT",
     "slug": "cogat",
     "examUrl": "/maths/cogat/",
