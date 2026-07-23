@@ -36,7 +36,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>High School Math — Cuemath</title>
+<title>Algebra 1 Math Curriculum | Free Lessons & Practice | Cuemath</title>
+<meta name="description" content="Browse every chapter and lesson in Cuemath's Algebra 1 math curriculum, aligned with U.S. Common Core high school standards. 13 chapters, 73 lessons, free to explore.">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -254,7 +255,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       </div>
       <div class="course-section-header">
         <span style="font-size:18px">📓</span>
-        <span class="course-section-title" id="course-section-title">High School · Algebra 1</span>
+        <h1 class="course-section-title" id="course-section-title">Algebra 1</h1>
         <span class="course-section-pct">0% learnt</span>
       </div>
       <div class="mastery-track"><div class="mastery-fill"></div></div>
@@ -519,13 +520,23 @@ function toggleChapter(i){
   if(!wasOpen) document.getElementById('ch-'+(i+1)).classList.add('open');
 }
 
+const COURSE_SEO = {
+  'algebra-1': {title:"Algebra 1 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Algebra 1 math curriculum, aligned with U.S. Common Core high school standards. 13 chapters, 73 lessons, free to explore.", h1:"Algebra 1"},
+  'geometry': {title:"Geometry Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Geometry math curriculum, aligned with U.S. Common Core high school standards. 12 chapters, 74 lessons, free to explore.", h1:"Geometry"},
+  'algebra-2': {title:"Algebra 2 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Algebra 2 math curriculum, aligned with U.S. Common Core high school standards. 12 chapters, 66 lessons, free to explore.", h1:"Algebra 2"},
+  'ap-precalculus': {title:"AP Precalculus Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's AP Precalculus math curriculum, aligned with the College Board's AP Precalculus framework. 10 chapters, 41 lessons, free to explore.", h1:"AP Precalculus"},
+  'ap-calculus-ab': {title:"AP Calculus AB Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's AP Calculus AB math curriculum, aligned with the College Board's AP Calculus AB framework. 9 chapters, 62 lessons, free to explore.", h1:"AP Calculus AB"},
+};
 function loadCourse(c){
   if(!highSchoolData[c]) return;
   if(c !== currentCourse) openChapterIdx = null;
   currentCourse = c;
   const course = highSchoolData[c];
   const chapters = course.chapters;
-  document.getElementById('course-section-title').textContent = 'High School · ' + course.name;
+  const seo = COURSE_SEO[c];
+  document.getElementById('course-section-title').textContent = seo ? seo.h1 : course.name;
+  document.title = seo ? seo.title : (course.name + ' Math Curriculum | Free Lessons & Practice | Cuemath');
+  document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `Browse every chapter and lesson in Cuemath's ${course.name} math curriculum.`);
   document.getElementById('bc-course-label').textContent = course.name;
   document.querySelectorAll('.cs-pill').forEach(p => {
     p.classList.toggle('active', p.dataset.course === c);
