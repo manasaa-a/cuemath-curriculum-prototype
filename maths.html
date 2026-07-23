@@ -164,8 +164,8 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .faq-item.open .faq-a{grid-template-rows:1fr}
 .faq-a-inner{overflow:hidden}
 .faq-a-inner p{padding:0 4px 18px;font-size:13px;color:#5B5854;line-height:1.6;max-width:680px}
-.faq-cta-btn{display:inline-flex;align-items:center;justify-content:center;margin:0 4px 18px;background:#F4AB52;color:#292827;font-family:'UntitledSans';font-size:13px;font-weight:500;height:36px;padding:0 18px;border:1px solid #292827;border-radius:4px;cursor:pointer;white-space:nowrap}
-.faq-cta-btn:hover{background:#EC9A32}
+.faq-cta-link{display:inline-flex;align-items:center;gap:4px;margin:0 4px 18px;color:#C97A1A;font-family:'UntitledSans';font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer}
+.faq-cta-link:hover{color:#A5620F}
 
 /* Trial-booking form placeholder modal */
 .diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
@@ -817,10 +817,17 @@ function renderTopicView() {
 
 // FAQ section
 const FAQ_ITEMS = [
-  {q: 'What does Cuemath\'s math curriculum cover?', a: 'Cuemath\'s math curriculum spans elementary through high school, organized by grade, topic, and test-prep exam curriculum. Every chapter and lesson in our teaching program is listed here.'},
+  {q: 'What does Cuemath\'s math curriculum cover?', a: 'Cuemath\'s curriculum covers all grades from K\u201312, aligned with U.S. Common Core standards, spanning Elementary, Middle School, and High School Math. It also includes competition, enrichment and test-prep courses (SAT, Math Olympiads, and more) at no extra cost, all designed by math experts. The curriculum is a starting point: every student gets a personalized plan based on their own needs and goals.'},
   {q: 'Can I browse the curriculum for free?', a: 'Yes. You can browse every grade, topic, and exam page, and see the full list of chapters and lessons, at no cost and without signing up.'},
   {q: 'How is the curriculum organized?', a: 'Three ways: By Grade (Kindergarten through high school), By Topic (a subject like Number System or Geometry, followed across every grade it appears in), and By Exam (test-prep programs like the SAT, STAAR, and Math Kangaroo).'},
   {q: 'Is this the same curriculum used in Cuemath classes?', a: 'Yes. This is the same chapter and lesson structure our tutors teach from, just presented here for parents and students to browse and plan around.'},
+  {q: 'Is the curriculum the same for every student?', a: 'No. The curriculum is a starting point. Every student gets a personalized learning plan based on their grade, school curriculum, current level, and goals, whether that\'s catching up, staying on track, or getting ahead.'},
+  {q: 'Can Cuemath help if my child is behind or ahead of their grade level?', a: 'Yes. Tutors assess your child\'s current understanding in the first diagnostic free class itself, then build the plan to either revisit foundational topics or move ahead to more advanced concepts, regardless of their official grade level.'},
+  {q: 'Does the curriculum align with my child\'s school syllabus?', a: 'Yes. Our curriculum is aligned with U.S. Common Core standards and is adapted to complement what your child is learning in school, so there\'s no confusion between the two.'},
+  {q: 'What test prep and competitions does Cuemath cover?', a: 'Cuemath includes preparation for exams and competitions like the SAT, Math Kangaroo, and Math Olympiads, all included in your plan at no extra cost.'},
+  {q: 'Who designs the curriculum?', a: 'The curriculum is designed by math, STEM, and pedagogy experts. It is continuously refined based on real learning outcomes, built for genuine conceptual understanding, not memorization.'},
+  {q: 'How is my child\'s progress tracked against the curriculum?', a: 'Parents get regular progress reports through the Cuemath app, showing what topics have been covered, how your child is performing, and what\'s coming up next. We also have regular parent-teacher meetings to keep parents informed.'},
+  {q: 'Can we switch topics or pace if our needs change mid-year?', a: 'Yes. Since the plan is personalized, tutors can adjust the pace or focus areas at any time, whether you want to slow down, speed up, or shift focus toward exam prep.'},
   {q: 'Do I need to enroll to start a lesson?', a: 'Yes. Lesson practice is available to enrolled Cuemath students. Enroll in a free trial class to unlock full access to lessons, practice, and progress tracking.', cta: true},
 ];
 
@@ -831,7 +838,7 @@ function renderFaqs() {
         <span>${item.q}</span>
         <span class="faq-caret"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
       </button>
-      <div class="faq-a"><div class="faq-a-inner"><p>${item.a}</p>${item.cta ? '<button class="faq-cta-btn" onclick="openDiagnosticForm()">Book a Free Trial</button>' : ''}</div></div>
+      <div class="faq-a"><div class="faq-a-inner"><p>${item.a}</p>${item.cta ? '<a class="faq-cta-link" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial →</a>' : ''}</div></div>
     </div>`).join('');
 
   const ldJson = {
