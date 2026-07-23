@@ -5,7 +5,7 @@
 // Chapter/block/worksheet names are verbatim from the source CSVs — no rewording.
 const testPrepData = {
   "moems": {
-    "name": "MOEMS",
+    "name": "MOEMS Math Curriculum",
     "slug": "moems",
     "examUrl": "/maths/moems/",
     "hasBands": false,
@@ -107,7 +107,7 @@ const testPrepData = {
     ]
   },
   "map": {
-    "name": "MAP",
+    "name": "MAP Math Curriculum",
     "slug": "map",
     "examUrl": "/maths/map/",
     "hasBands": true,
@@ -745,7 +745,7 @@ const testPrepData = {
     ]
   },
   "iar": {
-    "name": "IAR",
+    "name": "IAR Math Curriculum",
     "slug": "iar",
     "examUrl": "/maths/iar/",
     "hasBands": true,
@@ -2202,7 +2202,7 @@ const testPrepData = {
     ]
   },
   "aasa": {
-    "name": "AASA",
+    "name": "AASA Math Curriculum",
     "slug": "aasa",
     "examUrl": "/maths/aasa/",
     "hasBands": true,
@@ -3539,7 +3539,7 @@ const testPrepData = {
     ]
   },
   "ssat": {
-    "name": "SSAT",
+    "name": "SSAT Math Curriculum",
     "slug": "ssat",
     "examUrl": "/maths/ssat/",
     "hasBands": true,
@@ -4234,7 +4234,7 @@ const testPrepData = {
     ]
   },
   "gmas": {
-    "name": "GMAS",
+    "name": "GMAS Math Curriculum",
     "slug": "gmas",
     "examUrl": "/maths/gmas/",
     "hasBands": true,
@@ -5631,7 +5631,7 @@ const testPrepData = {
     ]
   },
   "sba": {
-    "name": "SBA",
+    "name": "SBA Math Curriculum",
     "slug": "sba",
     "examUrl": "/maths/sba/",
     "hasBands": true,
@@ -7015,7 +7015,7 @@ const testPrepData = {
     ]
   },
   "amc-8": {
-    "name": "AMC 8",
+    "name": "AMC 8 Math Curriculum",
     "slug": "amc-8",
     "examUrl": "/maths/amc-8/",
     "hasBands": false,
@@ -7352,7 +7352,7 @@ const testPrepData = {
     ]
   },
   "kangaroo": {
-    "name": "Math Kangaroo",
+    "name": "Math Kangaroo Curriculum",
     "slug": "kangaroo",
     "examUrl": "/maths/kangaroo/",
     "hasBands": true,
@@ -9032,7 +9032,7 @@ const testPrepData = {
     ]
   },
   "staar": {
-    "name": "STAAR",
+    "name": "STAAR Math Curriculum",
     "slug": "staar",
     "examUrl": "/maths/staar/",
     "hasBands": true,
@@ -10426,7 +10426,7 @@ const testPrepData = {
     ]
   },
   "njsla": {
-    "name": "NJSLA",
+    "name": "NJSLA Math Curriculum",
     "slug": "njsla",
     "examUrl": "/maths/njsla/",
     "hasBands": true,
@@ -11883,7 +11883,7 @@ const testPrepData = {
     ]
   },
   "cogat": {
-    "name": "CogAT",
+    "name": "CogAT Math Curriculum",
     "slug": "cogat",
     "examUrl": "/maths/cogat/",
     "hasBands": true,
@@ -13749,7 +13749,7 @@ const testPrepData = {
     ]
   },
   "sat": {
-    "name": "SAT Math",
+    "name": "SAT Math Curriculum",
     "slug": "sat",
     "examUrl": "/maths/sat/",
     "hasBands": false,
