@@ -6,6 +6,7 @@
 const testPrepData = {
   "moems": {
     "name": "MOEMS Math Curriculum",
+    "aboutName": "MOEMS",
     "slug": "moems",
     "examUrl": "/maths/moems/",
     "hasBands": false,
@@ -108,6 +109,7 @@ const testPrepData = {
   },
   "map": {
     "name": "MAP Math Curriculum",
+    "aboutName": "MAP",
     "slug": "map",
     "examUrl": "/maths/map/",
     "hasBands": true,
@@ -746,6 +748,7 @@ const testPrepData = {
   },
   "iar": {
     "name": "IAR Math Curriculum",
+    "aboutName": "IAR",
     "slug": "iar",
     "examUrl": "/maths/iar/",
     "hasBands": true,
@@ -2203,6 +2206,7 @@ const testPrepData = {
   },
   "aasa": {
     "name": "AASA Math Curriculum",
+    "aboutName": "AASA",
     "slug": "aasa",
     "examUrl": "/maths/aasa/",
     "hasBands": true,
@@ -3540,6 +3544,7 @@ const testPrepData = {
   },
   "ssat": {
     "name": "SSAT Math Curriculum",
+    "aboutName": "SSAT",
     "slug": "ssat",
     "examUrl": "/maths/ssat/",
     "hasBands": true,
@@ -4235,6 +4240,7 @@ const testPrepData = {
   },
   "gmas": {
     "name": "GMAS Math Curriculum",
+    "aboutName": "GMAS",
     "slug": "gmas",
     "examUrl": "/maths/gmas/",
     "hasBands": true,
@@ -5632,6 +5638,7 @@ const testPrepData = {
   },
   "sba": {
     "name": "SBA Math Curriculum",
+    "aboutName": "SBA",
     "slug": "sba",
     "examUrl": "/maths/sba/",
     "hasBands": true,
@@ -7016,6 +7023,7 @@ const testPrepData = {
   },
   "amc-8": {
     "name": "AMC 8 Math Curriculum",
+    "aboutName": "AMC 8",
     "slug": "amc-8",
     "examUrl": "/maths/amc-8/",
     "hasBands": false,
@@ -7353,6 +7361,7 @@ const testPrepData = {
   },
   "kangaroo": {
     "name": "Math Kangaroo Curriculum",
+    "aboutName": "Math Kangaroo",
     "slug": "kangaroo",
     "examUrl": "/maths/kangaroo/",
     "hasBands": true,
@@ -9033,6 +9042,7 @@ const testPrepData = {
   },
   "staar": {
     "name": "STAAR Math Curriculum",
+    "aboutName": "STAAR",
     "slug": "staar",
     "examUrl": "/maths/staar/",
     "hasBands": true,
@@ -10427,6 +10437,7 @@ const testPrepData = {
   },
   "njsla": {
     "name": "NJSLA Math Curriculum",
+    "aboutName": "NJSLA",
     "slug": "njsla",
     "examUrl": "/maths/njsla/",
     "hasBands": true,
@@ -11884,6 +11895,7 @@ const testPrepData = {
   },
   "cogat": {
     "name": "CogAT Math Curriculum",
+    "aboutName": "CogAT",
     "slug": "cogat",
     "examUrl": "/maths/cogat/",
     "hasBands": true,
@@ -13750,6 +13762,7 @@ const testPrepData = {
   },
   "sat": {
     "name": "SAT Math Curriculum",
+    "aboutName": "SAT Math",
     "slug": "sat",
     "examUrl": "/maths/sat/",
     "hasBands": false,
