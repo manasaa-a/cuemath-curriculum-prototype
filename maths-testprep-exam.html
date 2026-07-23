@@ -244,7 +244,7 @@ Object.keys(testPrepData).forEach(slug => {
   const item = document.createElement('a');
   item.className = 'ren-item' + (slug === examSlug ? ' active' : '');
   item.href = 'maths-testprep-exam.html?exam=' + slug;
-  item.textContent = testPrepData[slug].name;
+  item.textContent = testPrepData[slug].aboutName || testPrepData[slug].name;
   renEl.appendChild(item);
 });
 
