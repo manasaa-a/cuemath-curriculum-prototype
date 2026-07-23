@@ -390,7 +390,7 @@ function loadBand(idx) {
   document.getElementById('exam-count').textContent = `${chapters.length} chapters · ${totalBlocks} practice goals`;
 
   const list = document.getElementById('chapter-list');
-  list.innerHTML = renderAboutUnit(exam.name) + chapters.map((ch, i) => {
+  list.innerHTML = renderAboutUnit(exam.aboutName || exam.name) + chapters.map((ch, i) => {
     const blockLinks = ch.blocks.map(block => {
       const wsCount = block.worksheets.length;
       const tag = block.type === 'TESTS' ? 'Mock test' : (wsCount > 1 ? wsCount + ' parts' : 'Practice');
