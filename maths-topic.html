@@ -8,7 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number System — All Grades · Cuemath</title>
+<title>Number System Math Curriculum | K-8 | Cuemath</title>
+<meta name="description" content="See how Number System is taught across Grades K-8 in Cuemath's math curriculum. 22 chapters, 118 lessons, free to browse.">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -57,7 +58,8 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .topic-eyebrow .sep{color:rgba(255,255,255,.2)}
 .topic-hero-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
 .topic-hero-left{}
-.topic-title{font-family:'Athletics';font-size:36px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px}
+.topic-title-emoji{font-size:36px;margin-right:8px;vertical-align:-4px}
+.topic-title{font-family:'Athletics';font-size:36px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px;display:inline}
 .topic-sub{font-size:13px;color:rgba(255,255,255,.5);max-width:480px;line-height:1.5}
 .topic-meta-pills{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .topic-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:5px 12px;font-size:12px;color:rgba(255,255,255,.65)}
@@ -198,7 +200,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
       </div>
       <div class="topic-hero-row">
         <div class="topic-hero-left">
-          <div class="topic-title" id="topic-title">🔢 Number System</div>
+          <span class="topic-title-emoji" aria-hidden="true">🔢</span><h1 class="topic-title" id="topic-title">Number System</h1>
           <div class="topic-sub" id="topic-sub"></div>
           <div class="topic-meta-pills" id="topic-meta-pills"></div>
         </div>
@@ -315,10 +317,28 @@ const TOPIC_DESCRIPTIONS = {
 
 const topicGrades = [...new Set(topic.chapters.map(c => c.grade))].sort((a,b) => gradeSortKey(a) - gradeSortKey(b));
 
+const TOPIC_SEO = {
+  'number-system': {title:"Number System Math Curriculum | K-8 | Cuemath", desc:"See how Number System is taught across Grades K-8 in Cuemath's math curriculum. 22 chapters, 118 lessons, free to browse.", h1:"Number System"},
+  'addition-subtraction': {title:"Addition & Subtraction Math Curriculum | K-4 | Cuemath", desc:"See how Addition & Subtraction is taught across Grades K-4 in Cuemath's math curriculum. 8 chapters, 45 lessons, free to browse.", h1:"Addition & Subtraction"},
+  'multiplication-division': {title:"Multiplication & Division Math Curriculum | Grades 2-4 | Cuemath", desc:"See how Multiplication & Division is taught across Grades 2-4 in Cuemath's math curriculum. 6 chapters, 36 lessons, free to browse.", h1:"Multiplication & Division"},
+  'factors-multiples': {title:"Factors & Multiples Math Curriculum | Grades 4-6 | Cuemath", desc:"See how Factors & Multiples is taught across Grades 4-6 in Cuemath's math curriculum. 3 chapters, 26 lessons, free to browse.", h1:"Factors & Multiples"},
+  'fractions-decimals': {title:"Fractions & Decimals Math Curriculum | Grades 1-6 | Cuemath", desc:"See how Fractions & Decimals is taught across Grades 1-6 in Cuemath's math curriculum. 12 chapters, 52 lessons, free to browse.", h1:"Fractions & Decimals"},
+  'geometry-shapes': {title:"Geometry & Shapes Math Curriculum | K-8 | Cuemath", desc:"See how Geometry & Shapes is taught across Grades K-8 in Cuemath's math curriculum. 15 chapters, 79 lessons, free to browse.", h1:"Geometry & Shapes"},
+  'measurement-mensuration': {title:"Measurement & Mensuration Math Curriculum | K-8 | Cuemath", desc:"See how Measurement & Mensuration is taught across Grades K-8 in Cuemath's math curriculum. 16 chapters, 71 lessons, free to browse.", h1:"Measurement & Mensuration"},
+  'time': {title:"Time Math Curriculum | K-4 | Cuemath", desc:"See how Time is taught across Grades K-4 in Cuemath's math curriculum. 5 chapters, 20 lessons, free to browse.", h1:"Time"},
+  'money': {title:"Money Math Curriculum | Grades 1-4 | Cuemath", desc:"See how Money is taught across Grades 1-4 in Cuemath's math curriculum. 4 chapters, 14 lessons, free to browse.", h1:"Money"},
+  'data-graphs': {title:"Data, Graphs & Probability Math Curriculum | K-8 | Cuemath", desc:"See how Data, Graphs & Probability is taught across Grades K-8 in Cuemath's math curriculum. 11 chapters, 40 lessons, free to browse.", h1:"Data, Graphs & Probability"},
+  'patterns-algebra': {title:"Patterns & Algebra Math Curriculum | Grades 1-8 | Cuemath", desc:"See how Patterns & Algebra is taught across Grades 1-8 in Cuemath's math curriculum. 12 chapters, 51 lessons, free to browse.", h1:"Patterns & Algebra"},
+  'ratios-percentages': {title:"Ratios, Rates & Percentages Math Curriculum | Grades 5-7 | Cuemath", desc:"See how Ratios, Rates & Percentages is taught across Grades 5-7 in Cuemath's math curriculum. 6 chapters, 43 lessons, free to browse.", h1:"Ratios, Rates & Percentages"},
+};
+
 function renderHero(){
-  document.title = `${topic.name} — All Grades · Cuemath`;
+  const seo = TOPIC_SEO[topic.slug];
+  document.title = seo ? seo.title : `${topic.name} Math Curriculum | Cuemath`;
+  document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `See how ${topic.name} is taught across grades in Cuemath's math curriculum.`);
   document.getElementById('bc-topic').textContent = topic.name;
-  document.getElementById('topic-title').textContent = `${topic.emoji} ${topic.name}`;
+  document.querySelector('.topic-title-emoji').textContent = topic.emoji;
+  document.getElementById('topic-title').textContent = seo ? seo.h1 : topic.name;
   document.getElementById('topic-sub').textContent = TOPIC_DESCRIPTIONS[topic.slug] || '';
   document.getElementById('topic-meta-pills').innerHTML = `
     <div class="topic-pill"><strong>${topicGrades.length}</strong> grade${topicGrades.length===1?'':'s'} covered</div>
