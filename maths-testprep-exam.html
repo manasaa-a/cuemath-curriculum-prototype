@@ -10,7 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Prep — Cuemath</title>
+<title>SAT Math Curriculum | Free Practice & Curriculum | Cuemath</title>
+<meta name="description" content="Free SAT Math Curriculum practice, organized by chapter and topic. 5 chapters, 60 practice goals, built by math experts.">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -176,7 +177,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       <div class="grade-switcher" id="band-switcher" style="display:none"></div>
       <div class="grade-section-header">
         <span style="font-size:18px" id="exam-emoji">📝</span>
-        <span class="grade-section-title" id="exam-title">Exam</span>
+        <h1 class="grade-section-title" id="exam-title">Exam</h1>
         <span class="grade-section-pct" id="exam-count"></span>
       </div>
       <div class="mastery-track"><div class="mastery-fill"></div></div>
@@ -427,6 +428,22 @@ function loadBand(idx) {
   }).join('');
 }
 
+const EXAM_SEO = {
+  'sat': {title:"SAT Math Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free SAT Math Curriculum practice, organized by chapter and topic. 5 chapters, 60 practice goals, built by math experts."},
+  'moems': {title:"MOEMS Mock Tests | Free Practice & Curriculum | Cuemath", desc:"Free MOEMS Mock Tests practice, organized by mock test. 2 mock tests, 2 practice goals, built by math experts."},
+  'map': {title:"MAP Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free MAP Exam Curriculum practice, organized by chapter and topic. 20 chapters, 38 practice goals, built by math experts."},
+  'iar': {title:"IAR Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free IAR Exam Curriculum practice, organized by chapter and topic. 48 chapters, 77 practice goals, built by math experts."},
+  'aasa': {title:"AASA Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free AASA Exam Curriculum practice, organized by chapter and topic. 48 chapters, 77 practice goals, built by math experts."},
+  'ssat': {title:"SSAT Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free SSAT Exam Curriculum practice, organized by chapter and topic. 21 chapters, 41 practice goals, built by math experts."},
+  'gmas': {title:"GMAS Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free GMAS Exam Curriculum practice, organized by chapter and topic. 48 chapters, 77 practice goals, built by math experts."},
+  'sba': {title:"SBA Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free SBA Exam Curriculum practice, organized by chapter and topic. 48 chapters, 76 practice goals, built by math experts."},
+  'amc-8': {title:"AMC 8 Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free AMC 8 Curriculum practice, organized by chapter and topic. 8 chapters, 21 practice goals, built by math experts."},
+  'kangaroo': {title:"Math Kangaroo Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free Math Kangaroo Curriculum practice, organized by chapter and topic. 56 chapters, 56 practice goals, built by math experts."},
+  'staar': {title:"STAAR Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free STAAR Exam Curriculum practice, organized by chapter and topic. 51 chapters, 80 practice goals, built by math experts."},
+  'njsla': {title:"NJSLA Exam Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free NJSLA Exam Curriculum practice, organized by chapter and topic. 48 chapters, 77 practice goals, built by math experts."},
+  'cogat': {title:"CogAT Curriculum | Free Practice & Curriculum | Cuemath", desc:"Free CogAT Curriculum practice, organized by chapter and topic. 50 chapters, 86 practice goals, built by math experts."},
+};
+
 function init() {
   if (!exam) {
     document.getElementById('exam-title').textContent = 'Exam not found';
@@ -435,7 +452,9 @@ function init() {
   }
   document.getElementById('bc-exam-label').textContent = exam.aboutName || exam.name;
   document.getElementById('exam-title').textContent = exam.name;
-  document.title = exam.name + ' Test Prep — Cuemath';
+  const seo = EXAM_SEO[examSlug];
+  document.title = seo ? seo.title : (exam.name + ' | Free Practice & Curriculum | Cuemath');
+  document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `Free ${exam.name} practice, built by math experts.`);
 
   const switcher = document.getElementById('band-switcher');
   if (exam.hasBands && exam.bands.length > 1) {
