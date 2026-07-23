@@ -433,7 +433,7 @@ function init() {
     document.getElementById('chapter-list').innerHTML = '';
     return;
   }
-  document.getElementById('bc-exam-label').textContent = exam.name;
+  document.getElementById('bc-exam-label').textContent = exam.aboutName || exam.name;
   document.getElementById('exam-title').textContent = exam.name;
   document.title = exam.name + ' Test Prep — Cuemath';
 
