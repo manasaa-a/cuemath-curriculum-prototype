@@ -108,7 +108,7 @@ const testPrepData = {
     ]
   },
   "map": {
-    "name": "MAP Curriculum",
+    "name": "MAP Exam Curriculum",
     "aboutName": "MAP",
     "slug": "map",
     "examUrl": "/maths/map/",
@@ -747,7 +747,7 @@ const testPrepData = {
     ]
   },
   "iar": {
-    "name": "IAR Curriculum",
+    "name": "IAR Exam Curriculum",
     "aboutName": "IAR",
     "slug": "iar",
     "examUrl": "/maths/iar/",
@@ -2205,7 +2205,7 @@ const testPrepData = {
     ]
   },
   "aasa": {
-    "name": "AASA Curriculum",
+    "name": "AASA Exam Curriculum",
     "aboutName": "AASA",
     "slug": "aasa",
     "examUrl": "/maths/aasa/",
@@ -3543,7 +3543,7 @@ const testPrepData = {
     ]
   },
   "ssat": {
-    "name": "SSAT Curriculum",
+    "name": "SSAT Exam Curriculum",
     "aboutName": "SSAT",
     "slug": "ssat",
     "examUrl": "/maths/ssat/",
@@ -4239,7 +4239,7 @@ const testPrepData = {
     ]
   },
   "gmas": {
-    "name": "GMAS Curriculum",
+    "name": "GMAS Exam Curriculum",
     "aboutName": "GMAS",
     "slug": "gmas",
     "examUrl": "/maths/gmas/",
@@ -5637,7 +5637,7 @@ const testPrepData = {
     ]
   },
   "sba": {
-    "name": "SBA Curriculum",
+    "name": "SBA Exam Curriculum",
     "aboutName": "SBA",
     "slug": "sba",
     "examUrl": "/maths/sba/",
@@ -9041,7 +9041,7 @@ const testPrepData = {
     ]
   },
   "staar": {
-    "name": "STAAR Curriculum",
+    "name": "STAAR Exam Curriculum",
     "aboutName": "STAAR",
     "slug": "staar",
     "examUrl": "/maths/staar/",
@@ -10436,7 +10436,7 @@ const testPrepData = {
     ]
   },
   "njsla": {
-    "name": "NJSLA Curriculum",
+    "name": "NJSLA Exam Curriculum",
     "aboutName": "NJSLA",
     "slug": "njsla",
     "examUrl": "/maths/njsla/",
