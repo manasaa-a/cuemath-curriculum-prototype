@@ -14,7 +14,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grade 3 Math — Cuemath</title>
+<title>Grade 3 Math Curriculum | Free Lessons & Practice | Cuemath</title>
+<meta name="description" content="Browse every chapter and lesson in Cuemath's Grade 3 math curriculum, aligned with U.S. Common Core standards. 12 chapters, 67 lessons, free to explore.">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -237,7 +238,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       </div>
       <div class="grade-section-header">
         <span style="font-size:18px">📓</span>
-        <span class="grade-section-title">USCC · Grade 3</span>
+        <h1 class="grade-section-title">Grade 3 Math Curriculum</h1>
         <span class="grade-section-pct">0% learnt</span>
       </div>
       <div class="mastery-track"><div class="mastery-fill"></div></div>
@@ -330,7 +331,17 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 // at a time) instead of navigating anywhere, and Start/Resume/Review go
 // straight to the lesson page.
 
-const gradeLabels = {'K':'USCC · Kindergarten',1:'USCC · Grade 1',2:'USCC · Grade 2',3:'USCC · Grade 3',4:'USCC · Grade 4',5:'USCC · Grade 5',6:'USCC · Grade 6',7:'USCC · Grade 7',8:'USCC · Grade 8'};
+const GRADE_SEO = {
+  'K': {title:"Kindergarten Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Kindergarten math curriculum, aligned with U.S. Common Core standards. 7 chapters, 18 lessons, free to explore.", h1:"Kindergarten Math Curriculum"},
+  1: {title:"Grade 1 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 1 math curriculum, aligned with U.S. Common Core standards. 16 chapters, 65 lessons, free to explore.", h1:"Grade 1 Math Curriculum"},
+  2: {title:"Grade 2 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 2 math curriculum, aligned with U.S. Common Core standards. 15 chapters, 52 lessons, free to explore.", h1:"Grade 2 Math Curriculum"},
+  3: {title:"Grade 3 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 3 math curriculum, aligned with U.S. Common Core standards. 12 chapters, 67 lessons, free to explore.", h1:"Grade 3 Math Curriculum"},
+  4: {title:"Grade 4 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 4 math curriculum, aligned with U.S. Common Core standards. 15 chapters, 93 lessons, free to explore.", h1:"Grade 4 Math Curriculum"},
+  5: {title:"Grade 5 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 5 math curriculum, aligned with U.S. Common Core standards. 14 chapters, 80 lessons, free to explore.", h1:"Grade 5 Math Curriculum"},
+  6: {title:"Grade 6 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 6 math curriculum, aligned with U.S. Common Core standards. 17 chapters, 96 lessons, free to explore.", h1:"Grade 6 Math Curriculum"},
+  7: {title:"Grade 7 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 7 math curriculum, aligned with U.S. Common Core standards. 14 chapters, 73 lessons, free to explore.", h1:"Grade 7 Math Curriculum"},
+  8: {title:"Grade 8 Math Curriculum | Free Lessons & Practice | Cuemath", desc:"Browse every chapter and lesson in Cuemath's Grade 8 math curriculum, aligned with U.S. Common Core standards. 10 chapters, 51 lessons, free to explore.", h1:"Grade 8 Math Curriculum"},
+};
 
 let currentGrade = 3;
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
@@ -481,7 +492,10 @@ function loadGrade(g){
   const chapters = csvGradeData[g];
   if(!chapters) return;
   const gradeName = g==='K' ? 'Kindergarten' : 'Grade '+g;
-  document.querySelector('.grade-section-title').textContent = gradeLabels[g] || ('USCC · '+gradeName);
+  const seo = GRADE_SEO[g];
+  document.querySelector('.grade-section-title').textContent = seo ? seo.h1 : (gradeName + ' Math Curriculum');
+  document.title = seo ? seo.title : (gradeName + ' Math Curriculum | Free Lessons & Practice | Cuemath');
+  document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `Browse every chapter and lesson in Cuemath's ${gradeName} math curriculum.`);
   document.getElementById('bc-grade-label').textContent = gradeName;
   document.querySelectorAll('.gs-pill').forEach(p => {
     p.classList.toggle('active', p.dataset.grade == g);
