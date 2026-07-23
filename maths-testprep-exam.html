@@ -293,6 +293,8 @@ function getBlockState(chapterName, blockName) {
 function renderAboutUnit(examName) {
   const content = (typeof testprepAboutContent !== 'undefined') ? testprepAboutContent[examSlug] : null;
   if (!content) {
+    const existingFaqSchema = document.getElementById('faq-schema-ld');
+    if (existingFaqSchema) existingFaqSchema.remove();
     const topics = [
       `What is ${examName}?`,
       `${examName} format and scoring`,
@@ -329,6 +331,26 @@ function renderAboutUnit(examName) {
       `<div class="about-faq-item"><div class="about-faq-q">${f.q}</div><div class="about-faq-a">${f.a}</div></div>`
     ).join('')},
   ];
+
+  // FAQPage schema — mirrors the homepage's renderFaqs() pattern. Keyed by
+  // a stable id so switching bands (which re-runs renderAboutUnit) replaces
+  // the existing tag instead of stacking duplicate schema blocks.
+  const existingFaqSchema = document.getElementById('faq-schema-ld');
+  if (existingFaqSchema) existingFaqSchema.remove();
+  const faqLdJson = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: content.faqs.map(f => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {'@type': 'Answer', text: f.a},
+    })),
+  };
+  const faqSchemaScript = document.createElement('script');
+  faqSchemaScript.id = 'faq-schema-ld';
+  faqSchemaScript.type = 'application/ld+json';
+  faqSchemaScript.textContent = JSON.stringify(faqLdJson);
+  document.head.appendChild(faqSchemaScript);
   const items = topics.map((t, i) => `
     <div class="about-topic" id="about-topic-${i}" onclick="toggleAboutTopic(${i})">
       <div class="about-topic-head">${t.title}<span class="about-topic-caret">⌄</span></div>
