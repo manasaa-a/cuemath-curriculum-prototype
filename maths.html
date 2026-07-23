@@ -7,7 +7,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maths — Cuemath</title>
+<title>Math Curriculum for K-12 | By Grade, Topic & Exam | Cuemath</title>
+<meta name="description" content="Explore Cuemath's full K-12 math curriculum — browse every chapter and lesson by grade, topic, or test-prep exam. Structured, standards-aligned, free to browse.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "@id": "https://www.cuemath.com/",
+  "name": "Cuemath",
+  "url": "https://www.cuemath.com/",
+  "description": "Cuemath is a global online math learning platform offering live, personalized math classes for K to 12 students.",
+  "logo": "https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg",
+  "foundingDate": "2013-12-22",
+  "founders": [{ "@type": "Person", "name": "Manan Khurma" }],
+  "sameAs": [
+    "https://www.facebook.com/cuemath",
+    "https://www.instagram.com/cuemath",
+    "https://www.linkedin.com/company/cuemath",
+    "https://www.youtube.com/@CuemathStudio",
+    "https://x.com/Cuemath"
+  ]
+}
+</script>
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -36,6 +57,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .tb-btn:hover{background:#CE7E12}
 
 /* Selector bar */
+.explore-heading{font-family:'Athletics';font-size:28px;font-weight:700;color:#292827;text-align:center;padding:32px 24px 8px;margin:0}
 .selector-bar{background:#FAF8F5;border-bottom:1px solid #EBE7E0;flex-shrink:0}
 .selector-bar-inner{max-width:1072px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .sel-group{display:flex;align-items:center;gap:8px}
@@ -359,6 +381,8 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       </div>
     </div>
 
+    <h2 class="explore-heading">Explore the Math Curriculum</h2>
+
     <!-- Selector bar: country → curriculum → view toggle -->
     <div class="selector-bar">
       <div class="selector-bar-inner">
@@ -418,13 +442,13 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
            below. -->
       <div id="view-grade">
 
-        <div class="band-label">Elementary</div>
+        <h3 class="band-label">Elementary Math Curriculum</h3>
         <div class="grade-card-list" id="grid-elementary"></div>
 
-        <div class="band-label">Middle School</div>
+        <h3 class="band-label">Middle School Math Curriculum</h3>
         <div class="grade-card-list" id="grid-middle"></div>
 
-        <div class="band-label">High School</div>
+        <h3 class="band-label">High School Math Curriculum</h3>
         <div class="grade-card-list" id="grid-highschool"></div>
 
       </div>
@@ -542,7 +566,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 
       <!-- FAQ section -->
       <div class="faq-section">
-        <div class="faq-heading">Frequently asked questions</div>
+        <h2 class="faq-heading">Frequently asked questions</h2>
         <div class="faq-sub">Everything parents ask before getting started.</div>
         <div class="faq-list" id="faq-list"></div>
       </div>
@@ -791,12 +815,11 @@ function renderTopicView() {
 
 // FAQ section
 const FAQ_ITEMS = [
-  {q: 'Is this math curriculum really free to use?', a: 'Yes. Every lesson, chapter, and grade on this page is free to browse and learn from — no payment is required to access the curriculum.'},
-  {q: 'What curriculum standard does this follow?', a: 'Grades K through 8 follow the US Common Core standards. High school courses (Algebra 1, Geometry, Algebra 2, AP Precalculus, AP Calculus AB) follow the corresponding US high school math standards.'},
-  {q: 'Do I need to create an account to use it?', a: 'No sign-in is needed to explore the curriculum, chapters, and lesson content. Creating a free account unlocks unlimited practice and saves your progress across lessons.'},
-  {q: 'How is this different from the Cuemath app?', a: 'This is the same curriculum Cuemath tutors use, made freely browsable on the web. The Cuemath app adds live 1:1 tutoring, structured progress tracking, and additional practice built around your child’s pace.'},
-  {q: 'Which grades and topics are covered?', a: 'Kindergarten through Grade 8, plus high school courses including Algebra 1, Geometry, Algebra 2, AP Precalculus, and AP Calculus AB — organized by grade or by topic, whichever is easier to browse.'},
-  {q: 'Can this be used alongside classroom learning or tutoring?', a: 'Yes. Many parents use it to preview upcoming topics, reinforce what’s taught in school, or get extra practice on a specific skill their child is struggling with.'},
+  {q: 'What does Cuemath\'s math curriculum cover?', a: 'Cuemath\'s math curriculum spans elementary through high school, organized by grade, topic, and test-prep exam curriculum. Every chapter and lesson in our teaching program is listed here.'},
+  {q: 'Can I browse the curriculum for free?', a: 'Yes. You can browse every grade, topic, and exam page, and see the full list of chapters and lessons, at no cost and without signing up.'},
+  {q: 'How is the curriculum organized?', a: 'Three ways: By Grade (Kindergarten through high school), By Topic (a subject like Number System or Geometry, followed across every grade it appears in), and By Exam (test-prep programs like the SAT, STAAR, and Math Kangaroo).'},
+  {q: 'Is this the same curriculum used in Cuemath classes?', a: 'Yes. This is the same chapter and lesson structure our tutors teach from, just presented here for parents and students to browse and plan around.'},
+  {q: 'Do I need to enroll to start a lesson?', a: 'Yes. Lesson practice is available to enrolled Cuemath students — enroll in a free trial class to unlock full access to lessons, practice, and progress tracking.'},
 ];
 
 function renderFaqs() {
