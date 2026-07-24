@@ -7,7 +7,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Read and Write 4-Digit Numbers · Grade 3 — Cuemath</title>
+<title>Read and Write 4-Digit Numbers | Grade 3 Math | Cuemath</title>
+<meta name="description" content="Learn Read and Write 4-Digit Numbers with Cuemath's free Grade 3 math curriculum. Includes classwork, practice worksheets, and step-by-step explanations." id="meta-desc">
+<link rel="canonical" href="https://www.cuemath.com/maths/3rd-grade-math/read-and-write-4-digit-numbers/" id="canonical-link">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Read and Write 4-Digit Numbers | Grade 3 Math | Cuemath" id="og-title">
+<meta property="og:description" content="Learn Read and Write 4-Digit Numbers with Cuemath's free Grade 3 math curriculum. Includes classwork, practice worksheets, and step-by-step explanations." id="og-desc">
+<meta property="og:url" content="https://www.cuemath.com/maths/3rd-grade-math/read-and-write-4-digit-numbers/" id="og-url">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Read and Write 4-Digit Numbers | Grade 3 Math | Cuemath" id="twitter-title">
+<meta name="twitter:description" content="Learn Read and Write 4-Digit Numbers with Cuemath's free Grade 3 math curriculum. Includes classwork, practice worksheets, and step-by-step explanations." id="twitter-desc">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -837,6 +848,17 @@ const lessonName = ch.lessons[Math.min(lessonIdx, ch.lessons.length - 1)];
 
 const gradeLabel = grade === 'K' ? 'Kindergarten' : 'Grade ' + grade;
 
+const GRADE_URL_SLUGS = {'K':'kindergarten-math', 1:'1st-grade-math', 2:'2nd-grade-math', 3:'3rd-grade-math', 4:'4th-grade-math', 5:'5th-grade-math', 6:'6th-grade-math', 7:'7th-grade-math', 8:'8th-grade-math'};
+function slugify(s) {
+  s = s.trim().toLowerCase();
+  s = s.replace(/&/g, 'and');
+  s = s.replace(/[’']/g, '');
+  s = s.replace(/[^\w\s-]/g, '');
+  s = s.replace(/[\s_]+/g, '-');
+  s = s.replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return s;
+}
+
 // Starting ANY lesson (anywhere — any grade, any chapter) uses up the one free
 // lesson: it becomes the site-wide claimed lesson, and every other lesson locks
 // behind sign-in. Only the first-ever lesson started sets this — visiting more
@@ -856,7 +878,15 @@ document.getElementById('bc-chapter').href = 'maths-grade-3.html?grade=' + grade
 document.getElementById('bc-lesson').textContent = lessonName;
 document.getElementById('rp-chapter-label').textContent = 'CHAPTER ' + (chIdx + 1) + ' · LESSON ' + (lessonIdx + 1);
 document.getElementById('rp-lesson-name').textContent = lessonName;
-document.title = lessonName + ' · ' + gradeLabel + ' — Cuemath';
+document.title = `${lessonName} | ${gradeLabel} Math | Cuemath`;
+document.querySelector('meta[name="description"]').setAttribute('content', `Learn ${lessonName} with Cuemath's free ${gradeLabel} math curriculum. Includes classwork, practice worksheets, and step-by-step explanations.`);
+const lessonPageUrl = `https://www.cuemath.com/maths/${GRADE_URL_SLUGS[grade] || '3rd-grade-math'}/${slugify(lessonName)}/`;
+document.getElementById('canonical-link').setAttribute('href', lessonPageUrl);
+document.getElementById('og-title').setAttribute('content', document.title);
+document.getElementById('og-desc').setAttribute('content', document.querySelector('meta[name="description"]').getAttribute('content'));
+document.getElementById('og-url').setAttribute('content', lessonPageUrl);
+document.getElementById('twitter-title').setAttribute('content', document.title);
+document.getElementById('twitter-desc').setAttribute('content', document.querySelector('meta[name="description"]').getAttribute('content'));
 
 // If this lesson was reached by skipping the chapter page (e.g. the grade page's
 // hover dropdown), make the first "back" press land on the chapter page instead of
