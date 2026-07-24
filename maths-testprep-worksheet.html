@@ -11,7 +11,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Worksheet Preview — Cuemath</title>
+<title>Practice Worksheet | Cuemath</title>
+<meta name="description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="meta-desc">
+<link rel="canonical" href="https://www.cuemath.com/maths/" id="canonical-link">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Practice Worksheet | Cuemath" id="og-title">
+<meta property="og:description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="og-desc">
+<meta property="og:url" content="https://www.cuemath.com/maths/" id="og-url">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Practice Worksheet | Cuemath" id="twitter-title">
+<meta name="twitter:description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="twitter-desc">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -513,6 +524,31 @@ const chapterName = params.get('chapter');
 const blockName = params.get('block');
 if (examSlug) document.getElementById('bc-exam').textContent = examSlug.toUpperCase();
 if (blockName) document.getElementById('bc-block').textContent = blockName;
+
+function slugify(s) {
+  s = s.trim().toLowerCase();
+  s = s.replace(/&/g, 'and');
+  s = s.replace(/[’']/g, '');
+  s = s.replace(/[^\w\s-]/g, '');
+  s = s.replace(/[\s_]+/g, '-');
+  s = s.replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return s;
+}
+const examForSeo = examSlug && typeof testPrepData !== 'undefined' && testPrepData[examSlug];
+if (examForSeo && blockName) {
+  const examName = examForSeo.aboutName || examForSeo.name;
+  const title = `${blockName} | ${examName} | Cuemath`;
+  const desc = `Practice ${blockName} for the ${examName} with Cuemath's free worksheet, part of the ${examForSeo.name}.`;
+  const pageUrl = `https://www.cuemath.com/maths/${examSlug}/${slugify(blockName)}/`;
+  document.title = title;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
+  document.getElementById('canonical-link').setAttribute('href', pageUrl);
+  document.getElementById('og-title').setAttribute('content', title);
+  document.getElementById('og-desc').setAttribute('content', desc);
+  document.getElementById('og-url').setAttribute('content', pageUrl);
+  document.getElementById('twitter-title').setAttribute('content', title);
+  document.getElementById('twitter-desc').setAttribute('content', desc);
+}
 
 if (sessionStorage.getItem(TESTPREP_GLOBAL_KEY) === null && examSlug && blockName) {
   sessionStorage.setItem(TESTPREP_GLOBAL_KEY, JSON.stringify({ exam: examSlug, chapter: chapterName, block: blockName }));
