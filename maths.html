@@ -9,6 +9,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Math Curriculum for K-12 | By Grade, Topic & Exam | Cuemath</title>
 <meta name="description" content="Explore Cuemath's full K-12 math curriculum. Browse every chapter and lesson by grade, topic, or test-prep exam. Structured, standards-aligned, free to browse.">
+<link rel="canonical" href="https://www.cuemath.com/maths/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Math Curriculum for K-12 | By Grade, Topic & Exam | Cuemath">
+<meta property="og:description" content="Explore Cuemath's full K-12 math curriculum. Browse every chapter and lesson by grade, topic, or test-prep exam. Structured, standards-aligned, free to browse.">
+<meta property="og:url" content="https://www.cuemath.com/maths/">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Math Curriculum for K-12 | By Grade, Topic & Exam | Cuemath">
+<meta name="twitter:description" content="Explore Cuemath's full K-12 math curriculum. Browse every chapter and lesson by grade, topic, or test-prep exam. Structured, standards-aligned, free to browse.">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -158,6 +168,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .faq-list{max-width:760px;border-top:1px solid #EBE7E0}
 .faq-item{border-bottom:1px solid #EBE7E0}
 .faq-q{width:100%;background:none;border:none;padding:16px 4px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:left;font-family:'UntitledSans';font-size:14px;font-weight:600;color:#1D1C1B}
+.faq-q h4{margin:0;font:inherit;color:inherit}
 .faq-caret{font-size:11px;color:#84807B;transition:transform .15s ease;flex-shrink:0}
 .faq-item.open .faq-caret{transform:rotate(180deg);color:#1D1C1B}
 .faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
@@ -835,7 +846,7 @@ function renderFaqs() {
   document.getElementById('faq-list').innerHTML = FAQ_ITEMS.map((item, i) => `
     <div class="faq-item" id="faq-${i}">
       <button class="faq-q" onclick="toggleFaq(${i})">
-        <span>${item.q}</span>
+        <h4>${item.q}</h4>
         <span class="faq-caret"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
       </button>
       <div class="faq-a"><div class="faq-a-inner"><p>${item.a}</p>${item.cta ? '<a class="faq-cta-link" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial →</a>' : ''}</div></div>
