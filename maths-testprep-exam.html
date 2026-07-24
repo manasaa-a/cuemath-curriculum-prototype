@@ -12,6 +12,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Math Kangaroo Curriculum | Free Practice & Curriculum | Cuemath</title>
 <meta name="description" content="Free Math Kangaroo Curriculum practice, organized by chapter and topic. 56 chapters, 56 practice goals, built by math experts.">
+<link rel="canonical" href="https://www.cuemath.com/maths/kangaroo/" id="canonical-link">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Math Kangaroo Curriculum | Free Practice & Curriculum | Cuemath" id="og-title">
+<meta property="og:description" content="Free Math Kangaroo Curriculum practice, organized by chapter and topic. 56 chapters, 56 practice goals, built by math experts." id="og-desc">
+<meta property="og:url" content="https://www.cuemath.com/maths/kangaroo/" id="og-url">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Math Kangaroo Curriculum | Free Practice & Curriculum | Cuemath" id="twitter-title">
+<meta name="twitter:description" content="Free Math Kangaroo Curriculum practice, organized by chapter and topic. 56 chapters, 56 practice goals, built by math experts." id="twitter-desc">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -455,6 +465,13 @@ function init() {
   const seo = EXAM_SEO[examSlug];
   document.title = seo ? seo.title : (exam.name + ' | Free Practice & Curriculum | Cuemath');
   document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `Free ${exam.name} practice, built by math experts.`);
+  const pageUrl = `https://www.cuemath.com/maths/${examSlug}/`;
+  document.getElementById('canonical-link').setAttribute('href', pageUrl);
+  document.getElementById('og-title').setAttribute('content', seo ? seo.title : document.title);
+  document.getElementById('og-desc').setAttribute('content', seo ? seo.desc : '');
+  document.getElementById('og-url').setAttribute('content', pageUrl);
+  document.getElementById('twitter-title').setAttribute('content', seo ? seo.title : document.title);
+  document.getElementById('twitter-desc').setAttribute('content', seo ? seo.desc : '');
 
   const switcher = document.getElementById('band-switcher');
   if (exam.hasBands && exam.bands.length > 1) {
