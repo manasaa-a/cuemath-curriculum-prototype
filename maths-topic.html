@@ -10,6 +10,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Number System Math Curriculum | K-8 | Cuemath</title>
 <meta name="description" content="See how Number System is taught across Grades K-8 in Cuemath's math curriculum. 22 chapters, 118 lessons, free to browse.">
+<link rel="canonical" href="https://www.cuemath.com/maths/number-system/" id="canonical-link">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Number System Math Curriculum | K-8 | Cuemath" id="og-title">
+<meta property="og:description" content="See how Number System is taught across Grades K-8 in Cuemath's math curriculum. 22 chapters, 118 lessons, free to browse." id="og-desc">
+<meta property="og:url" content="https://www.cuemath.com/maths/number-system/" id="og-url">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Number System Math Curriculum | K-8 | Cuemath" id="twitter-title">
+<meta name="twitter:description" content="See how Number System is taught across Grades K-8 in Cuemath's math curriculum. 22 chapters, 118 lessons, free to browse." id="twitter-desc">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
 <style>
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
 @font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
@@ -336,6 +346,13 @@ function renderHero(){
   const seo = TOPIC_SEO[topic.slug];
   document.title = seo ? seo.title : `${topic.name} Math Curriculum | Cuemath`;
   document.querySelector('meta[name="description"]').setAttribute('content', seo ? seo.desc : `See how ${topic.name} is taught across grades in Cuemath's math curriculum.`);
+  const pageUrl = `https://www.cuemath.com/maths/${topic.slug}/`;
+  document.getElementById('canonical-link').setAttribute('href', pageUrl);
+  document.getElementById('og-title').setAttribute('content', seo ? seo.title : document.title);
+  document.getElementById('og-desc').setAttribute('content', seo ? seo.desc : '');
+  document.getElementById('og-url').setAttribute('content', pageUrl);
+  document.getElementById('twitter-title').setAttribute('content', seo ? seo.title : document.title);
+  document.getElementById('twitter-desc').setAttribute('content', seo ? seo.desc : '');
   document.getElementById('bc-topic').textContent = topic.name;
   document.querySelector('.topic-title-emoji').textContent = topic.emoji;
   document.getElementById('topic-title').textContent = seo ? seo.h1 : topic.name;
