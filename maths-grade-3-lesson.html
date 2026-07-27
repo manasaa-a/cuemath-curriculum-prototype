@@ -865,6 +865,15 @@ const lessonIdx = (parseInt(params.get('lesson')) || 1) - 1;
 // this page-load check is the safety net for anyone who reaches the lesson
 // page directly (e.g. a bookmarked/typed URL) past that disabled state.
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
+// Moved up from further down the script (2026-07-27 fix): switchTab() is
+// called early via the ?tab=practice URL param (from Resume/Review), and it
+// references cameFromLearn. With `let` declared later in the original
+// script order, that was a temporal-dead-zone ReferenceError, which silently
+// aborted the rest of this script block, including switchTab's own DOM
+// updates partway through. That's why Resume/Review looked like it always
+// landed on Learn regardless of the tab param.
+let cameFromLearn = true; // tracks whether the last tab was Learn, for the CW→HW transition below
+let currentTab = 'learn';
 
 const chapters = csvGradeData[grade] || csvGradeData[3];
 const ch = chapters[Math.min(chIdx, chapters.length - 1)];
@@ -1014,9 +1023,7 @@ function openResSectionExclusive(id){
   });
 }
 
-// ── Tab switching ──
-let cameFromLearn = true; // tracks whether the last tab was Learn, for the CW→HW transition below
-let currentTab = 'learn';
+// ── Tab switching ── (state declared near the top now, see cameFromLearn/currentTab above; fixes a temporal-dead-zone crash where Resume/Review's ?tab=practice call reached switchTab() before these were initialized, silently halting all script execution after it)
 
 // Answering Practice questions no longer spends its own spark
 // (2026-07-27), same reasoning as Learn above, the lesson-level claim
