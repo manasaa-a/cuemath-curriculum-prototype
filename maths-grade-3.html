@@ -79,7 +79,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .ch-row-header{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer}
 .ch-row-num{font-size:12px;font-weight:600;color:#97948E;width:18px;flex-shrink:0}
 .ch-row-icon{width:38px;height:38px;border-radius:9px;background:#F5F0E8;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-.ch-row-name{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;flex:1;min-width:0;display:flex;align-items:center;gap:6px}
+.ch-row-name{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;flex:1;min-width:0;display:flex;align-items:center;gap:6px;margin:0}
 .ch-row-meta{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .ch-row-progress-track{width:60px;height:4px;border-radius:2px;background:#E5DDD4;overflow:hidden;display:block}
 .ch-row-progress-fill{height:100%;background:#1C1917;display:block}
@@ -593,7 +593,7 @@ function loadGrade(g){
       <div class="ch-row-header" onclick="toggleChapter(${i})">
         <span class="ch-row-num">${i+1}</span>
         <span class="ch-row-icon">${ch.emoji || '📘'}</span>
-        <span class="ch-row-name">${ch.name}</span>
+        <h2 class="ch-row-name">${ch.name}</h2>
         <span class="ch-row-meta">
           <span class="ch-row-progress-track"><span class="ch-row-progress-fill" style="width:${Math.round(pct*100)}%"></span></span>
           <span class="ch-row-count">${lessons.length} lesson${lessons.length===1?'':'s'}</span>
