@@ -160,6 +160,15 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
    toward the app, not offer an easy web-only workaround), QR is a plain
    placeholder pending a real one. */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:360px;max-width:90vw;padding:0;position:relative;overflow:hidden}
 .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1;z-index:1}
@@ -269,17 +278,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         <span class="rp-cta-tag">1:1 live tutoring</span>
         <div class="rp-cta-title">Stuck on a question?</div>
         <div class="rp-cta-sub">A live tutor can walk through it with you, free.</div>
-        <button class="rp-cta-btn">Book a free class</button>
+        <button class="rp-cta-btn" onclick="openDiagnosticForm()">Book a free class</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Out-of-sparks interstitial — see Open Questions §13 DECIDED (2026-07-10).
+<!-- Out-of-sparks interstitial, see Open Questions §13 DECIDED (2026-07-10).
      Opening this worksheet spends 1 spark (signed-out users only, same
-     shared 5-spark pool as the lesson page's Learn/Practice tabs). No
-     sign-in shortcut offered here on purpose — see the lesson page's
-     matching comment for why. -->
+     shared 5-spark pool as the lesson page's Learn/Practice tabs). Originally
+     app-only by design, temporarily switched to a "Book a Free Trial" CTA
+     (2026-07-27) since the web app isn't ready for this release, see the
+     lesson page's matching comment. Original app-CTA version backed up as
+     maths-testprep-worksheet-app-ctas.html. -->
 <div class="modal-overlay" id="sparks-modal-overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeSparksModal()">×</button>
@@ -287,19 +298,15 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       <div class="feature-lock-icon">⚡</div>
       <div class="feature-modal-title">You're out of sparks</div>
       <div class="feature-modal-sub" id="sparks-modal-sub">Refills in --.</div>
-      <div class="qr-placeholder">▦</div>
-      <div class="qr-caption">Scan to keep going right now on the Cuemath app<br><em>(placeholder — swap for a real QR code)</em></div>
-      <div class="rp-cta-appbtns">
-        <a class="rp-cta-appbtn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">📱 App Store</a>
-        <a class="rp-cta-appbtn" href="https://play.google.com/store/apps/details?id=com.cuemath" target="_blank" rel="noopener">▶ Google Play</a>
-      </div>
+      <a class="feature-modal-btn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
     </div>
   </div>
 </div>
 
-<!-- Annotate/Hint feature-lock modal — ported from maths-grade-3-lesson.html.
+<!-- Annotate/Hint feature-lock modal, ported from maths-grade-3-lesson.html.
      Annotate: works once, then locks. Hint: locked outright. Both point to
-     the app instead, with a placeholder standing in for a real capture. -->
+     Book a Free Trial (temporary, was the app) with a placeholder standing
+     in for a real capture. -->
 <div class="modal-overlay" id="feature-modal-overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeFeatureModal()">×</button>
@@ -311,7 +318,20 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         <span class="gif-placeholder-icon">🎬</span>
         <span class="gif-placeholder-label" id="feature-modal-gif-label">GIF placeholder — swap for a real capture</span>
       </div>
-      <a class="feature-modal-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">Get the Cuemath App</a>
+      <a class="feature-modal-btn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
+    </div>
+  </div>
+</div>
+
+<!-- Trial-booking modal, temporary, added 2026-07-27 for the trial-CTA
+     release (web app not ready yet). Ported from maths.html's hero CTA. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder — the real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
     </div>
   </div>
 </div>
@@ -591,13 +611,13 @@ function openFeatureModal(kind){
     annotate: {
       icon: '🔒',
       title: "You've used your free annotation",
-      sub: 'Annotations save and stay with your lesson in the Cuemath app.',
+      sub: 'Book a free trial to save annotations and keep them with your lesson.',
       gif: 'GIF placeholder — annotation saving in the app'
     },
     hint: {
       icon: '💡',
-      title: 'Hints are available in the app',
-      sub: 'Get a nudge in the right direction without giving away the answer, in the Cuemath app.',
+      title: 'Hints are for enrolled students',
+      sub: 'Get a nudge in the right direction without giving away the answer. Book a free trial to unlock hints.',
       gif: 'GIF placeholder — hint flow in the app'
     }
   }[kind];
@@ -609,6 +629,13 @@ function openFeatureModal(kind){
 }
 function closeFeatureModal(){
   document.getElementById('feature-modal-overlay').classList.remove('open');
+}
+function openDiagnosticForm() {
+  document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
 }
 document.getElementById('feature-modal-overlay').addEventListener('click', e => {
   if(e.target === e.currentTarget) closeFeatureModal();
