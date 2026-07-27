@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<!--
+  Static visual reference for a Learnosity-rendered test-prep worksheet.
+  Not wired to real Learnosity — one representative sheet (5 sample
+  questions) reused regardless of which chapter/block link brought you
+  here, to demonstrate the visual pattern only. Based on 5 real
+  screenshots Manasa shared; content/wording below is taken verbatim
+  from those samples, not invented.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Worksheet | Cuemath</title>
+<meta name="description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="meta-desc">
+<link rel="canonical" href="https://www.cuemath.com/maths/" id="canonical-link">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Practice Worksheet | Cuemath" id="og-title">
+<meta property="og:description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="og-desc">
+<meta property="og:url" content="https://www.cuemath.com/maths/" id="og-url">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Practice Worksheet | Cuemath" id="twitter-title">
+<meta name="twitter:description" content="Free math practice worksheet from Cuemath, part of our test-prep curriculum." id="twitter-desc">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F0E8}
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+/* LEFT NAV */
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+/* MAIN */
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0;background:#F5F0E8}
+.topbar{background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.08);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#97948E;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#97948E;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+
+.worksheet-wrap{padding:20px 24px;flex:1;max-width:620px;margin:0 auto;width:100%}
+
+/* Question number pill nav — cream/gold, black top border */
+.q-nav{background:#F5F0E8;border-top:2px solid #1C1917;border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:8px;padding:12px 4px;margin:0 -24px 24px;padding-left:24px;padding-right:24px}
+.q-badge{width:32px;height:32px;border-radius:50%;background:#E8E2D8;color:#97948E;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:13px;font-weight:700;cursor:pointer;border:none;flex-shrink:0;transition:background .12s,color .12s}
+.q-badge:hover{background:#EDD5BE}
+.q-badge.active{background:#F4AB52;color:#1C1917}
+
+/* Question card */
+.q-card{background:#F5F0E8;border:1.5px solid #EDD5BE;padding:24px;margin-bottom:20px}
+.q-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.q-num-badge{width:28px;height:28px;border-radius:7px;background:#F4AB52;color:#1C1917;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:13px;font-weight:700;flex-shrink:0}
+.q-text{font-size:15px;color:#1C1917;line-height:1.55;padding-top:2px}
+
+/* MCQ options */
+.q-options{display:flex;flex-direction:column;gap:8px}
+.q-option{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid rgba(0,0,0,.1);padding:11px 14px}
+.q-option-letter{width:26px;height:26px;border-radius:5px;border:1.5px solid #C6C0B8;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:12px;font-weight:700;color:#78716C;flex-shrink:0}
+.q-option-text{font-size:14px;color:#1C1917;flex:1}
+.q-option{cursor:pointer;transition:background .1s,border-color .1s}
+.q-option:hover{border-color:#C6C0B8}
+.q-option.selected{background:#FAF1E6;border-color:#F4AB52}
+.q-option.selected .q-option-letter{background:#F4AB52;border-color:#F4AB52;color:#1C1917}
+.q-option.correct{background:#FEF9E7;border-color:#F4D35E;cursor:default}
+.q-option.correct .q-option-letter{background:#F4AB52;border-color:#F4AB52;color:#1C1917}
+.q-option.incorrect{background:#FBEAEA;border-color:#E39A9A;cursor:default}
+.q-option.incorrect .q-option-letter{background:#D94F4F;border-color:#D94F4F;color:#fff}
+.q-option.submitted{cursor:default}
+.q-option-check{width:18px;height:18px;border-radius:50%;background:#3B9E6B;display:none;align-items:center;justify-content:center;flex-shrink:0}
+.q-option.correct .q-option-check{display:flex}
+.q-option-check svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.q-option-x{width:18px;height:18px;border-radius:50%;background:#D94F4F;display:none;align-items:center;justify-content:center;flex-shrink:0}
+.q-option.incorrect .q-option-x{display:flex}
+.q-option-x svg{width:9px;height:9px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round}
+
+/* Fill-in-the-blank */
+.q-blanks{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.q-blank-group{display:flex;align-items:center;gap:6px}
+.q-input{width:90px;height:42px;border:1.5px solid #C6C0B8;background:#fff;border-radius:4px;font-family:'UntitledSans';font-size:14px;color:#1C1917;padding:0 10px}
+.q-input:focus{outline:none;border-color:#F4AB52}
+.q-input.correct{border-color:#3B9E6B;background:#EDF7F2;color:#2D6B4F}
+.q-input.incorrect{border-color:#D94F4F;background:#FBEAEA;color:#9A2E2E}
+.q-input:disabled{cursor:default}
+.q-blank-suffix{font-size:13px;color:#78716C;font-weight:500}
+.q-answers-box{background:#fff;border:1px solid rgba(0,0,0,.08);padding:12px 14px;margin-top:14px}
+.q-answers-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#97948E;margin-bottom:8px}
+.q-answers-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.q-answer-chip{display:flex;align-items:center;gap:6px}
+.q-answer-num{width:26px;height:26px;border-radius:5px;background:#EDF7F2;border:1.5px solid #A0CEBB;color:#2D6B4F;display:flex;align-items:center;justify-content:center;font-family:'Athletics';font-size:12px;font-weight:700}
+.q-answer-suffix{font-size:12px;color:#78716C}
+
+/* Check Answer / Submit */
+.q-check-btn{background:#1C1917;color:#fff;border:none;padding:10px 20px;font-family:'UntitledSans';font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;margin-top:4px}
+.q-check-btn:hover{background:#333}
+.q-check-btn:disabled{background:#E5DDD4;color:#B0AAA5;cursor:not-allowed}
+.q-submitted-tag{font-size:11px;color:#97948E;margin-top:4px;display:inline-block}
+
+.disclaimer{font-size:11px;color:#B0AAA5;text-align:center;margin-top:12px;line-height:1.5}
+
+/* Bottom toolbar — Annotate/Hint, same component as maths-grade-3-lesson.html's
+   Learn tab. The counter here tracks scroll position through the stacked
+   question list instead of a slide index, but the visual is identical. */
+.slide-toolbar{height:52px;background:#fff;border-top:1px solid rgba(0,0,0,.08);display:flex;align-items:center;padding:0 20px;flex-shrink:0;position:sticky;bottom:0;z-index:5}
+.toolbar-tools{display:flex;gap:4px}
+.tool-btn{width:36px;height:36px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#97948E;border-radius:6px;position:relative}
+.tool-btn:hover{background:#F5F0E8;color:#1C1917}
+.tool-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.tool-btn.tool-active{background:#FEF3E2;color:#CE7E12}
+.tool-btn.tool-locked{color:#C6C0B8}
+.tool-lock-badge{position:absolute;bottom:2px;right:2px;font-size:8px;line-height:1}
+.toolbar-counter{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;color:#97948E}
+
+/* RIGHT PANEL */
+.rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+/* Points/Streak/Sparks — same component as maths-grade-3-lesson.html's
+   right panel (2026-07-17, Manasa's spec: this page gets the stats row too,
+   it's no longer excluded). */
+.rp-stats-row{display:flex;background:#fff;border:1px solid rgba(0,0,0,.07)}
+.rp-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 4px;border-right:1px solid rgba(0,0,0,.06)}
+.rp-stat:last-child{border-right:none}
+.rp-stat-icon{width:30px;height:30px;border-radius:50%;background:#F5F0E8;display:flex;align-items:center;justify-content:center}
+.rp-stat-icon svg{width:15px;height:15px}
+.rp-stat-points{color:#7C3AED}
+.rp-stat-streak{color:#16A34A}
+.rp-stat-sparks{color:#E89040}
+.rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
+.rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
+/* Next-worksheet-in-chapter nav (2026-07-17) */
+.rp-next{background:#fff;border:1px solid rgba(0,0,0,.07);padding:14px;text-decoration:none;display:block}
+.rp-next-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#97948E;margin-bottom:6px}
+.rp-next-name{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rp-next-name svg{width:14px;height:14px;stroke:#97948E;fill:none;stroke-width:2;flex-shrink:0}
+.rp-next-empty{font-size:12px;color:#97948E;background:#fff;border:1px solid rgba(0,0,0,.07);padding:14px}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-btn{background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;width:100%}
+.rp-cta-appbtns{display:flex;flex-direction:column;gap:6px}
+.rp-cta-appbtn{display:flex;align-items:center;justify-content:center;gap:6px;background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;text-decoration:none}
+.rp-cta-appbtn:hover{background:#333;color:#fff}
+
+/* Out-of-sparks interstitial — CONFIRMED mechanic, see Open Questions §13
+   DECIDED (2026-07-10). Same pattern as maths-grade-3-lesson.html: signed-out
+   only, deliberately NOT a sign-in modal (the explicit goal is to nudge
+   toward the app, not offer an easy web-only workaround), QR is a plain
+   placeholder pending a real one. */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;width:360px;max-width:90vw;padding:0;position:relative;overflow:hidden}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1;z-index:1}
+.modal-close:hover{color:#1C1917}
+.feature-modal-body{padding:20px}
+.feature-lock-icon{font-size:28px;margin-bottom:10px}
+.feature-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1C1917;margin-bottom:6px}
+.feature-modal-sub{font-size:12px;color:#78716C;line-height:1.5;margin-bottom:14px}
+.qr-placeholder{width:120px;height:120px;margin:0 auto;background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#C6C0B8}
+.qr-caption{font-size:11px;color:#97948E;text-align:center;margin:8px 0 16px;line-height:1.5}
+.qr-caption em{color:#C6C0B8;font-style:normal}
+.gif-placeholder{background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:16px}
+.gif-placeholder-icon{font-size:22px}
+.gif-placeholder-label{font-size:11px;color:#97948E;text-align:center;padding:0 16px}
+.feature-modal-btn{display:block;width:100%;background:#1C1917;color:#fff;border:none;padding:12px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
+.feature-modal-btn:hover{background:#333;color:#fff}
+@media(max-width:768px){
+  html,body{height:auto;overflow:visible}
+  .shell{display:block;height:auto}
+  .leftnav{display:none}
+  .main{overflow-y:visible}
+  .rightpanel{overflow-y:visible;border-left:none;border-top:1px solid rgba(0,0,0,.08)}
+}
+@media(max-width:480px){
+  .worksheet-wrap{padding:16px}
+  .q-nav{flex-wrap:wrap;margin:0 -16px 20px;padding-left:16px;padding-right:16px}
+  .q-card{padding:16px}
+  .q-input{width:70px}
+  .rp-inner{padding:12px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a><span>›</span>
+        <a href="maths.html">Test Prep</a><span>›</span>
+        <a href="#" id="bc-exam" onclick="history.back();return false">Exam</a><span>›</span>
+        <span class="cur" id="bc-block">Worksheet</span>
+      </div>
+    </div>
+
+    <div class="worksheet-wrap">
+      <div class="q-nav" id="q-nav"></div>
+      <div id="q-body"></div>
+      <div class="disclaimer">Static preview — one representative worksheet shown for every block right now, not the real Learnosity-rendered sheet for this specific topic.</div>
+    </div>
+
+    <!-- Bottom toolbar — Annotate/Hint, ported from maths-grade-3-lesson.html.
+         Counter tracks scroll position through the stacked questions. -->
+    <div class="slide-toolbar">
+      <div class="toolbar-tools">
+        <button class="tool-btn" id="tool-annotate" title="Annotate" onclick="onAnnotateClick()">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button class="tool-btn tool-locked" id="tool-hint" title="Hint" onclick="onHintClick()">
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z"/></svg>
+          <span class="tool-lock-badge">🔒</span>
+        </button>
+      </div>
+      <span class="toolbar-counter" id="q-counter">1 / 5</span>
+    </div>
+  </div>
+
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-stats-row">
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-points"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="rp-stat-label">Points</div>
+          <div class="rp-stat-value" id="rp-points-value">0</div>
+        </div>
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-streak"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-1 3-4 5-4 9a4 4 0 008 0c0-1.3-.5-2.3-1-3 .3 1 .2 2-.5 2.5C15 9 13 7 12 2z"/></svg></div>
+          <div class="rp-stat-label">Streak</div>
+          <div class="rp-stat-value" id="rp-streak-value">0</div>
+        </div>
+        <div class="rp-stat">
+          <div class="rp-stat-icon rp-stat-sparks"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+          <div class="rp-stat-label">Sparks</div>
+          <div class="rp-stat-value" id="rp-sparks-value">5</div>
+        </div>
+      </div>
+      <div id="rp-next-slot"></div>
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">1:1 live tutoring</span>
+        <div class="rp-cta-title">Stuck on a question?</div>
+        <div class="rp-cta-sub">A live tutor can walk through it with you, free.</div>
+        <button class="rp-cta-btn">Book a free class</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Out-of-sparks interstitial — see Open Questions §13 DECIDED (2026-07-10).
+     Opening this worksheet spends 1 spark (signed-out users only, same
+     shared 5-spark pool as the lesson page's Learn/Practice tabs). No
+     sign-in shortcut offered here on purpose — see the lesson page's
+     matching comment for why. -->
+<div class="modal-overlay" id="sparks-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSparksModal()">×</button>
+    <div class="feature-modal-body">
+      <div class="feature-lock-icon">⚡</div>
+      <div class="feature-modal-title">You're out of sparks</div>
+      <div class="feature-modal-sub" id="sparks-modal-sub">Refills in --.</div>
+      <div class="qr-placeholder">▦</div>
+      <div class="qr-caption">Scan to keep going right now on the Cuemath app<br><em>(placeholder — swap for a real QR code)</em></div>
+      <div class="rp-cta-appbtns">
+        <a class="rp-cta-appbtn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">📱 App Store</a>
+        <a class="rp-cta-appbtn" href="https://play.google.com/store/apps/details?id=com.cuemath" target="_blank" rel="noopener">▶ Google Play</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Annotate/Hint feature-lock modal — ported from maths-grade-3-lesson.html.
+     Annotate: works once, then locks. Hint: locked outright. Both point to
+     the app instead, with a placeholder standing in for a real capture. -->
+<div class="modal-overlay" id="feature-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeatureModal()">×</button>
+    <div class="feature-modal-body">
+      <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
+      <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
+      <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
+      <div class="gif-placeholder">
+        <span class="gif-placeholder-icon">🎬</span>
+        <span class="gif-placeholder-label" id="feature-modal-gif-label">GIF placeholder — swap for a real capture</span>
+      </div>
+      <a class="feature-modal-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">Get the Cuemath App</a>
+    </div>
+  </div>
+</div>
+
+<!-- Points earned here (+50/completed question, see gamification.js) — now
+     shown via .rp-stats-row in the right panel (2026-07-17, no longer
+     excluded from this page). -->
+<script src="gamification.js"></script>
+<script src="testprep-data.js"></script>
+<script>
+// Static sample questions — verbatim from the 5 real screenshots Manasa shared.
+const questions = [
+  {
+    type: 'mcq',
+    text: 'A library received a shipment of new books on a Tuesday. On what day of the week will the 100th day after that Tuesday fall?',
+    options: [
+      { letter: 'A', text: 'Monday' },
+      { letter: 'B', text: 'Tuesday' },
+      { letter: 'C', text: 'Wednesday' },
+      { letter: 'D', text: 'Thursday', correct: true },
+      { letter: 'E', text: 'Friday' },
+    ],
+  },
+  {
+    type: 'fill',
+    text: 'Olivia has four red beads worth 3 points each and three blue beads worth 5 points each. By using one or more beads, how many different total point values can she make?',
+    blanks: [{ answer: '19' }],
+  },
+  {
+    type: 'fill',
+    text: 'Find the sum of the counting numbers from 1 to 30 inclusive. If this sum is S, find the value of S.',
+    blanks: [{ answer: '465' }],
+  },
+  {
+    type: 'fill',
+    text: 'At a fruit market, apples and bananas are sold by the piece. Two apples and three bananas cost 78¢. But three apples and two bananas cost 72¢. How much does one apple cost?',
+    blanks: [{ answer: '12', suffix: '¢' }],
+  },
+  {
+    type: 'fill',
+    text: 'A volunteer plans to finish a project by working on it for a fixed number of hours each day. Working this way, the project will take ___ weeks and ___ days to complete.',
+    blanks: [{ answer: '2', suffix: 'weeks' }, { answer: '3', suffix: 'days' }],
+  },
+];
+
+// Per-question runtime state — independent per question, not gated on one
+// global submit. Nothing is revealed until that specific question is submitted.
+questions.forEach(q => { q.selected = null; q.submitted = false; });
+
+// active = whichever question is currently most visible in the scroll
+// viewport (driven by the IntersectionObserver below), not "the only one
+// rendered" — every question is in the DOM at once now (2026-07-17,
+// Manasa's spec: scroll instead of one-at-a-time paging, same conversion
+// already done for the lesson page's Learn tab).
+let active = 0;
+
+function renderNav() {
+  document.getElementById('q-nav').innerHTML = questions.map((q, i) =>
+    `<button class="q-badge${i===active?' active':''}" onclick="scrollToQuestion(${i})">${i+1}</button>`
+  ).join('');
+  document.getElementById('q-counter').textContent = `${active+1} / ${questions.length}`;
+}
+
+function scrollToQuestion(i) {
+  document.getElementById(`q-card-${i}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function selectOption(qIdx, letter) {
+  const q = questions[qIdx];
+  if (q.submitted) return; // locked in after submit
+  q.selected = letter;
+  renderQuestion(qIdx);
+}
+
+// Points: +50 per completed question, regardless of correctness (CONFIRMED
+// — Open Questions §13 DECIDED, 2026-07-10). Guarded by q.submitted below so
+// a re-render never re-fires this; there's also no Check-Answer button left
+// to click once submitted. `allCorrect`/`blankCorrect` are still computed —
+// they're what drives the correct/incorrect visual state in renderQuestion,
+// unrelated to whether points are awarded now.
+function submitAnswer(qIdx) {
+  const q = questions[qIdx];
+  if (q.submitted) return;
+  if (q.type === 'mcq' && !q.selected) return; // must pick one first
+
+  let allCorrect;
+  if (q.type === 'mcq') {
+    allCorrect = q.selected === q.options.find(o => o.correct).letter;
+  } else {
+    // Real validation — read each blank's typed value and compare against
+    // its answer (trimmed, case-insensitive). Previously fill-in questions
+    // just revealed the answer unconditionally with no correctness check.
+    q.userAnswers = q.blanks.map((b, i) => {
+      const el = document.getElementById(`blank-${qIdx}-${i}`);
+      return el ? el.value.trim() : '';
+    });
+    q.blankCorrect = q.blanks.map((b, i) =>
+      q.userAnswers[i].toLowerCase() === String(b.answer).trim().toLowerCase()
+    );
+    allCorrect = q.blankCorrect.every(Boolean);
+  }
+
+  q.submitted = true;
+  renderQuestion(qIdx);
+  cmAwardPracticePoints();
+  cmRenderStats();
+}
+
+function escapeAttr(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+// Builds the inner markup for one question — shared by the initial full
+// stack render and by re-rendering a single card in place after an answer
+// (so answering question 2 doesn't disturb scroll position on question 4).
+function questionInner(qIdx) {
+  const q = questions[qIdx];
+  let inner = `
+    <div class="q-head">
+      <span class="q-num-badge">${qIdx+1}</span>
+      <div class="q-text">${q.text}</div>
+    </div>`;
+
+  if (q.type === 'mcq') {
+    inner += `<div class="q-options">${q.options.map(o => {
+      let cls = '';
+      if (q.submitted) {
+        cls = 'submitted';
+        if (o.correct) cls += ' correct';
+        else if (o.letter === q.selected) cls += ' incorrect';
+      } else if (o.letter === q.selected) {
+        cls = 'selected';
+      }
+      const clickable = q.submitted ? '' : ` onclick="selectOption(${qIdx},'${o.letter}')"`;
+      return `
+      <div class="q-option${cls?' '+cls:''}"${clickable}>
+        <span class="q-option-letter">${o.letter}</span>
+        <span class="q-option-text">${o.text}</span>
+        <span class="q-option-check"><svg viewBox="0 0 16 16"><polyline points="2,9 6,13 14,4"/></svg></span>
+        <span class="q-option-x"><svg viewBox="0 0 16 16"><line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/></svg></span>
+      </div>`;
+    }).join('')}</div>`;
+    inner += q.submitted
+      ? `<span class="q-submitted-tag">${q.selected === q.options.find(o=>o.correct).letter ? '✓ Correct!' : 'Answer submitted — correct option highlighted above.'}</span>`
+      : `<button class="q-check-btn" ${q.selected ? '' : 'disabled'} onclick="submitAnswer(${qIdx})">Check Answer</button>`;
+  } else {
+    inner += `<div class="q-blanks">${q.blanks.map((b,i) => {
+      const cls = q.submitted ? (q.blankCorrect[i] ? ' correct' : ' incorrect') : '';
+      const val = q.submitted && q.userAnswers ? escapeAttr(q.userAnswers[i]) : '';
+      const disabled = q.submitted ? 'disabled' : '';
+      return `<div class="q-blank-group"><input class="q-input${cls}" type="text" placeholder="" id="blank-${qIdx}-${i}" value="${val}" ${disabled}>${b.suffix ? `<span class="q-blank-suffix">${b.suffix}</span>` : ''}</div>`;
+    }).join('')}</div>`;
+    inner += q.submitted
+      ? `<span class="q-submitted-tag">${q.blankCorrect.every(Boolean) ? '✓ Correct!' : 'Some answers need review — correct values shown below.'}</span>
+        <div class="q-answers-box">
+          <div class="q-answers-label">Correct Answers</div>
+          <div class="q-answers-row">${q.blanks.map((b) => `
+            <span class="q-answer-chip">
+              <span class="q-answer-num">${b.answer}</span>
+              ${b.suffix ? `<span class="q-answer-suffix">${b.suffix}</span>` : ''}
+            </span>`).join('')}</div>
+        </div>`
+      : `<button class="q-check-btn" onclick="submitAnswer(${qIdx})">Check Answer</button>`;
+  }
+  return inner;
+}
+
+// Initial render — every question stacked in the DOM at once, each in its
+// own scroll-observable card (id="q-card-N").
+function renderAllQuestions() {
+  document.getElementById('q-body').innerHTML = questions.map((q, i) =>
+    `<div class="q-card" id="q-card-${i}">${questionInner(i)}</div>`
+  ).join('');
+  questions.forEach((q, i) => io.observe(document.getElementById(`q-card-${i}`)));
+}
+
+// Re-render just one question's card in place (after select/submit) —
+// leaves every other card, and the scroll position, untouched.
+function renderQuestion(qIdx) {
+  document.getElementById(`q-card-${qIdx}`).innerHTML = questionInner(qIdx);
+}
+
+// Tracks which question card is most visible as the user scrolls, same
+// pattern as the Learn tab's slide tracking — drives the nav pill highlight
+// and the "X / N" counter, not which question is "shown" (they're all shown).
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+      const idx = Number(entry.target.id.replace('q-card-', ''));
+      if (idx !== active) {
+        active = idx;
+        renderNav();
+      }
+    }
+  });
+}, { threshold: [0.5] });
+
+// ── One-free-then-sign-in gating (test-prep pool — separate from curriculum's
+// cuemathGlobalCompletedLesson; see report for why). Landing on a worksheet
+// unconditionally claims the free slot if nobody's claimed one yet, exactly
+// like maths-grade-3-lesson.html claims cuemathGlobalCompletedLesson on load.
+// The actual locking UI lives on maths-testprep-exam.html's block links —
+// this page just records the claim.
+const TESTPREP_GLOBAL_KEY = 'cuemathGlobalCompletedTestPrepWorksheet';
+
+// Breadcrumb context — cosmetic only, page content is static regardless
+const params = new URLSearchParams(location.search);
+const examSlug = params.get('exam');
+const chapterName = params.get('chapter');
+const blockName = params.get('block');
+if (examSlug) document.getElementById('bc-exam').textContent = examSlug.toUpperCase();
+if (blockName) document.getElementById('bc-block').textContent = blockName;
+
+function slugify(s) {
+  s = s.trim().toLowerCase();
+  s = s.replace(/&/g, 'and');
+  s = s.replace(/[’']/g, '');
+  s = s.replace(/[^\w\s-]/g, '');
+  s = s.replace(/[\s_]+/g, '-');
+  s = s.replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return s;
+}
+const examForSeo = examSlug && typeof testPrepData !== 'undefined' && testPrepData[examSlug];
+if (examForSeo && blockName) {
+  const examName = examForSeo.aboutName || examForSeo.name;
+  const title = `${blockName} | ${examName} | Cuemath`;
+  const desc = `Practice ${blockName} for the ${examName} with Cuemath's free worksheet, part of the ${examForSeo.name}.`;
+  const pageUrl = `https://www.cuemath.com/maths/${examSlug}/${slugify(blockName)}/`;
+  document.title = title;
+  document.querySelector('meta[name="description"]').setAttribute('content', desc);
+  document.getElementById('canonical-link').setAttribute('href', pageUrl);
+  document.getElementById('og-title').setAttribute('content', title);
+  document.getElementById('og-desc').setAttribute('content', desc);
+  document.getElementById('og-url').setAttribute('content', pageUrl);
+  document.getElementById('twitter-title').setAttribute('content', title);
+  document.getElementById('twitter-desc').setAttribute('content', desc);
+}
+
+if (sessionStorage.getItem(TESTPREP_GLOBAL_KEY) === null && examSlug && blockName) {
+  sessionStorage.setItem(TESTPREP_GLOBAL_KEY, JSON.stringify({ exam: examSlug, chapter: chapterName, block: blockName }));
+}
+
+// ── Sparks gate on opening this worksheet (CONFIRMED — Open Questions §13
+// DECIDED, 2026-07-10). 1 spark per worksheet, signed-out users only, same
+// shared 5-spark pool as the lesson page's Learn/Practice tabs — sparks
+// fully replace the old one-free-worksheet-per-session claim above for
+// gating purposes; that claim write is left in place (untouched, per
+// instruction) since it still drives maths-testprep-exam.html's block-lock
+// display, a separate question. The worksheet content still renders
+// underneath when blocked (same as the lesson page) — the modal overlay is
+// what actually prevents interaction with it.
+const isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
+const worksheetUnlocked = isSignedIn || cmConsumeSpark();
+if (!worksheetUnlocked) {
+  const ms = cmMsUntilNextSpark();
+  document.getElementById('sparks-modal-sub').textContent =
+    `You've used all ${CM_SPARK_MAX} sparks. They refill in ${cmFormatRefillTime(ms)} — or keep going right now on the app.`;
+  document.getElementById('sparks-modal-overlay').classList.add('open');
+}
+function closeSparksModal(){
+  document.getElementById('sparks-modal-overlay').classList.remove('open');
+}
+document.getElementById('sparks-modal-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeSparksModal();
+});
+
+// ── Annotate / Hint gating — ported verbatim from maths-grade-3-lesson.html
+// (Open Questions doc). Annotate works once for free (persisted across
+// reloads), then locks. Hint is locked outright. Both point to the app.
+function anyModalOpen(){
+  return document.getElementById('sparks-modal-overlay').classList.contains('open')
+    || document.getElementById('feature-modal-overlay').classList.contains('open');
+}
+function openFeatureModal(kind){
+  if(anyModalOpen()) return;
+  const copy = {
+    annotate: {
+      icon: '🔒',
+      title: "You've used your free annotation",
+      sub: 'Annotations save and stay with your lesson in the Cuemath app.',
+      gif: 'GIF placeholder — annotation saving in the app'
+    },
+    hint: {
+      icon: '💡',
+      title: 'Hints are available in the app',
+      sub: 'Get a nudge in the right direction without giving away the answer, in the Cuemath app.',
+      gif: 'GIF placeholder — hint flow in the app'
+    }
+  }[kind];
+  document.getElementById('feature-modal-icon').textContent = copy.icon;
+  document.getElementById('feature-modal-title').textContent = copy.title;
+  document.getElementById('feature-modal-sub').textContent = copy.sub;
+  document.getElementById('feature-modal-gif-label').textContent = copy.gif;
+  document.getElementById('feature-modal-overlay').classList.add('open');
+}
+function closeFeatureModal(){
+  document.getElementById('feature-modal-overlay').classList.remove('open');
+}
+document.getElementById('feature-modal-overlay').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeFeatureModal();
+});
+
+const ANNOTATE_USED_KEY = 'cuemathAnnotateUsedOnce';
+if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
+  const annotateBtn = document.getElementById('tool-annotate');
+  annotateBtn.classList.add('tool-locked');
+  annotateBtn.insertAdjacentHTML('beforeend', '<span class="tool-lock-badge">🔒</span>');
+}
+function onAnnotateClick(){
+  if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
+    openFeatureModal('annotate');
+    return;
+  }
+  sessionStorage.setItem(ANNOTATE_USED_KEY, '1');
+  const btn = document.getElementById('tool-annotate');
+  btn.classList.add('tool-active');
+  setTimeout(() => btn.classList.remove('tool-active'), 600);
+}
+function onHintClick(){
+  openFeatureModal('hint'); // locked outright, no free use
+}
+
+// ── Next worksheet in this chapter (2026-07-17, Manasa's spec) ──
+// testPrepData doesn't carry a band in this page's URL (only exam/chapter/
+// block), and a chapter name isn't guaranteed unique across an exam's bands
+// (known limitation, same as elsewhere in this project) — so this searches
+// every band for the first chapter matching chapterName and uses that one.
+function renderNextWorksheetNav() {
+  const slot = document.getElementById('rp-next-slot');
+  const exam = examSlug && testPrepData[examSlug];
+  if (!exam || !chapterName || !blockName) { slot.innerHTML = ''; return; }
+
+  let chapter = null;
+  for (const band of exam.bands) {
+    chapter = band.chapters.find(c => c.name === chapterName);
+    if (chapter) break;
+  }
+  if (!chapter) { slot.innerHTML = ''; return; }
+
+  const idx = chapter.blocks.findIndex(b => b.name === blockName);
+  const next = idx !== -1 ? chapter.blocks[idx + 1] : null;
+
+  if (next) {
+    const href = `maths-testprep-worksheet.html?exam=${examSlug}&chapter=${encodeURIComponent(chapterName)}&block=${encodeURIComponent(next.name)}`;
+    slot.innerHTML = `
+      <a class="rp-next" href="${href}">
+        <div class="rp-next-label">Next in this chapter</div>
+        <div class="rp-next-name">${next.name}<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>`;
+  } else {
+    slot.innerHTML = `<div class="rp-next-empty">You've reached the last worksheet in this chapter.</div>`;
+  }
+}
+
+renderNav();
+renderAllQuestions();
+renderNextWorksheetNav();
+cmRenderStats();
+</script>
+</body>
+</html>
