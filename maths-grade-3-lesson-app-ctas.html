@@ -840,6 +840,15 @@ const lessonIdx = (parseInt(params.get('lesson')) || 1) - 1;
 // flat per-page-load flag below: a flat "1 spark per sheet" charge,
 // triggered by answering the first question rather than opening the tab.
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
+// Moved up from further down the script (2026-07-27 fix): switchTab() is
+// called early via the ?tab=practice URL param (from Resume/Review), and it
+// references cameFromLearn. With `let` declared later in the original
+// script order, that was a temporal-dead-zone ReferenceError, which silently
+// aborted the rest of this script block, including switchTab's own DOM
+// updates partway through. That's why Resume/Review looked like it always
+// landed on Learn regardless of the tab param.
+let cameFromLearn = true; // tracks whether the last tab was Learn, for the CW→HW transition below
+let currentTab = 'learn';
 let practiceSparkConsumedThisPageLoad = false;
 
 const chapters = csvGradeData[grade] || csvGradeData[3];
@@ -995,9 +1004,7 @@ function openResSectionExclusive(id){
   });
 }
 
-// ── Tab switching ──
-let cameFromLearn = true; // tracks whether the last tab was Learn, for the CW→HW transition below
-let currentTab = 'learn';
+// ── Tab switching ── (state declared near the top now, see cameFromLearn/currentTab above; fixes a temporal-dead-zone crash where Resume/Review's ?tab=practice call reached switchTab() before these were initialized, silently halting all script execution after it)
 
 // ── Sparks on Practice (CONFIRMED — see Open Questions §13 DECIDED,
 // 2026-07-10, corrected same day). Signed in = unlimited, no spark cost at
