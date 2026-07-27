@@ -851,13 +851,20 @@ const grade = gradeParam === 'K' ? 'K' : (parseInt(gradeParam) || 3);
 const chIdx = (parseInt(params.get('ch')) || 1) - 1;
 const lessonIdx = (parseInt(params.get('lesson')) || 1) - 1;
 
-// ── Sparks state ── Learn now spends sparks only when the learner types on
-// a slide (see the typing gate further down), not for scrolling/reaching a
-// slide at all — see Open Questions doc, 2026-07-15. Practice still uses a
-// flat per-page-load flag below: a flat "1 spark per sheet" charge,
-// triggered by answering the first question rather than opening the tab.
+// ── Sparks state (2026-07-27 redesign) ── Sparks now gate whole lessons,
+// not individual slides/questions: 5 sparks total, each one permanently
+// unlocks one distinct lesson (any grade/topic/exam, one shared pool, see
+// gamification.js). Once a lesson is claimed this way it's fully open
+// forever (Learn + Practice, no further per-slide/per-question charge).
+// Replaces the old "spend on typing a Learn slide" + "spend on answering
+// the first Practice question" fine-grained model, and the old
+// one-free-lesson-total claim (GLOBAL_COMPLETE_KEY below still exists, but
+// only drives the Start/Resume/Review button LABEL on the hub page now, not
+// access). Hub pages (maths-grade-3.html etc.) proactively disable the
+// Start/Resume/Review button for any unclaimed lesson once sparks hit 0;
+// this page-load check is the safety net for anyone who reaches the lesson
+// page directly (e.g. a bookmarked/typed URL) past that disabled state.
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
-let practiceSparkConsumedThisPageLoad = false;
 
 const chapters = csvGradeData[grade] || csvGradeData[3];
 const ch = chapters[Math.min(chIdx, chapters.length - 1)];
@@ -881,10 +888,23 @@ function slugify(s) {
 // behind sign-in. Only the first-ever lesson started sets this — visiting more
 // lessons afterward doesn't change which one is "the" claimed lesson. It shows
 // as "Resume" on the chapter page until practiceDone flips true (see
-// markPracticeDone below), then "Review".
+// markPracticeDone below), then "Review". NOTE (2026-07-27): this claim no
+// longer gates access at all, only the button label. See the sparks claim
+// just above.
 const GLOBAL_COMPLETE_KEY = 'cuemathGlobalCompletedLesson';
 if (sessionStorage.getItem(GLOBAL_COMPLETE_KEY) === null) {
   sessionStorage.setItem(GLOBAL_COMPLETE_KEY, JSON.stringify({grade: grade, ch: chIdx, lesson: lessonIdx, practiceDone: false, manuallyCompleted: false}));
+}
+
+// Per-lesson spark claim, see the block comment above.
+const LESSON_CLAIM_KEY = `${grade}-${chIdx}-${lessonIdx}-lesson-unlocked`;
+let lessonUnlocked = isSignedIn || cmHasChargedSpark(LESSON_CLAIM_KEY);
+if (!lessonUnlocked && cmConsumeSpark()) {
+  cmMarkSparkCharged(LESSON_CLAIM_KEY);
+  lessonUnlocked = true;
+}
+if (!lessonUnlocked) {
+  openSparksModal();
 }
 
 // Update breadcrumbs + header
@@ -963,27 +983,9 @@ const slideObserver = new IntersectionObserver((entries) => {
 }, {root: document.querySelector('.slide-viewer'), threshold: 0.5});
 document.querySelectorAll('.slide').forEach(s => slideObserver.observe(s));
 
-// ── Typing on the learning sheet spends a spark (2026-07-15) ── one spark
-// per PAGE the learner writes on, not per keystroke or per input box: the
-// first time they focus ANY blank on a given slide is the charge point for
-// that whole slide (dedup via cmHasChargedSpark/cmMarkSparkCharged, separate
-// from the points dedup above — reaching a slide and writing on it are two
-// different things now, not one combined charge). Signed-in users are exempt,
-// same as everywhere else. Out of sparks: the field is blurred immediately
-// (nothing typed is kept) and the sparks interstitial opens.
-document.querySelectorAll('.slide .blank-input').forEach(input => {
-  input.addEventListener('focus', function(){
-    const n = parseInt(this.closest('.slide').id.replace('slide-', ''), 10);
-    const typeKey = `${grade}-${chIdx}-${lessonIdx}-slide-${n}-typed`;
-    if (cmHasChargedSpark(typeKey)) return;
-    if (!isSignedIn && !cmConsumeSpark()) {
-      this.blur();
-      openSparksModal();
-      return;
-    }
-    cmMarkSparkCharged(typeKey);
-  });
-});
+// Typing on the learning sheet no longer spends a spark on its own
+// (2026-07-27). The whole lesson was already paid for (or not) by the
+// single per-lesson claim above, so once you're here, typing just works.
 
 // Build lesson navigator in right panel
 const navEl = document.getElementById('rp-lesson-nav');
@@ -1016,27 +1018,9 @@ function openResSectionExclusive(id){
 let cameFromLearn = true; // tracks whether the last tab was Learn, for the CW→HW transition below
 let currentTab = 'learn';
 
-// ── Sparks on Practice (CONFIRMED — see Open Questions §13 DECIDED,
-// 2026-07-10, corrected same day). Signed in = unlimited, no spark cost at
-// all. Otherwise: solving/going through the practice sheet spends one spark
-// from the same 5-spark pool — but, same correction as Learn, landing on the
-// Practice tab is always free (arriving via Start/Resume/Review, or clicking
-// the Practice tab itself, never costs anything on its own). The charge is
-// on the real in-lesson action of actually answering the first question —
-// see the call site in selectOpt() below — the FIRST time that happens this
-// page load, not on every question. If none are left when they try to
-// answer, that answer is blocked (no selection applied, no points) and the
-// app-redirect interstitial opens instead (see sparks-modal-overlay above —
-// deliberately not the sign-in modal). Learn is gated separately, on typing
-// rather than navigation — see the typing gate further up.
-
-function trySpendSparkForTab(tab){
-  if (practiceSparkConsumedThisPageLoad) return true;
-  if (isSignedIn) return true; // unlimited for signed-in users — no spark spent, nothing to track
-  if (!cmConsumeSpark()) return false; // out of sparks
-  practiceSparkConsumedThisPageLoad = true;
-  return true;
-}
+// Answering Practice questions no longer spends its own spark
+// (2026-07-27), same reasoning as Learn above, the lesson-level claim
+// already covers all of it.
 
 function switchTab(tab){
   document.querySelectorAll('.page-tab').forEach((t,i) => {
@@ -1057,7 +1041,7 @@ function switchTab(tab){
 function openSparksModal(){
   const ms = cmMsUntilNextSpark();
   document.getElementById('sparks-modal-sub').textContent =
-    `You've used all ${CM_SPARK_MAX} sparks. They refill in ${cmFormatRefillTime(ms)} — or keep going right now on the app.`;
+    `You've used all ${CM_SPARK_MAX} sparks, so this lesson is locked. They refill in ${cmFormatRefillTime(ms)}, or book a free trial for full access now.`;
   document.getElementById('sparks-modal-overlay').classList.add('open');
 }
 function closeSparksModal(){
@@ -1273,15 +1257,8 @@ const io = new IntersectionObserver((entries) => {
 function selectOpt(qIdx, i){
   const q = questions[qIdx];
   if (q.submitted) return;
-  // Practice's 1-spark-per-sheet charge lands here, not on opening the tab
-  // (corrected 2026-07-10 — landing on Practice via Start/Resume/Review must
-  // always be free). This is the first real in-lesson action ("solving" the
-  // sheet), and trySpendSparkForTab already dedupes to only charge once per
-  // page load, so answering question 2, 3, 4... doesn't pay again.
-  if (!trySpendSparkForTab('practice')) {
-    openSparksModal();
-    return; // blocked — no selection applied, no points awarded
-  }
+  // No per-answer spark charge anymore (2026-07-27). The lesson-level
+  // claim on page load already covers full Practice access.
   q.selected = i;
   q.submitted = true;
   // +50 per completed practice question, regardless of correctness
