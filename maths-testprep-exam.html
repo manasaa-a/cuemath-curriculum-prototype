@@ -98,6 +98,18 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .ch-row-lessons .block-locked{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:6px 8px;font-size:12px;color:#B0AAA5;line-height:1.35}
 .ch-row-lessons .block-signin-btn{background:none;border:1px solid #F4AB52;color:#CE7E12;font-family:'UntitledSans';font-size:10px;font-weight:600;padding:3px 8px;cursor:pointer;flex-shrink:0;white-space:nowrap}
 .ch-row-lessons .block-signin-btn:hover{background:#F4AB52;color:#1C1917}
+.ch-row-lessons .block-signin-btn[disabled]{cursor:not-allowed;opacity:.7}
+.ch-row-lessons .block-signin-btn[disabled]:hover{background:none;color:#CE7E12}
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
+.rp-sparks-status{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
 
 /* App download CTA — same component as maths.html */
 .app-download-strip{background:#1C1917;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
@@ -215,17 +227,31 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         </div>
       </div>
       <div class="rp-divider"></div>
+      <div class="rp-sparks-status" id="rp-sparks-status"></div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
         <div class="rp-cta-title">Get exam-ready</div>
-        <div class="rp-cta-sub">Sign up free for practice, mock tests, and progress tracking.</div>
-        <a class="rp-cta-appbtn" href="https://student.cuemath.com/">Sign Up</a>
+        <div class="rp-cta-sub">Book a free trial for practice, mock tests, and progress tracking.</div>
+        <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
       <div class="rp-divider"></div>
       <div class="rp-exam-nav" id="rp-exam-nav">
         <div class="ren-title">Other Exams</div>
         <!-- populated by JS -->
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trial-booking modal, added 2026-07-27 for the trial-CTA release (web app
+     not ready yet). Ported from maths.html's hero CTA. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder. The real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
     </div>
   </div>
 </div>
@@ -280,12 +306,43 @@ function getGlobalTestPrepCompleted() {
   return raw ? JSON.parse(raw) : null;
 }
 
+// Lock logic redesigned 2026-07-27, same spark-based change as
+// maths-grade-3.html's getState(): a worksheet already unlocked by a spent
+// spark stays open; one not yet unlocked is still open while sparks remain
+// (opening it will claim it); only locks once sparks hit 0 and it was never
+// claimed. TESTPREP_GLOBAL_KEY still drives the "done" label only.
 function getBlockState(chapterName, blockName) {
   const claim = getGlobalTestPrepCompleted();
   if (claim && claim.exam === examSlug && claim.chapter === chapterName && claim.block === blockName) return 'done';
   if (isSignedIn) return 'open';
-  if (claim === null) return 'open'; // nobody's opened a worksheet anywhere yet
+  const blockKey = `${examSlug}-${chapterName}-${blockName}-worksheet-unlocked`;
+  if (cmHasChargedSpark(blockKey)) return 'open';
+  if (cmGetSparks() > 0) return 'open';
   return 'locked';
+}
+
+// Sidebar "sparks consumed" line, added 2026-07-27, same as maths-grade-3.html.
+function renderSparksStatus(){
+  const el = document.getElementById('rp-sparks-status');
+  if (!el) return;
+  if (isSignedIn) { el.textContent = ''; return; }
+  const remaining = cmGetSparks();
+  const used = CM_SPARK_MAX - remaining;
+  el.textContent = remaining > 0
+    ? `${used} of ${CM_SPARK_MAX} sparks used, ${remaining} free lesson${remaining === 1 ? '' : 's'} left to unlock`
+    : `All ${CM_SPARK_MAX} sparks used. Book a free trial for full access.`;
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderSparksStatus);
+} else {
+  renderSparksStatus();
+}
+
+function openDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
 }
 
 // "About {Exam}" unit — DK's proposal, modeled on Khan Academy's SAT Math page
@@ -407,7 +464,7 @@ function loadBand(idx) {
       const tag = block.type === 'TESTS' ? 'Mock test' : (wsCount > 1 ? wsCount + ' parts' : 'Practice');
       const state = getBlockState(ch.name, block.name);
       if (state === 'locked') {
-        return `<div class="block-locked">${block.name}<a class="block-signin-btn" href="https://student.cuemath.com/" onclick="event.stopPropagation()">Sign Up</a></div>`;
+        return `<div class="block-locked">${block.name}<button class="block-signin-btn" disabled title="For Enrolled Students Only" onclick="event.stopPropagation()">Locked</button></div>`;
       }
       const doneTag = state === 'done' ? 'Reviewed' : tag;
       // Common worksheet link (2026-07-17, Manasa's direction): every block
