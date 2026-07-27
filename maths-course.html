@@ -156,6 +156,18 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 
 /* Lesson-preview + sign-in modals — ported verbatim from maths-grade-3.html */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
+.lr-btn.locked-btn{background:#E5DDD4;color:#97948E;cursor:not-allowed}
+.lr-btn.locked-btn:hover{background:#E5DDD4}
+.rp-sparks-status{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:400px;max-width:90vw;padding:28px 28px 24px;position:relative}
 .modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1}
@@ -293,11 +305,12 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
           <div class="rp-stat-value" id="rp-sparks-value">5</div>
         </div>
       </div>
+      <div class="rp-sparks-status" id="rp-sparks-status"></div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
         <div class="rp-cta-title">Unlock unlimited practice</div>
-        <div class="rp-cta-sub">Sign up free to save your progress and keep learning.</div>
-        <a class="rp-cta-appbtn" href="https://student.cuemath.com/">Sign Up</a>
+        <div class="rp-cta-sub">Book a free trial to save your progress and keep learning.</div>
+        <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
       <div class="rp-divider"></div>
       <div class="rp-resources-nav">
@@ -343,6 +356,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   </div>
 </div>
 
+<!-- Trial-booking modal, added 2026-07-27 for the trial-CTA release (web app
+     not ready yet). Ported from maths.html's hero CTA. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder. The real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
+    </div>
+  </div>
+</div>
+
 <script src="gamification.js"></script>
 <script src="highschool-data.js"></script>
 <script>
@@ -382,6 +408,23 @@ let currentCourse = 'algebra-1';
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
 const GLOBAL_COMPLETE_KEY = 'cuemathGlobalCompletedLesson';
 
+// Sidebar "sparks consumed" line, added 2026-07-27, same as maths-grade-3.html.
+function renderSparksStatus(){
+  const el = document.getElementById('rp-sparks-status');
+  if (!el) return;
+  if (isSignedIn) { el.textContent = ''; return; }
+  const remaining = cmGetSparks();
+  const used = CM_SPARK_MAX - remaining;
+  el.textContent = remaining > 0
+    ? `${used} of ${CM_SPARK_MAX} sparks used, ${remaining} free lesson${remaining === 1 ? '' : 's'} left to unlock`
+    : `All ${CM_SPARK_MAX} sparks used. Book a free trial for full access.`;
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderSparksStatus);
+} else {
+  renderSparksStatus();
+}
+
 function getGlobalCompleted(){
   const raw = sessionStorage.getItem(GLOBAL_COMPLETE_KEY);
   return raw ? JSON.parse(raw) : null;
@@ -392,13 +435,19 @@ function setGlobalManuallyCompleted(c, ch, l){
 
 // Pure per-lesson state check — reads global claim fresh each call, same
 // as maths-grade-3.html, just keyed on `course` instead of `grade`.
+//
+// Lock logic redesigned 2026-07-27, same change as maths-grade-3.html:
+// spark-based instead of the old one-free-lesson-ever rule. See that file's
+// matching comment for the full reasoning.
 function getState(chIdx, i, globalCompleted){
-  const isClaimed = globalCompleted && globalCompleted.course === currentCourse && globalCompleted.ch === chIdx && globalCompleted.lesson === i;
-  if (isClaimed && (globalCompleted.practiceDone || globalCompleted.manuallyCompleted)) return 'done';
-  if (isClaimed) return 'resume';
+  const isGlobalActive = globalCompleted && globalCompleted.course === currentCourse && globalCompleted.ch === chIdx && globalCompleted.lesson === i;
+  if (isGlobalActive && (globalCompleted.practiceDone || globalCompleted.manuallyCompleted)) return 'done';
+  if (isGlobalActive) return 'resume';
   if (isSignedIn) return 'start';
-  if (globalCompleted === null) return 'start'; // nobody's started a lesson anywhere yet — all open
-  return 'locked'; // the one free lesson's been used, here or elsewhere — lock the rest
+  const lessonKey = `${currentCourse}-${chIdx}-${i}-lesson-unlocked`;
+  if (cmHasChargedSpark(lessonKey)) return 'start';
+  if (cmGetSparks() > 0) return 'start';
+  return 'locked';
 }
 
 function buildLessonRows(chIdx, lessons){
@@ -430,7 +479,7 @@ function buildLessonRows(chIdx, lessons){
     } else if(state === 'start'){
       btnHtml = `<button class="lr-btn" onclick="openLessonModal(${chIdx},${num},'${safeN}',event)">START</button>`;
     } else {
-      btnHtml = isSignedIn ? '' : `<a class="lr-btn signin" href="https://student.cuemath.com/">Sign Up</a>`;
+      btnHtml = `<button class="lr-btn locked-btn" disabled title="For Enrolled Students Only">START</button>`;
     }
 
     const menuHtml = (state === 'start' || state === 'resume')
@@ -509,6 +558,13 @@ function openTestPrepModal(){
 }
 function closeTestPrepModal(){
   document.getElementById('testprep-modal-overlay').classList.remove('open');
+}
+function openDiagnosticForm() {
+  document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
 }
 document.getElementById('testprep-modal-overlay').addEventListener('click', function(e){
   if(e.target.id === 'testprep-modal-overlay') closeTestPrepModal();
