@@ -131,6 +131,16 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
 .rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
+.rp-sparks-status{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
 .rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
 .rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
 .rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
@@ -247,11 +257,12 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
           <div class="rp-stat-value" id="rp-sparks-value">5</div>
         </div>
       </div>
+      <div class="rp-sparks-status" id="rp-sparks-status"></div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
         <div class="rp-cta-title">Unlock unlimited practice</div>
-        <div class="rp-cta-sub">Sign up free to save your progress and keep learning.</div>
-        <a class="rp-cta-appbtn" href="https://student.cuemath.com/">Sign Up</a>
+        <div class="rp-cta-sub">Book a free trial to save your progress and keep learning.</div>
+        <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
 
       <div class="rp-section">
@@ -279,6 +290,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 
 </div>
 
+<!-- Trial-booking modal, added 2026-07-27 for the trial-CTA release (web app
+     not ready yet). Ported from maths.html's hero CTA. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder. The real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
+    </div>
+  </div>
+</div>
+
 <!-- Points/Streaks/Sparks — read-only display here, self-renders on load.
      See gamification.js. No lesson/practice actions happen on this page, so
      nothing else to wire. -->
@@ -286,6 +310,32 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 <script src="curriculum-data.js"></script>
 <script src="topics-data.js"></script>
 <script>
+let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
+
+// Sidebar "sparks consumed" line, added 2026-07-27, same as maths-grade-3.html.
+function renderSparksStatus(){
+  const el = document.getElementById('rp-sparks-status');
+  if (!el) return;
+  if (isSignedIn) { el.textContent = ''; return; }
+  const remaining = cmGetSparks();
+  const used = CM_SPARK_MAX - remaining;
+  el.textContent = remaining > 0
+    ? `${used} of ${CM_SPARK_MAX} sparks used, ${remaining} free lesson${remaining === 1 ? '' : 's'} left to unlock`
+    : `All ${CM_SPARK_MAX} sparks used. Book a free trial for full access.`;
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderSparksStatus);
+} else {
+  renderSparksStatus();
+}
+
+function openDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
+}
+
 // ── Data-driven topic page — reads ?topic= and renders from topics-data.js,
 // pulling real lesson names from curriculum-data.js (topicData only stores
 // chapter-level lessonCount, not the lesson list itself). K-8 only — topicData
