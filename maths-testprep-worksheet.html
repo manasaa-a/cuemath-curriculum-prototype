@@ -574,21 +574,26 @@ if (sessionStorage.getItem(TESTPREP_GLOBAL_KEY) === null && examSlug && blockNam
   sessionStorage.setItem(TESTPREP_GLOBAL_KEY, JSON.stringify({ exam: examSlug, chapter: chapterName, block: blockName }));
 }
 
-// ── Sparks gate on opening this worksheet (CONFIRMED — Open Questions §13
-// DECIDED, 2026-07-10). 1 spark per worksheet, signed-out users only, same
-// shared 5-spark pool as the lesson page's Learn/Practice tabs — sparks
-// fully replace the old one-free-worksheet-per-session claim above for
-// gating purposes; that claim write is left in place (untouched, per
-// instruction) since it still drives maths-testprep-exam.html's block-lock
-// display, a separate question. The worksheet content still renders
-// underneath when blocked (same as the lesson page) — the modal overlay is
-// what actually prevents interaction with it.
+// ── Sparks gate on opening this worksheet (redesigned 2026-07-27, same
+// change as maths-grade-3-lesson.html). 1 spark permanently unlocks 1
+// distinct worksheet, keyed by exam+chapter+block, from the same shared
+// 5-spark pool as grade/topic lessons. Revisiting an already-claimed
+// worksheet never charges again. That claim write is left in place
+// (untouched, per instruction) since it still drives
+// maths-testprep-exam.html's block-lock display, a separate question. The
+// worksheet content still renders underneath when blocked (same as the
+// lesson page); the modal overlay is what actually prevents interaction.
 const isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
-const worksheetUnlocked = isSignedIn || cmConsumeSpark();
+const WORKSHEET_CLAIM_KEY = `${examSlug}-${chapterName}-${blockName}-worksheet-unlocked`;
+let worksheetUnlocked = isSignedIn || cmHasChargedSpark(WORKSHEET_CLAIM_KEY);
+if (!worksheetUnlocked && cmConsumeSpark()) {
+  cmMarkSparkCharged(WORKSHEET_CLAIM_KEY);
+  worksheetUnlocked = true;
+}
 if (!worksheetUnlocked) {
   const ms = cmMsUntilNextSpark();
   document.getElementById('sparks-modal-sub').textContent =
-    `You've used all ${CM_SPARK_MAX} sparks. They refill in ${cmFormatRefillTime(ms)} — or keep going right now on the app.`;
+    `You've used all ${CM_SPARK_MAX} sparks, so this worksheet is locked. They refill in ${cmFormatRefillTime(ms)}, or book a free trial for full access now.`;
   document.getElementById('sparks-modal-overlay').classList.add('open');
 }
 function closeSparksModal(){
