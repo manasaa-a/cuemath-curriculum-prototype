@@ -180,9 +180,8 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .qr-placeholder{width:120px;height:120px;margin:0 auto;background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#C6C0B8}
 .qr-caption{font-size:11px;color:#97948E;text-align:center;margin:8px 0 16px;line-height:1.5}
 .qr-caption em{color:#C6C0B8;font-style:normal}
-.gif-placeholder{background:#F5F0E8;border:1.5px dashed #C6C0B8;border-radius:6px;height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:16px}
-.gif-placeholder-icon{font-size:22px}
-.gif-placeholder-label{font-size:11px;color:#97948E;text-align:center;padding:0 16px}
+.gif-placeholder{background:#F5F0E8;border:1px solid #E8E1D5;border-radius:6px;overflow:hidden;margin-bottom:16px;line-height:0}
+.feature-modal-gif{display:block;width:100%;height:auto}
 .feature-modal-btn{display:block;width:100%;background:#1C1917;color:#fff;border:none;padding:12px;font-family:'UntitledSans';font-size:13px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
 .feature-modal-btn:hover{background:#333;color:#fff}
 @media(max-width:768px){
@@ -315,8 +314,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
       <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
       <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
       <div class="gif-placeholder">
-        <span class="gif-placeholder-icon">🎬</span>
-        <span class="gif-placeholder-label" id="feature-modal-gif-label">GIF placeholder — swap for a real capture</span>
+        <img class="feature-modal-gif" id="feature-modal-gif" src="hint-demo.gif" alt="">
       </div>
       <a class="feature-modal-btn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
     </div>
@@ -617,19 +615,19 @@ function openFeatureModal(kind){
       icon: '🔒',
       title: "You've used your free annotation",
       sub: 'Book a free trial to save annotations and keep them with your lesson.',
-      gif: 'GIF placeholder — annotation saving in the app'
+      gifSrc: 'annotate-demo.gif'
     },
     hint: {
       icon: '💡',
       title: 'Hints are for enrolled students',
       sub: 'Get a nudge in the right direction without giving away the answer. Book a free trial to unlock hints.',
-      gif: 'GIF placeholder — hint flow in the app'
+      gifSrc: 'hint-demo.gif'
     }
   }[kind];
   document.getElementById('feature-modal-icon').textContent = copy.icon;
   document.getElementById('feature-modal-title').textContent = copy.title;
   document.getElementById('feature-modal-sub').textContent = copy.sub;
-  document.getElementById('feature-modal-gif-label').textContent = copy.gif;
+  document.getElementById('feature-modal-gif').src = copy.gifSrc;
   document.getElementById('feature-modal-overlay').classList.add('open');
 }
 function closeFeatureModal(){
