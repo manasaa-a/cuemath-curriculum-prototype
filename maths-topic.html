@@ -131,6 +131,9 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
 .rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-sparks-out{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
+.rp-sparks-out a{color:#C97A1A;font-weight:700;text-decoration:underline;cursor:pointer}
+.rp-sparks-out a:hover{color:#A5620F}
 .diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
 .diag-modal-overlay.open{display:flex}
 .diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
@@ -140,7 +143,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .diag-modal-icon{font-size:28px;margin-bottom:10px}
 .diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
 .diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
-.rp-sparks-status{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
 .rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
 .rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
 .rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
@@ -257,7 +259,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
           <div class="rp-stat-value" id="rp-sparks-value">5</div>
         </div>
       </div>
-      <div class="rp-sparks-status" id="rp-sparks-status"></div>
+      <div class="rp-sparks-out" id="rp-sparks-out" style="display:none">You're out of sparks. <a href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a free trial</a> to learn uninterrupted.</div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
         <div class="rp-cta-title">Unlock unlimited practice</div>
@@ -312,22 +314,20 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 <script>
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
 
-// Sidebar "sparks consumed" line, added 2026-07-27, same as maths-grade-3.html.
-function renderSparksStatus(){
-  const el = document.getElementById('rp-sparks-status');
+// Sidebar "out of sparks" CTA, added 2026-07-28. Only shows once all 5
+// sparks are spent (signed-out visitors only, sparks don't apply once
+// signed in).
+function renderSparksOutCta(){
+  const el = document.getElementById('rp-sparks-out');
   if (!el) return;
-  if (isSignedIn) { el.textContent = ''; return; }
-  const remaining = cmGetSparks();
-  const used = CM_SPARK_MAX - remaining;
-  el.textContent = remaining > 0
-    ? `${used} of ${CM_SPARK_MAX} sparks used, ${remaining} free lesson${remaining === 1 ? '' : 's'} left to unlock`
-    : `All ${CM_SPARK_MAX} sparks used. Book a free trial for full access.`;
+  el.style.display = (!isSignedIn && cmGetSparks() === 0) ? 'block' : 'none';
 }
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderSparksStatus);
+  document.addEventListener('DOMContentLoaded', renderSparksOutCta);
 } else {
-  renderSparksStatus();
+  renderSparksOutCta();
 }
+
 
 function openDiagnosticForm() {
   document.getElementById('diagnostic-modal-overlay').classList.add('open');
