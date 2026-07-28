@@ -206,9 +206,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
 .rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
-.rp-sparks-out{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
-.rp-sparks-out a{color:#C97A1A;font-weight:700;text-decoration:underline;cursor:pointer}
-.rp-sparks-out a:hover{color:#A5620F}
 .rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
 .rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
 .rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
@@ -307,11 +304,10 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
           <div class="rp-stat-value" id="rp-sparks-value">5</div>
         </div>
       </div>
-      <div class="rp-sparks-out" id="rp-sparks-out" style="display:none">You're out of sparks. <a href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a free trial</a> to learn uninterrupted.</div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
-        <div class="rp-cta-title">Unlock unlimited practice</div>
-        <div class="rp-cta-sub">Book a free trial to save your progress and keep learning.</div>
+        <div class="rp-cta-title">Need extra help?</div>
+        <div class="rp-cta-sub">Learn these concepts in 1:1 classes with a tutor.</div>
         <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
       <div class="rp-divider"></div>
@@ -355,6 +351,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     <div class="modal-title">Ready for Test Prep?</div>
     <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Practice by exam - AMC, Kangaroo, MOEMS, SASP, and more, each with its own set of questions.</p>
     <a class="modal-continue" href="maths.html?view=exam" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Explore Test Prep</a>
+  </div>
+</div>
+
+<!-- One-time out-of-sparks nudge modal, added 2026-07-28. Shows once ever
+     (localStorage-backed), the first time a signed-out visitor clicks a
+     locked lesson after running out of sparks. After that, locked lessons
+     are just disabled buttons with the native tooltip, no more nudging. -->
+<div class="modal-overlay" id="out-of-sparks-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOutOfSparksModal()">×</button>
+    <div class="modal-title">You're out of sparks</div>
+    <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Enroll for unlimited access to every lesson, no sparks needed.</p>
+    <a class="modal-continue" href="#" onclick="event.preventDefault();closeOutOfSparksModal();openDiagnosticForm()" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Book a Free Trial</a>
   </div>
 </div>
 
@@ -408,20 +417,6 @@ const COURSE_ORDER = ['algebra-1', 'geometry', 'algebra-2', 'ap-precalculus', 'a
 
 let currentCourse = 'algebra-1';
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
-
-// Sidebar "out of sparks" CTA, added 2026-07-28. Only shows once all 5
-// sparks are spent (signed-out visitors only, sparks don't apply once
-// signed in).
-function renderSparksOutCta(){
-  const el = document.getElementById('rp-sparks-out');
-  if (!el) return;
-  el.style.display = (!isSignedIn && cmGetSparks() === 0) ? 'block' : 'none';
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderSparksOutCta);
-} else {
-  renderSparksOutCta();
-}
 const GLOBAL_COMPLETE_KEY = 'cuemathGlobalCompletedLesson';
 
 
@@ -479,7 +474,10 @@ function buildLessonRows(chIdx, lessons){
     } else if(state === 'start'){
       btnHtml = `<button class="lr-btn" onclick="openLessonModal(${chIdx},${num},'${safeN}',event)">START</button>`;
     } else {
-      btnHtml = `<button class="lr-btn locked-btn" disabled title="For Enrolled Students Only">START</button>`;
+      const nudged = localStorage.getItem('cuemathSparksNudgeShown') === '1';
+      btnHtml = nudged
+        ? `<button class="lr-btn locked-btn" disabled title="For Enrolled Students Only">START</button>`
+        : `<button class="lr-btn locked-btn" title="For Enrolled Students Only" onclick="openOutOfSparksModal(event)">START</button>`;
     }
 
     const menuHtml = (state === 'start' || state === 'resume')
@@ -568,6 +566,18 @@ function closeDiagnosticForm() {
 }
 document.getElementById('testprep-modal-overlay').addEventListener('click', function(e){
   if(e.target.id === 'testprep-modal-overlay') closeTestPrepModal();
+});
+
+function openOutOfSparksModal(event){
+  if (event) event.preventDefault();
+  localStorage.setItem('cuemathSparksNudgeShown', '1');
+  document.getElementById('out-of-sparks-modal-overlay').classList.add('open');
+}
+function closeOutOfSparksModal(){
+  document.getElementById('out-of-sparks-modal-overlay').classList.remove('open');
+}
+document.getElementById('out-of-sparks-modal-overlay').addEventListener('click', function(e){
+  if (e.target === e.currentTarget) closeOutOfSparksModal();
 });
 function goToLesson(){
   const name = highSchoolData[currentCourse].chapters[currentModalChIdx].lessons[currentModalLessonNum - 1];
