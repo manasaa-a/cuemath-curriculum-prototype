@@ -362,7 +362,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   <div class="modal">
     <button class="modal-close" onclick="closeOutOfSparksModal()">×</button>
     <div class="modal-title">You're out of sparks</div>
-    <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Enroll for unlimited access to every lesson, no sparks needed.</p>
+    <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Enroll for unlimited access to every lesson and 1:1 learning with a tutor.</p>
     <a class="modal-continue" href="#" onclick="event.preventDefault();closeOutOfSparksModal();openDiagnosticForm()" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Book a Free Trial</a>
   </div>
 </div>
@@ -570,6 +570,7 @@ document.getElementById('testprep-modal-overlay').addEventListener('click', func
 
 function openOutOfSparksModal(event){
   if (event) event.preventDefault();
+  if (localStorage.getItem('cuemathSparksNudgeShown') === '1') return;
   localStorage.setItem('cuemathSparksNudgeShown', '1');
   document.getElementById('out-of-sparks-modal-overlay').classList.add('open');
 }
