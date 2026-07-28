@@ -131,9 +131,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .rp-stat-label{font-size:9px;color:#97948E;text-transform:uppercase;letter-spacing:.05em}
 .rp-stat-value{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
-.rp-sparks-out{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
-.rp-sparks-out a{color:#C97A1A;font-weight:700;text-decoration:underline;cursor:pointer}
-.rp-sparks-out a:hover{color:#A5620F}
 .diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
 .diag-modal-overlay.open{display:flex}
 .diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
@@ -259,11 +256,10 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
           <div class="rp-stat-value" id="rp-sparks-value">5</div>
         </div>
       </div>
-      <div class="rp-sparks-out" id="rp-sparks-out" style="display:none">You're out of sparks. <a href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a free trial</a> to learn uninterrupted.</div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
-        <div class="rp-cta-title">Unlock unlimited practice</div>
-        <div class="rp-cta-sub">Book a free trial to save your progress and keep learning.</div>
+        <div class="rp-cta-title">Need extra help?</div>
+        <div class="rp-cta-sub">Learn these concepts in 1:1 classes with a tutor.</div>
         <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
 
@@ -313,20 +309,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 <script src="topics-data.js"></script>
 <script>
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
-
-// Sidebar "out of sparks" CTA, added 2026-07-28. Only shows once all 5
-// sparks are spent (signed-out visitors only, sparks don't apply once
-// signed in).
-function renderSparksOutCta(){
-  const el = document.getElementById('rp-sparks-out');
-  if (!el) return;
-  el.style.display = (!isSignedIn && cmGetSparks() === 0) ? 'block' : 'none';
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderSparksOutCta);
-} else {
-  renderSparksOutCta();
-}
 
 
 function openDiagnosticForm() {
