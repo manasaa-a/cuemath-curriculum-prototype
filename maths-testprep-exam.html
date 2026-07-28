@@ -251,7 +251,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     <div class="diag-modal-body">
       <div class="diag-modal-icon">⚡</div>
       <div class="diag-modal-title">You're out of sparks</div>
-      <div class="diag-modal-sub">Enroll for unlimited access to every lesson, no sparks needed.</div>
+      <div class="diag-modal-sub">Enroll for unlimited access to every lesson and 1:1 learning with a tutor.</div>
       <a class="rp-cta-appbtn" href="#" style="margin-top:16px" onclick="event.preventDefault();closeOutOfSparksModal();openDiagnosticForm()">Book a Free Trial</a>
     </div>
   </div>
@@ -344,6 +344,7 @@ function closeDiagnosticForm() {
 }
 function openOutOfSparksModal(event){
   if (event) event.preventDefault();
+  if (localStorage.getItem('cuemathSparksNudgeShown') === '1') return;
   localStorage.setItem('cuemathSparksNudgeShown', '1');
   document.getElementById('out-of-sparks-modal-overlay').classList.add('open');
 }
