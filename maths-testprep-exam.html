@@ -141,9 +141,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .ren-item.active{color:#1C1917;font-weight:500;background:#FEF3E2}
 .ren-item:last-child{border-bottom:none}
 .rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
-.rp-sparks-out{font-size:11px;color:#5B4100;margin:-6px 0 10px;font-weight:500}
-.rp-sparks-out a{color:#C97A1A;font-weight:700;text-decoration:underline;cursor:pointer}
-.rp-sparks-out a:hover{color:#A5620F}
 .rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
 .rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
 .rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
@@ -229,11 +226,10 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         </div>
       </div>
       <div class="rp-divider"></div>
-      <div class="rp-sparks-out" id="rp-sparks-out" style="display:none">You're out of sparks. <a href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a free trial</a> to learn uninterrupted.</div>
       <div class="rp-cta-inner">
         <span class="rp-cta-tag">Cuemath</span>
-        <div class="rp-cta-title">Get exam-ready</div>
-        <div class="rp-cta-sub">Book a free trial for practice, mock tests, and progress tracking.</div>
+        <div class="rp-cta-title">Need extra help?</div>
+        <div class="rp-cta-sub">Learn these concepts in 1:1 classes with a tutor.</div>
         <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
       </div>
       <div class="rp-divider"></div>
@@ -241,6 +237,22 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         <div class="ren-title">Other Exams</div>
         <!-- populated by JS -->
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- One-time out-of-sparks nudge modal, added 2026-07-28. Shows once ever
+     (localStorage-backed), the first time a signed-out visitor clicks a
+     locked block after running out of sparks. After that, locked blocks
+     are just disabled buttons with the native tooltip, no more nudging. -->
+<div class="diag-modal-overlay" id="out-of-sparks-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeOutOfSparksModal()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">⚡</div>
+      <div class="diag-modal-title">You're out of sparks</div>
+      <div class="diag-modal-sub">Enroll for unlimited access to every lesson, no sparks needed.</div>
+      <a class="rp-cta-appbtn" href="#" style="margin-top:16px" onclick="event.preventDefault();closeOutOfSparksModal();openDiagnosticForm()">Book a Free Trial</a>
     </div>
   </div>
 </div>
@@ -303,20 +315,6 @@ const TESTPREP_GLOBAL_KEY = 'cuemathGlobalCompletedTestPrepWorksheet';
 // Shared with curriculum — signing in anywhere unlocks both areas at once.
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
 
-// Sidebar "out of sparks" CTA, added 2026-07-28. Only shows once all 5
-// sparks are spent (signed-out visitors only, sparks don't apply once
-// signed in).
-function renderSparksOutCta(){
-  const el = document.getElementById('rp-sparks-out');
-  if (!el) return;
-  el.style.display = (!isSignedIn && cmGetSparks() === 0) ? 'block' : 'none';
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderSparksOutCta);
-} else {
-  renderSparksOutCta();
-}
-
 function getGlobalTestPrepCompleted() {
   const raw = sessionStorage.getItem(TESTPREP_GLOBAL_KEY);
   return raw ? JSON.parse(raw) : null;
@@ -344,6 +342,17 @@ function openDiagnosticForm() {
 function closeDiagnosticForm() {
   document.getElementById('diagnostic-modal-overlay').classList.remove('open');
 }
+function openOutOfSparksModal(event){
+  if (event) event.preventDefault();
+  localStorage.setItem('cuemathSparksNudgeShown', '1');
+  document.getElementById('out-of-sparks-modal-overlay').classList.add('open');
+}
+function closeOutOfSparksModal(){
+  document.getElementById('out-of-sparks-modal-overlay').classList.remove('open');
+}
+document.getElementById('out-of-sparks-modal-overlay').addEventListener('click', function(e){
+  if (e.target === e.currentTarget) closeOutOfSparksModal();
+});
 
 // "About {Exam}" unit — DK's proposal, modeled on Khan Academy's SAT Math page
 // (khanacademy.org/test-prep/v2-sat-math), whose actual Unit 1 is "About the
@@ -464,7 +473,10 @@ function loadBand(idx) {
       const tag = block.type === 'TESTS' ? 'Mock test' : (wsCount > 1 ? wsCount + ' parts' : 'Practice');
       const state = getBlockState(ch.name, block.name);
       if (state === 'locked') {
-        return `<div class="block-locked">${block.name}<button class="block-signin-btn" disabled title="For Enrolled Students Only" onclick="event.stopPropagation()">Locked</button></div>`;
+        const nudged = localStorage.getItem('cuemathSparksNudgeShown') === '1';
+        return nudged
+          ? `<div class="block-locked">${block.name}<button class="block-signin-btn" disabled title="For Enrolled Students Only" onclick="event.stopPropagation()">Locked</button></div>`
+          : `<div class="block-locked">${block.name}<button class="block-signin-btn" title="For Enrolled Students Only" onclick="event.stopPropagation();openOutOfSparksModal(event)">Locked</button></div>`;
       }
       const doneTag = state === 'done' ? 'Reviewed' : tag;
       // Common worksheet link (2026-07-17, Manasa's direction): every block
