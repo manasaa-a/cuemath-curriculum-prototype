@@ -218,7 +218,7 @@ function cmRenderStats() {
   const sparksEl = document.getElementById('rp-sparks-value');
   if (pointsEl) pointsEl.textContent = cmGetPoints();
   if (streakEl) streakEl.textContent = cmGetStreak();
-  if (sparksEl) sparksEl.textContent = cmGetSparks();
+  if (sparksEl) sparksEl.textContent = `${cmGetSparks()}/${CM_SPARK_MAX}`;
 }
 
 if (document.readyState === 'loading') {
