@@ -288,9 +288,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:360px;max-width:90vw;padding:0;position:relative;overflow:hidden}
-#feature-modal-overlay .modal{width:840px;max-height:85vh;display:flex;flex-direction:column}
-.feature-modal-scroll{overflow-y:auto;flex:1;min-height:0}
-.feature-modal-footer{flex-shrink:0;padding:12px 20px 20px;border-top:1px solid rgba(0,0,0,.06)}
+#feature-modal-overlay .modal{width:440px}
 .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1;z-index:1}
 .modal-close:hover{color:#1C1917}
 .modal-cta-body{padding:20px}
@@ -783,17 +781,13 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 <div class="modal-overlay" id="feature-modal-overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeFeatureModal()">×</button>
-    <div class="feature-modal-scroll">
-      <div class="feature-modal-body">
-        <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
-        <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
-        <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
-        <div class="gif-placeholder">
-          <img class="feature-modal-gif" id="feature-modal-gif" src="hint-demo.gif" alt="">
-        </div>
+    <div class="feature-modal-body">
+      <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
+      <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
+      <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
+      <div class="gif-placeholder">
+        <img class="feature-modal-gif" id="feature-modal-gif" src="hint-demo.gif" alt="">
       </div>
-    </div>
-    <div class="feature-modal-footer">
       <a class="feature-modal-btn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
     </div>
   </div>
