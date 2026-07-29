@@ -613,8 +613,8 @@ function openFeatureModal(kind){
   const copy = {
     annotate: {
       icon: '🔒',
-      title: "You've used your free annotation",
-      sub: 'Book a free trial to save annotations and keep them with your lesson.',
+      title: 'Annotations are for enrolled students',
+      sub: 'Save your work and keep annotations with your lesson. Book a free trial to unlock annotations.',
       gifSrc: 'annotate-demo.gif'
     },
     hint: {
@@ -644,21 +644,12 @@ document.getElementById('feature-modal-overlay').addEventListener('click', e => 
   if(e.target === e.currentTarget) closeFeatureModal();
 });
 
-const ANNOTATE_USED_KEY = 'cuemathAnnotateUsedOnce';
-if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
-  const annotateBtn = document.getElementById('tool-annotate');
-  annotateBtn.classList.add('tool-locked');
-  annotateBtn.insertAdjacentHTML('beforeend', '<span class="tool-lock-badge">🔒</span>');
-}
+// Annotate is locked outright, no free use (2026-07-29)
+const annotateBtn = document.getElementById('tool-annotate');
+annotateBtn.classList.add('tool-locked');
+annotateBtn.insertAdjacentHTML('beforeend', '<span class="tool-lock-badge">🔒</span>');
 function onAnnotateClick(){
-  if(sessionStorage.getItem(ANNOTATE_USED_KEY)){
-    openFeatureModal('annotate');
-    return;
-  }
-  sessionStorage.setItem(ANNOTATE_USED_KEY, '1');
-  const btn = document.getElementById('tool-annotate');
-  btn.classList.add('tool-active');
-  setTimeout(() => btn.classList.remove('tool-active'), 600);
+  openFeatureModal('annotate');
 }
 function onHintClick(){
   openFeatureModal('hint'); // locked outright, no free use
