@@ -279,7 +279,9 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:360px;max-width:90vw;padding:0;position:relative;overflow:hidden}
-#feature-modal-overlay .modal{width:840px}
+#feature-modal-overlay .modal{width:840px;max-height:85vh;display:flex;flex-direction:column}
+.feature-modal-scroll{overflow-y:auto;flex:1;min-height:0}
+.feature-modal-footer{flex-shrink:0;padding:12px 20px 20px;border-top:1px solid rgba(0,0,0,.06)}
 .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1;z-index:1}
 .modal-close:hover{color:#1C1917}
 .modal-cta-body{padding:20px}
@@ -772,13 +774,17 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
 <div class="modal-overlay" id="feature-modal-overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeFeatureModal()">×</button>
-    <div class="feature-modal-body">
-      <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
-      <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
-      <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
-      <div class="gif-placeholder">
-        <img class="feature-modal-gif" id="feature-modal-gif" src="hint-demo.gif" alt="">
+    <div class="feature-modal-scroll">
+      <div class="feature-modal-body">
+        <div class="feature-lock-icon" id="feature-modal-icon">🔒</div>
+        <div class="feature-modal-title" id="feature-modal-title">Feature title</div>
+        <div class="feature-modal-sub" id="feature-modal-sub">Feature description.</div>
+        <div class="gif-placeholder">
+          <img class="feature-modal-gif" id="feature-modal-gif" src="hint-demo.gif" alt="">
+        </div>
       </div>
+    </div>
+    <div class="feature-modal-footer">
       <a class="feature-modal-btn" href="https://apps.apple.com/app/cuemath/id1437567098" target="_blank" rel="noopener">Get the Cuemath App</a>
     </div>
   </div>
