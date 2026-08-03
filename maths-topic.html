@@ -190,7 +190,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
         <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <span class="ln-label">Test</span>
       </div>
-      <div class="ln-item" onclick="openEnrichmentModal()">
+      <div class="ln-item" onclick="location.href='maths-enrichment.html'">
         <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
         <span class="ln-label">Enrich</span>
       </div>
@@ -305,21 +305,6 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-size:15p
   </div>
 </div>
 
-<!-- ENRICHMENT MODAL, opens from the "Enrich" left-nav icon. Enrichment
-     itself (Real World Explorations / Logic Puzzles / Strategy Games) is a
-     real product owned by a different team; this is just a locked teaser
-     on our curriculum pages, no interactive content here. -->
-<div class="diag-modal-overlay" id="enrichment-modal-overlay">
-  <div class="diag-modal">
-    <button class="diag-modal-close" onclick="closeEnrichmentModal()">×</button>
-    <div class="diag-modal-body">
-      <div class="diag-modal-icon">✨</div>
-      <div class="diag-modal-title">Enrichment Math</div>
-      <div class="diag-modal-sub">Beyond the curriculum: real-world explorations, logic puzzles, and strategy games that build critical thinking, reasoning, and strategy skills your child will use for life.</div>
-      <a class="rp-cta-appbtn" href="#" style="margin-top:16px" onclick="event.preventDefault();closeEnrichmentModal();openDiagnosticForm()">Book a Free Trial</a>
-    </div>
-  </div>
-</div>
 
 <!-- Points/Streaks/Sparks — read-only display here, self-renders on load.
      See gamification.js. No lesson/practice actions happen on this page, so
@@ -337,15 +322,6 @@ function openDiagnosticForm() {
 function closeDiagnosticForm() {
   document.getElementById('diagnostic-modal-overlay').classList.remove('open');
 }
-function openEnrichmentModal(){
-  document.getElementById('enrichment-modal-overlay').classList.add('open');
-}
-function closeEnrichmentModal(){
-  document.getElementById('enrichment-modal-overlay').classList.remove('open');
-}
-document.getElementById('enrichment-modal-overlay').addEventListener('click', function(e){
-  if(e.target === e.currentTarget) closeEnrichmentModal();
-});
 
 // ── Data-driven topic page — reads ?topic= and renders from topics-data.js,
 // pulling real lesson names from curriculum-data.js (topicData only stores
