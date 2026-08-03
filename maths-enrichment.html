@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--
+  cuemath.com/maths/enrichment/
+  Enrichment Math landing page. The real Explorations/Puzzles/Games product
+  is owned by a different team (see the Enrichment Math spec docs); this
+  page is a locked preview/teaser for our curriculum-browsing surface,
+  matching the pattern used everywhere else on this site (sparks, Hint/
+  Annotate): show real example content, lock it, funnel to a free trial.
+  No weekly rotation, no per-kid state, this is a static marketing page for
+  anonymous visitors, not the logged-in app experience.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enrichment Math | Explorations, Puzzles & Games | Cuemath</title>
+<meta name="description" content="Beyond the curriculum: real-world explorations, logic puzzles, and strategy games that build critical thinking, reasoning, and strategy skills your child will use for life.">
+<link rel="canonical" href="https://www.cuemath.com/maths/enrichment/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Enrichment Math | Explorations, Puzzles & Games | Cuemath">
+<meta property="og:description" content="Beyond the curriculum: real-world explorations, logic puzzles, and strategy games that build critical thinking, reasoning, and strategy skills your child will use for life.">
+<meta property="og:url" content="https://www.cuemath.com/maths/enrichment/">
+<meta property="og:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Enrichment Math | Explorations, Puzzles & Games | Cuemath">
+<meta name="twitter:description" content="Beyond the curriculum: real-world explorations, logic puzzles, and strategy games that build critical thinking, reasoning, and strategy skills your child will use for life.">
+<meta name="twitter:image" content="https://d138zd1ktt9iqe.cloudfront.net/static/website-v3/cuemath-logo.svg">
+<style>
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Bold.woff2') format('woff2');font-weight:700}
+@font-face{font-family:'Athletics';src:url('fonts/Athletics-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'UntitledSans';src:url('fonts/UntitledSans-Medium.woff2') format('woff2');font-weight:500}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:400;font-size:15px;line-height:1.5;color:#1C1917;background:#F5F0E8}
+.shell{display:grid;grid-template-columns:64px 1fr 260px;height:100vh;overflow:hidden}
+.leftnav{background:#1C1917;display:flex;flex-direction:column;align-items:center;padding:12px 0;z-index:10}
+.ln-avatar{width:40px;height:40px;border-radius:50%;background:#E8995A;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:24px;flex-shrink:0}
+.ln-items{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
+.ln-item{width:48px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;border-radius:10px}
+.ln-item:hover{background:rgba(255,255,255,.08)}
+.ln-item.active{background:rgba(255,255,255,.1)}
+.ln-icon svg{width:22px;height:22px;opacity:.45}
+.ln-item.active .ln-icon svg,.ln-item:hover .ln-icon svg{opacity:.9}
+.ln-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4)}
+.ln-item.active .ln-label,.ln-item:hover .ln-label{color:rgba(255,255,255,.8)}
+.ln-logo{margin-top:auto;margin-bottom:8px;font-family:'Athletics';font-size:8px;font-weight:700;color:rgba(255,255,255,.25);letter-spacing:.12em;text-transform:uppercase}
+.main{overflow-y:auto;display:flex;flex-direction:column;min-height:0;background:#F5F0E8}
+.topbar{background:#F5F0E8;border-bottom:1px solid rgba(0,0,0,.08);padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:5}
+.topbar-bc{font-size:13px;color:#97948E;display:flex;align-items:center;gap:6px}
+.topbar-bc a{color:#97948E;text-decoration:none}
+.topbar-bc a:hover{color:#1C1917}
+.topbar-bc .cur{color:#1C1917;font-weight:500}
+.enrich-wrap{padding:24px;flex:1;max-width:820px}
+.enrich-hero h1{font-family:'Athletics';font-size:26px;font-weight:700;color:#1C1917;margin-bottom:8px}
+.enrich-hero p{font-size:13.5px;color:#78716C;line-height:1.6;max-width:600px;margin-bottom:32px}
+.enrich-section{margin-bottom:36px}
+.enrich-section-head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.enrich-section-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.enrich-section-name{font-family:'Athletics';font-size:17px;font-weight:700;color:#1C1917}
+.enrich-section-tag{font-size:12.5px;color:#78716C;margin-bottom:16px;margin-left:44px}
+.enrich-card-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.enrich-card{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:8px;padding:14px;cursor:pointer;position:relative;transition:box-shadow .12s}
+.enrich-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.enrich-card-thumb{height:64px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:10px}
+.enrich-card-tag{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#97948E;background:#F5F0E8;padding:2px 6px;border-radius:4px;display:inline-block;margin-bottom:6px}
+.enrich-card-name{font-family:'Athletics';font-size:13px;font-weight:700;color:#1C1917;margin-bottom:4px;line-height:1.3}
+.enrich-card-desc{font-size:11.5px;color:#78716C;line-height:1.5}
+.enrich-lock-badge{position:absolute;top:10px;right:10px;font-size:13px;opacity:.55}
+.enrich-note{font-size:11px;color:#B0AAA5;margin-top:6px}
+.rightpanel{background:#F5F0E8;border-left:1px solid rgba(0,0,0,.08);overflow-y:auto}
+.rp-inner{padding:14px;display:flex;flex-direction:column;gap:10px}
+.rp-cta-inner{background:linear-gradient(135deg,#EC9A32 0%,#F6BE7C 50%,#D994F8 100%);padding:16px}
+.rp-cta-tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#7E4800;margin-bottom:5px;display:block}
+.rp-cta-title{font-family:'Athletics';font-size:15px;font-weight:700;color:#292827;margin-bottom:4px;line-height:1.3}
+.rp-cta-sub{font-size:11px;color:#5B4100;margin-bottom:12px;line-height:1.5}
+.rp-cta-appbtn{display:flex;align-items:center;justify-content:center;gap:6px;background:#1C1917;color:#fff;border:none;padding:9px;font-family:'UntitledSans';font-size:12px;font-weight:500;cursor:pointer;text-decoration:none}
+.rp-cta-appbtn:hover{background:#333;color:#fff}
+.rp-resources-nav{background:#fff;border:1px solid rgba(0,0,0,.07)}
+.rrn-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#97948E;padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.07)}
+.rrn-item{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid rgba(0,0,0,.05);font-size:12px;color:#1C1917;cursor:pointer;text-decoration:none}
+.rrn-item:hover{background:#FAF1E6;color:#CE7E12}
+.rrn-item:last-child{border-bottom:none}
+.diag-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:110;display:none;align-items:center;justify-content:center}
+.diag-modal-overlay.open{display:flex}
+.diag-modal{background:#fff;width:360px;max-width:90vw;position:relative;border-radius:8px}
+.diag-modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#84807B;line-height:1}
+.diag-modal-close:hover{color:#1D1C1B}
+.diag-modal-body{padding:28px 24px;text-align:center}
+.diag-modal-icon{font-size:28px;margin-bottom:10px}
+.diag-modal-title{font-family:'Athletics';font-size:16px;font-weight:700;color:#1D1C1B;margin-bottom:8px}
+.diag-modal-sub{font-size:13px;color:#5B5854;line-height:1.5}
+@media(max-width:768px){
+  html,body{height:auto;overflow:visible}
+  .shell{display:block;height:auto}
+  .leftnav{display:none}
+  .main{overflow-y:visible}
+  .rightpanel{overflow-y:visible;border-left:none;border-top:1px solid rgba(0,0,0,.08)}
+}
+@media(max-width:600px){
+  .enrich-card-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <nav class="leftnav">
+    <div class="ln-avatar">😊</div>
+    <div class="ln-items">
+      <div class="ln-item" onclick="location.href='maths-grade-3.html'">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <span class="ln-label">School</span>
+      </div>
+      <div class="ln-item" onclick="location.href='maths.html?view=exam'">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <span class="ln-label">Test</span>
+      </div>
+      <div class="ln-item active">
+        <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="ln-label">Enrich</span>
+      </div>
+    </div>
+    <div class="ln-logo">Cuemath</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-bc">
+        <a href="maths.html">Maths</a><span>›</span>
+        <span class="cur">Enrichment</span>
+      </div>
+    </div>
+    <div class="enrich-wrap">
+      <div class="enrich-hero">
+        <h1>Enrichment Math</h1>
+        <p>Math beyond school, building thinking skills your child will carry for life. Three formats, real-world explorations, logic puzzles, and strategy games, each building a different kind of mathematical thinking.</p>
+      </div>
+
+      <div class="enrich-section">
+        <div class="enrich-section-head">
+          <div class="enrich-section-icon" style="background:#E7F2EC">🌍</div>
+          <div class="enrich-section-name">Real World Explorations</div>
+        </div>
+        <div class="enrich-section-tag">Critical thinking explorations that build judgment, sense-making, and real-world reasoning.</div>
+        <div class="enrich-card-row">
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#E7F2EC">🐝</div>
+            <div class="enrich-card-tag">Wonder</div>
+            <div class="enrich-card-name">Building Honeycombs</div>
+            <div class="enrich-card-desc">Why bees always choose hexagons, never circles or squares.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#E7F2EC">📊</div>
+            <div class="enrich-card-tag">Lies</div>
+            <div class="enrich-card-name">Should You Trust That Chart?</div>
+            <div class="enrich-card-desc">Spot the tricks that make misleading data look convincing.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#E7F2EC">🤝</div>
+            <div class="enrich-card-tag">Choices</div>
+            <div class="enrich-card-name">The Best Deal Isn't Always the Cheapest</div>
+            <div class="enrich-card-desc">Weigh trade-offs like a real decision-maker.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="enrich-section">
+        <div class="enrich-section-head">
+          <div class="enrich-section-icon" style="background:#F0EAF9">🧩</div>
+          <div class="enrich-section-name">Logic Puzzles</div>
+        </div>
+        <div class="enrich-section-tag">Logical thinking puzzles that build deep thinking and patient reasoning.</div>
+        <div class="enrich-card-row">
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#F0EAF9">🧦</div>
+            <div class="enrich-card-tag">Insight</div>
+            <div class="enrich-card-name">The Sock Drawer</div>
+            <div class="enrich-card-desc">A classic reasoning puzzle about probability and certainty.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#F0EAF9">🔢</div>
+            <div class="enrich-card-tag">Grid</div>
+            <div class="enrich-card-name">KenKen</div>
+            <div class="enrich-card-desc">Fill the grid using arithmetic clues, no digit repeats in a row or column.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#F0EAF9">➕</div>
+            <div class="enrich-card-tag">Move</div>
+            <div class="enrich-card-name">Matchstick Puzzles</div>
+            <div class="enrich-card-desc">Move exactly one stick to fix the equation.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="enrich-section">
+        <div class="enrich-section-head">
+          <div class="enrich-section-icon" style="background:#FCEFE3">🎮</div>
+          <div class="enrich-section-name">Strategy Games</div>
+        </div>
+        <div class="enrich-section-tag">Strategic thinking games where math decides who wins.</div>
+        <div class="enrich-card-row">
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#FCEFE3">🗺️</div>
+            <div class="enrich-card-tag">1v1</div>
+            <div class="enrich-card-name">Number Territory</div>
+            <div class="enrich-card-desc">Claim more of the board than your opponent, math decides who wins.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#FCEFE3">📐</div>
+            <div class="enrich-card-tag">Duel</div>
+            <div class="enrich-card-name">Shape Duel</div>
+            <div class="enrich-card-desc">Fast geometry calls, speed and accuracy both matter.</div>
+          </div>
+          <div class="enrich-card" onclick="openDiagnosticForm()">
+            <span class="enrich-lock-badge">🔒</span>
+            <div class="enrich-card-thumb" style="background:#FCEFE3">⏱️</div>
+            <div class="enrich-card-tag">Solo</div>
+            <div class="enrich-card-name">Quick Math Sprint</div>
+            <div class="enrich-card-desc">Race against the clock to sharpen mental math.</div>
+          </div>
+        </div>
+      </div>
+      <div class="enrich-note">Example content shown above is illustrative, matching the real product's formats and categories, not the final content catalogue.</div>
+    </div>
+  </div>
+
+  <div class="rightpanel">
+    <div class="rp-inner">
+      <div class="rp-cta-inner">
+        <span class="rp-cta-tag">Cuemath</span>
+        <div class="rp-cta-title">Unlock Enrichment</div>
+        <div class="rp-cta-sub">Explorations, puzzles, and games are available for enrolled students.</div>
+        <a class="rp-cta-appbtn" href="#" onclick="event.preventDefault();openDiagnosticForm()">Book a Free Trial</a>
+      </div>
+      <div class="rp-resources-nav">
+        <div class="rrn-title">Resources</div>
+        <a href="https://www.cuemath.com/worksheets/" target="_blank" rel="noopener" class="rrn-item">📄 Worksheets</a>
+        <a href="https://www.cuemath.com/math-puzzles/" target="_blank" rel="noopener" class="rrn-item">🧩 Puzzles</a>
+        <a href="https://www.cuemath.com/calculators/" target="_blank" rel="noopener" class="rrn-item">🧮 Calculators</a>
+        <a href="https://www.cuemath.com/math-formulas/" target="_blank" rel="noopener" class="rrn-item">📐 Formulas</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trial-booking modal, same placeholder used site-wide. -->
+<div class="diag-modal-overlay" id="diagnostic-modal-overlay">
+  <div class="diag-modal">
+    <button class="diag-modal-close" onclick="closeDiagnosticForm()">×</button>
+    <div class="diag-modal-body">
+      <div class="diag-modal-icon">📋</div>
+      <div class="diag-modal-title">Trial-booking form goes here</div>
+      <div class="diag-modal-sub">Placeholder. The real diagnostic-booking form (name / phone / grade) isn't built yet.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.add('open');
+}
+function closeDiagnosticForm() {
+  document.getElementById('diagnostic-modal-overlay').classList.remove('open');
+}
+document.getElementById('diagnostic-modal-overlay').addEventListener('click', function(e){
+  if(e.target === e.currentTarget) closeDiagnosticForm();
+});
+</script>
+</body>
+</html>
