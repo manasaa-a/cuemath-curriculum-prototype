@@ -230,7 +230,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <span class="ln-label">Test</span>
       </div>
-      <div class="ln-item">
+      <div class="ln-item" onclick="openEnrichmentModal()">
         <div class="ln-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
         <span class="ln-label">Enrich</span>
       </div>
@@ -334,6 +334,19 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
     <div class="modal-title">Ready for Test Prep?</div>
     <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Practice by exam - AMC, Kangaroo, MOEMS, SASP, and more, each with its own set of questions.</p>
     <a class="modal-continue" href="maths.html?view=exam" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Explore Test Prep</a>
+  </div>
+</div>
+
+<!-- ENRICHMENT MODAL, opens from the "Enrich" left-nav icon. Enrichment
+     itself (Real World Explorations / Logic Puzzles / Strategy Games) is a
+     real product owned by a different team; this is just a locked teaser
+     on our curriculum pages, no interactive content here. -->
+<div class="modal-overlay" id="enrichment-modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEnrichmentModal()">×</button>
+    <div class="modal-title">Enrichment Math</div>
+    <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:20px">Beyond the curriculum: real-world explorations, logic puzzles, and strategy games that build critical thinking, reasoning, and strategy skills your child will use for life.</p>
+    <a class="modal-continue" href="#" onclick="event.preventDefault();closeEnrichmentModal();openDiagnosticForm()" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Book a Free Trial</a>
   </div>
 </div>
 
@@ -538,6 +551,16 @@ function closeDiagnosticForm() {
 }
 document.getElementById('testprep-modal-overlay').addEventListener('click', function(e){
   if(e.target.id === 'testprep-modal-overlay') closeTestPrepModal();
+});
+
+function openEnrichmentModal(){
+  document.getElementById('enrichment-modal-overlay').classList.add('open');
+}
+function closeEnrichmentModal(){
+  document.getElementById('enrichment-modal-overlay').classList.remove('open');
+}
+document.getElementById('enrichment-modal-overlay').addEventListener('click', function(e){
+  if(e.target === e.currentTarget) closeEnrichmentModal();
 });
 
 function openOutOfSparksModal(event){
