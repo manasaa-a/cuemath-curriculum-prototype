@@ -97,6 +97,13 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:#fff;width:400px;max-width:90vw;padding:28px 28px 24px;position:relative;border-radius:8px}
+.modal.game-modal{width:760px;max-width:94vw;padding:16px}
+.game-modal-title{font-family:'Athletics';font-size:14px;font-weight:700;color:#1C1917;margin-bottom:10px;padding-right:24px}
+.game-modal-frame-wrap{position:relative;width:100%;aspect-ratio:16/10;background:#F5F0E8;border-radius:6px;overflow:hidden}
+.game-modal-frame-wrap iframe{width:100%;height:100%;border:none;display:block}
+.game-modal-fallback{font-size:11.5px;color:#97948E;margin-top:8px}
+.game-modal-fallback a{color:#CE7E12;text-decoration:none}
+.game-modal-fallback a:hover{text-decoration:underline}
 .modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#97948E;line-height:1}
 .modal-close:hover{color:#1C1917}
 .modal-title{font-family:'Athletics';font-size:20px;font-weight:700;color:#1C1917;line-height:1.25;margin-bottom:14px}
@@ -298,7 +305,7 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
         </div>
         </div>
       </div>
-      <div class="enrich-note">Titles above are real microapps from the Enrichment content catalogue (verified 2026-08-04). Explorations and Puzzles cards are locked previews; Strategy Games are playable and use your sparks, same as lessons, since those 5 builds are actually live. Descriptions are our own short summaries, not final copy.</div>
+      <div class="enrich-note">Titles above are real microapps from the Enrichment content catalogue (verified 2026-08-04). Explorations and Puzzles cards are locked previews; the 5 Strategy Games are playable in full (embedded from the live staging build) and use your sparks, same as lessons. Descriptions are our own short summaries, not final copy.</div>
     </div>
   </div>
 
@@ -362,26 +369,31 @@ body{font-family:'UntitledSans',-apple-system,system-ui,sans-serif;font-weight:4
   </div>
 </div>
 
-<!-- Shown after a game is unlocked (spark spent). The real playable build
-     lives on a separate microapps domain and isn't embedded on this
-     prototype yet, so this just confirms the unlock instead of opening it. -->
+<!-- Shown after a game is unlocked (spark spent). Embeds the real build from
+     the microapps staging domain in an iframe (its CSP sends
+     frame-ancestors *, so it allows this). -->
 <div class="modal-overlay" id="game-info-modal-overlay">
-  <div class="modal">
+  <div class="modal game-modal">
     <button class="modal-close" onclick="closeGameInfoModal()">×</button>
-    <div class="modal-title" id="game-info-title"></div>
-    <p style="font-size:13px;color:#78716C;line-height:1.5;margin-bottom:6px">Unlocked. The playable build isn't embedded on this preview yet, it'll open right here once it is.</p>
+    <div class="game-modal-title" id="game-info-title"></div>
+    <div class="game-modal-frame-wrap">
+      <iframe id="game-info-frame" src="" title="Game preview" allow="fullscreen"></iframe>
+    </div>
+    <div class="game-modal-fallback">Staging build, not final content. Not loading? <a id="game-info-fallback-link" href="#" target="_blank" rel="noopener">open it in a new tab</a>.</div>
   </div>
 </div>
 
 <script src="gamification.js"></script>
 <script>
 const LIVE_GAMES = [
-  {key: 'the-product-game', title: 'The Product Game', type: '1v1', icon: '🗺️', desc: 'A multiplication strategy game played against an opponent.'},
-  {key: 'beam', title: 'Beam', type: 'Solo', icon: '📐', desc: 'A physics-and-math balance puzzle game.'},
-  {key: 'shape-builder', title: 'Shape Builder', type: 'Solo', icon: '🟦', desc: 'Build and identify shapes by combining smaller pieces.'},
-  {key: 'ten-frame-mania', title: 'Ten Frame Mania', type: 'Solo', icon: '🔟', desc: 'Race to fill ten-frames and build fast number sense.'},
-  {key: 'number-dash', title: 'Number Dash', type: 'Solo', icon: '⏱️', desc: 'Race the clock solving quick number challenges.'}
+  {key: 'the-product-game', title: 'The Product Game', type: '1v1', icon: '🗺️', desc: 'A multiplication strategy game played against an opponent.', url: 'https://microapps.k8stage.cuemath.com/product-game/v1/index.html'},
+  {key: 'beam', title: 'Beam', type: 'Solo', icon: '📐', desc: 'A physics-and-math balance puzzle game.', url: 'https://microapps.k8stage.cuemath.com/beam/v1/'},
+  {key: 'shape-builder', title: 'Shape Builder', type: 'Solo', icon: '🟦', desc: 'Build and identify shapes by combining smaller pieces.', url: 'https://microapps.k8stage.cuemath.com/shape-builders/v1/'},
+  {key: 'ten-frame-mania', title: 'Ten Frame Mania', type: 'Solo', icon: '🔟', desc: 'Race to fill ten-frames and build fast number sense.', url: 'https://microapps.k8stage.cuemath.com/ten-frame-mania/v1/index.html'},
+  {key: 'number-dash', title: 'Number Dash', type: 'Solo', icon: '⏱️', desc: 'Race the clock solving quick number challenges.', url: 'https://microapps.k8stage.cuemath.com/number-dash/v1/'}
 ];
+const LIVE_GAMES_BY_KEY = {};
+LIVE_GAMES.forEach(g => LIVE_GAMES_BY_KEY[g.key] = g);
 
 let isSignedIn = sessionStorage.getItem('cuemathSignedIn') === '1';
 
@@ -400,8 +412,7 @@ function renderGameCards() {
       : state === 'available' ? '<span class="enrich-lock-badge badge-play">▶ Play</span>'
       : '<span class="enrich-lock-badge badge-locked" title="For Enrolled Students Only">🔒</span>';
     const cardClass = state === 'locked' ? 'enrich-card locked' : 'enrich-card';
-    const safeTitle = g.title.replace(/'/g, "\\'");
-    return `<div class="${cardClass}" onclick="playGame('${g.key}','${safeTitle}',event)">
+    return `<div class="${cardClass}" onclick="playGame('${g.key}',event)">
       ${badge}
       <div class="enrich-card-thumb" style="background:#FCEFE3">${g.icon}</div>
       <div class="enrich-card-tag">${g.type}</div>
@@ -411,7 +422,7 @@ function renderGameCards() {
   }).join('');
 }
 
-function playGame(key, title, event) {
+function playGame(key, event) {
   event.stopPropagation();
   const state = gameKeyState(key);
   if (state === 'locked') {
@@ -423,15 +434,18 @@ function playGame(key, title, event) {
     cmMarkSparkCharged(key);
     renderGameCards();
   }
-  openGameInfoModal(title);
+  openGameInfoModal(LIVE_GAMES_BY_KEY[key]);
 }
 
-function openGameInfoModal(title) {
-  document.getElementById('game-info-title').textContent = title;
+function openGameInfoModal(game) {
+  document.getElementById('game-info-title').textContent = game.title;
+  document.getElementById('game-info-frame').src = game.url;
+  document.getElementById('game-info-fallback-link').href = game.url;
   document.getElementById('game-info-modal-overlay').classList.add('open');
 }
 function closeGameInfoModal() {
   document.getElementById('game-info-modal-overlay').classList.remove('open');
+  document.getElementById('game-info-frame').src = 'about:blank';
 }
 document.getElementById('game-info-modal-overlay').addEventListener('click', function(e){
   if(e.target === e.currentTarget) closeGameInfoModal();
